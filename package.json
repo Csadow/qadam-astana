@@ -1,10 +1,12 @@
 {
   "name": "qadam-astana",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "private": true,
   "type": "module",
   "description": "ArcSolo's evidence-first Astana walking assistant",
-  "engines": {"node": ">=22.9"},
+  "engines": {
+    "node": ">=22.9"
+  },
   "scripts": {
     "start": "node --env-file-if-exists=.env server.mjs",
     "test": "node scripts/build.mjs && node --test tests/*.test.mjs",

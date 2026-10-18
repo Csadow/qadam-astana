@@ -22,45 +22,51 @@ The repository is initially **private**. Judges need repository access, a visibi
 
 ## Try it
 
-1. **An hour near EXPO:** choose a café, park or garden; inspect the two-stop, 60-minute route.
-2. **Coffee & a quiet corner:** source-backed cafés, with sockets and quietness explicitly unverified.
-3. **A day with the kids:** museum/park candidates with honest uncertainty about hours and interactivity.
-4. **A rainy-day escape:** indoor categories using manually selected weather context.
-5. Set **15 minutes** to see a clear empty state instead of a fabricated match.
+1. **An hour near EXPO:** a café pause and public alley, approximately 51 minutes including return. Controlled-access campus gardens are excluded.
+2. **A walk for everyone:** three people choose coffee, nature and landmarks. Inspect the shared route and interest coverage; try the rain backup and see the compromise.
+3. **A day with the kids:** on Tuesday 20 October, explore a museum recommendation grounded in its actual paleontology exhibits. On Monday 19 October, the official schedule excludes it.
+4. **Coffee & a quiet corner:** cafés with sockets and quietness explicitly unverified.
+5. Change the discovery mood, try a small generated observation mission, or preview **15 minutes less**. Restore the original plan with one click.
+6. Set **15 minutes** near EXPO to see a clear empty state instead of a fabricated match.
 
 Preset scenarios explicitly simulate afternoon departure. All estimates use Astana UTC+5. EN/RU/KK interface, keyboard controls, opt-in geolocation, mobile layout and itinerary export are included.
 
 ## RAG, precisely
 
 ```text
-Automated OSM collection → normalized source records
+Automated OSM collection + separate first-party evidence → retrieved source records
     ↓
 Browser: BM25 + multilingual concept retrieval
     ↓
-Hard constraints: walk, total time, hours, category, accessibility
+Hard constraints: access, walk, total time, hours, category, accessibility
     ↓
-1–3 recommendations + separately optimized short route
+1–3 recommendations + route balancing group interests and visit lengths
     ↓
 Optional server: retrieved POIs + limited context → Gemini structured generation
     ↓
-Validate source IDs and allowed action IDs → localized activity suggestions
+Validate POI/citation IDs, shape and common unsupported claims
+    ↓
+Personalized explanation + activity + discovery mission; source facts shown separately
 ```
 
-Retrieval is sparse and concept-based; there is no vector database. Gemini's generation is deliberately constrained to choosing supported activity IDs. It cannot set factual venue fields or invent a new location. Unknown IDs, unsupported actions, malformed responses, errors and timeouts fall back to approved templates. The app separates sourced facts from suggested actions.
+Retrieval is sparse and concept-based; there is no vector database. Gemini composes an explanation, a focused activity and a discovery mission from the retrieved facts and normalized context. It receives mood, group interests, planned visit lengths and limited preference flags. Citation IDs must belong to the selected POI; an exterior visit cannot cite interior-only exhibits. Invalid output, provider errors and timeouts fall back to labelled templates.
 
+Venue fields, routes and source facts are deterministic. Generated prose is separately labelled: citation and lexical checks do **not** establish that every sentence is supported. Three live scenario outputs are retained for review in [the RAG evaluation](docs/live-rag-evaluation.json).
 **Current verified mode:** retrieval plus live Gemini structured generation, verified locally and on the private hosted site on 18 October 2026. See [live integration evidence](docs/live-generation-check.json). The UI labels validated model responses as Gemini; missing keys, provider failures and invalid responses fall back to explicitly labelled templates. These smoke checks confirm connectivity and validated output, not model quality.
 
 For a new installation, copy `.env.example` to `.env`, set `GEMINI_API_KEY` locally, and restart the server. Keep the key out of chat, commits and frontend files. Then verify one real call:
 
 ```sh
 node --env-file=.env scripts/check_gemini.mjs
+# Three richer live scenarios (uses your provider quota):
+node --env-file=.env scripts/check_live_rag.mjs
 ```
 
 The default model is configurable via `GEMINI_MODEL`. The example uses `gemini-3.5-flash-lite`, listed in the [official model catalog](https://ai.google.dev/gemini-api/docs/models) at implementation time. Consult your project's availability and [structured-output documentation](https://ai.google.dev/gemini-api/docs/generate-content/structured-output). No live provider latency or quality claim is made here.
 
 ## Data and privacy
 
-The automated snapshot contains **298 named POIs across five neighborhoods**, collected on 18 October 2026. **102** have opening hours, **26** have wheelchair tags. Short descriptions are labelled source-tag summaries. Each record preserves its OSM ID, source URL, original tags and collection timestamp. [Collection and licensing details](data/README.md).
+The automated snapshot contains **300 named POIs across five neighborhoods**, collected on 18 October 2026. **102** have opening hours, **26** have wheelchair tags. Short descriptions are labelled source-tag summaries. Each record preserves its OSM ID, source URL, original tags and collection timestamp. [Collection and licensing details](data/README.md). A separate evidence layer adds **21 cited facts across 11 places**, three official weekly-hours overrides and two campus-access exclusions. [Evidence decisions](docs/EVIDENCE.md).
 
 ```sh
 python3 scripts/collect_pois.py --osm-api --map  # live alternate collection
@@ -79,7 +85,7 @@ node --test tests/*.test.mjs
 node scripts/evaluate.mjs
 ```
 
-**32 unit/API/Worker tests**, a **160-case constraint matrix**, **8/8 scenario checks**, and **17/17 browser checks** passed during development. These are engineering checks, not user-study results. Reports: [scenarios](docs/evaluation.json), [browser](docs/browser-checks.json).
+**47 unit/API/Worker tests**, a **160-case constraint matrix**, **12/12 scenario checks**, and **27/27 browser checks** passed during development. These are engineering checks, not user-study results. Reports: [scenarios](docs/evaluation.json), [browser](docs/browser-checks.json).
 
 Optional browser QA and presentation tools:
 
@@ -95,7 +101,7 @@ python3 -m venv .venv
 
 - [Project plan](docs/PLAN.md) — committed before implementation.
 - [Russian pitch PDF](presentation/Qadam_ArcSolo_pitch_RU.pdf) and [editable PowerPoint](presentation/Qadam_ArcSolo_pitch_RU.pptx).
-- [Russian speaker notes](presentation/SPEAKER_NOTES_RU.md) — 11 slides, target **6:20**, including a live demo.
+- [Russian speaker notes](presentation/SPEAKER_NOTES_RU.md) — 12 slides, target **6:50**, including a live demo.
 - [Captioned Russian demo video](presentation/Qadam_demo_RU.mp4), [subtitles](presentation/Qadam_demo_RU.srt), and [YouTube upload copy](presentation/YOUTUBE_UPLOAD.md).
 - [Test scenarios](docs/SCENARIOS.md), [English report PDF](docs/Qadam_Test_Scenarios_EN.pdf), [privacy](docs/PRIVACY.md), and [submission checklist](docs/SUBMISSION.md).
 
@@ -105,4 +111,4 @@ python3 -m venv .venv
 
 `node scripts/build.mjs` produces one Cloudflare-compatible ES module at `dist/server/index.js`, with static assets embedded. `.openai/hosting.json` binds the existing private Site. Configure hosted secrets separately; never embed them in the build. Before making a key-enabled service public, add authentication/rate limits and budget controls.
 
-Code: MIT. OpenStreetMap-derived data: ODbL 1.0, © OpenStreetMap contributors. See [LICENSE](LICENSE).
+Code: MIT. First-party enrichment contains short attributed paraphrases; original source content retains its owners' rights. OpenStreetMap-derived data: ODbL 1.0, © OpenStreetMap contributors. See [LICENSE](LICENSE).

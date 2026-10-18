@@ -1,0 +1,660 @@
+{
+  "version": 1,
+  "checkedAt": "2026-10-18",
+  "researchScope": "Separately sourced enrichment for existing OSM POIs. These are concise paraphrases, not venue text reproductions. Published dates are null unless explicitly available. No sockets, noise levels, tickets or step-free street routes are inferred.",
+  "places": [
+    {
+      "id": "osm-node-4894937300",
+      "themes": [
+        "culture",
+        "history",
+        "family",
+        "science"
+      ],
+      "hours": "Tu-Su 10:00-18:00; Mo off",
+      "hoursSource": {
+        "url": "https://nmrk.kz/ru/",
+        "title": "National Museum — official opening hours",
+        "checkedAt": "2026-10-18",
+        "publishedAt": null,
+        "scope": "Whole museum regular weekly hours; exceptional closures can override"
+      },
+      "facts": [
+        {
+          "id": "national-museum-paleontology",
+          "text": {
+            "en": "The Paleontology Hall has mammoth and Tyrannosaurus skeletons and interactive touchscreens.",
+            "ru": "В зале палеонтологии есть скелеты мамонта и тираннозавра, а также интерактивные экраны.",
+            "kk": "Палеонтология залында мамонт пен тираннозавр қаңқалары және интерактивті экрандар бар."
+          },
+          "url": "https://nmrk.kz/en/structure/exhibition-activities/",
+          "title": "National Museum — exhibition halls",
+          "checkedAt": "2026-10-18",
+          "publishedAt": null,
+          "scope": "Paleontology Hall"
+        },
+        {
+          "id": "national-museum-animal-symbols",
+          "text": {
+            "en": "Gold Hall 2 explores animal symbolism, including the argali, snow leopard, eagle and horse.",
+            "ru": "Зал золота № 2 знакомит с символикой архара, снежного барса, орла и коня.",
+            "kk": "№ 2 Алтын залы арқар, қар барысы, бүркіт пен жылқының символдық мәнін таныстырады."
+          },
+          "url": "https://nmrk.kz/en/structure/exhibition-activities/",
+          "title": "National Museum — exhibition halls",
+          "checkedAt": "2026-10-18",
+          "publishedAt": null,
+          "scope": "Gold Hall 2; admission arrangements are not established by this page"
+        },
+        {
+          "id": "national-museum-tactile-access",
+          "text": {
+            "en": "The museum provides tactile replicas, Braille labels and audio descriptions, with ramps at its main entrance.",
+            "ru": "В музее есть тактильные копии, подписи Брайлем, аудиоописания и пандусы у главного входа.",
+            "kk": "Музейде тактильді көшірмелер, Брайль жазуы, аудиосипаттамалар және негізгі кіреберісте пандустар бар."
+          },
+          "url": "https://nmrk.kz/en/press/accessible-museum/",
+          "title": "National Museum — Accessible Museum",
+          "checkedAt": "2026-10-18",
+          "publishedAt": null,
+          "scope": "On-site facilities; not a guarantee of accessible pedestrian route or all exhibits"
+        }
+      ],
+      "notes": [
+        {
+          "en": "Closed on Mondays.",
+          "ru": "По понедельникам музей закрыт.",
+          "kk": "Музей дүйсенбіде жабық.",
+          "url": "https://nmrk.kz/ru/",
+          "title": "National Museum — opening hours",
+          "checkedAt": "2026-10-18"
+        },
+        {
+          "en": "The Astana Hall is closed for exhibition renewal.",
+          "ru": "Зал Астаны закрыт на обновление экспозиции.",
+          "kk": "Астана залы экспозицияны жаңарту үшін жабық.",
+          "url": "https://nmrk.kz/en/structure/exhibition-activities/",
+          "title": "National Museum — exhibition halls",
+          "checkedAt": "2026-10-18"
+        },
+        {
+          "en": "Museum rules require special permission for photos and video, including smartphones.",
+          "ru": "Правила музея требуют специального разрешения на фото и видео, в том числе на смартфон.",
+          "kk": "Музей ережесі фото және бейне түсіруге, оның ішінде смартфонмен түсіруге арнайы рұқсатты талап етеді.",
+          "url": "https://nmrk.kz/en/press/museum-rules/",
+          "title": "National Museum — visitor rules",
+          "checkedAt": "2026-10-18"
+        }
+      ]
+    },
+    {
+      "id": "osm-way-1196402246",
+      "themes": [
+        "nature",
+        "family",
+        "science"
+      ],
+      "facts": [
+        {
+          "id": "botanical-two-greenhouses",
+          "text": {
+            "en": "Its greenhouse complex has separate tropical/subtropical and succulent/cactus collections.",
+            "ru": "В оранжерейном комплексе представлены отдельные коллекции тропических и субтропических растений, суккулентов и кактусов.",
+            "kk": "Оранжерея кешенінде тропиктік және субтропиктік өсімдіктердің, суккуленттер мен кактустардың бөлек коллекциялары бар."
+          },
+          "url": "https://www.astanabotsad.kz/ru/oranzherei",
+          "title": "Astana Botanical Garden — greenhouses",
+          "checkedAt": "2026-10-18",
+          "publishedAt": null,
+          "scope": "Greenhouses within garden; separate admission and schedule, not outdoor park"
+        },
+        {
+          "id": "botanical-research-collection",
+          "text": {
+            "en": "The greenhouses support plant introduction research and biodiversity conservation.",
+            "ru": "В оранжереях изучают адаптацию растений и сохранение биоразнообразия.",
+            "kk": "Оранжереяларда өсімдіктердің бейімделуі мен биоалуантүрлілікті сақтау зерттеледі."
+          },
+          "url": "https://www.astanabotsad.kz/ru/oranzherei",
+          "title": "Astana Botanical Garden — greenhouses",
+          "checkedAt": "2026-10-18",
+          "publishedAt": null,
+          "scope": "Greenhouse research activity"
+        }
+      ],
+      "notes": [
+        {
+          "en": "Greenhouses have a separate schedule: Tuesday–Sunday 10:00–19:00, lunch 13:00–14:00; closed Monday. This does not establish outdoor garden hours.",
+          "ru": "Оранжереи работают отдельно: вт–вс 10:00–19:00, обед 13:00–14:00; понедельник — выходной. Это не расписание открытой территории сада.",
+          "kk": "Оранжереялар: сейсенбі–жексенбі 10:00–19:00, үзіліс 13:00–14:00; дүйсенбі жабық. Бұл бақтың ашық аумағының кестесі емес.",
+          "url": "https://www.astanabotsad.kz/ru/oranzherei",
+          "title": "Astana Botanical Garden — greenhouse schedule",
+          "checkedAt": "2026-10-18"
+        }
+      ],
+      "researchNotes": "Do not set whole-POI hours from greenhouse page. Official October seasonal notice says ticket desk closes 18:30 while main page says 19:00; avoid promising last entry. VisitAstana's two pages also disagree on garden hours. Do not use greenhouse fact to classify the whole park as indoor."
+    },
+    {
+      "id": "osm-way-460703779",
+      "themes": [
+        "architecture",
+        "family",
+        "shopping"
+      ],
+      "hours": "Mo-Th,Su 10:00-22:00; Fr-Sa 10:00-23:00",
+      "hoursSource": {
+        "url": "https://www.khanshatyr.com/contacts",
+        "title": "Khan Shatyr — visitor contacts and hours",
+        "checkedAt": "2026-10-18",
+        "publishedAt": null,
+        "scope": "Shopping centre, not administration or individual attractions"
+      },
+      "facts": [
+        {
+          "id": "khan-shatyr-architecture",
+          "text": {
+            "en": "Norman Foster designed this tent-shaped shopping and entertainment centre.",
+            "ru": "Этот торгово-развлекательный центр в форме шатра спроектировал Норман Фостер.",
+            "kk": "Шатыр пішінді сауда-ойын-сауық орталығын Норман Фостер жобалаған."
+          },
+          "url": "https://khanshatyr.com/en/about",
+          "title": "Khan Shatyr — about the centre",
+          "checkedAt": "2026-10-18",
+          "publishedAt": null,
+          "scope": "Building architecture"
+        },
+        {
+          "id": "khan-shatyr-indoor-beach",
+          "text": {
+            "en": "Sky Beach Club is an indoor beach club under the dome on floor 5.",
+            "ru": "Sky Beach Club — крытый пляжный клуб под куполом на 5-м этаже.",
+            "kk": "Sky Beach Club — күмбез астындағы 5-қабатта орналасқан жабық жағажай клубы."
+          },
+          "url": "https://www.khanshatyr.com/index.php/en",
+          "title": "Khan Shatyr — entertainment directory",
+          "checkedAt": "2026-10-18",
+          "publishedAt": null,
+          "scope": "Separately operated attraction; no ticket price or entry availability established"
+        },
+        {
+          "id": "khan-shatyr-family-floors",
+          "text": {
+            "en": "The directory places Fame City on floor 4 and the food court on floor 3.",
+            "ru": "По карте центра Fame City находится на 4-м этаже, а фудкорт — на 3-м.",
+            "kk": "Орталық анықтамалығында Fame City 4-қабатта, фудкорт 3-қабатта көрсетілген."
+          },
+          "url": "https://www.khanshatyr.com/index.php/en",
+          "title": "Khan Shatyr — entertainment directory",
+          "checkedAt": "2026-10-18",
+          "publishedAt": null,
+          "scope": "Floor locations, not admission or attraction availability"
+        }
+      ],
+      "notes": [
+        {
+          "en": "Beach, rides and cinema have separate admission; check the venue before including them in a short visit.",
+          "ru": "Пляж, аттракционы и кинотеатр имеют отдельные условия входа; уточните их перед коротким визитом.",
+          "kk": "Жағажай, аттракциондар мен кинотеатрға кіру шарттары бөлек; қысқа сапар алдында нақтылаңыз."
+        }
+      ],
+      "researchNotes": "Official contact page differs from OSM 10:00–23:00 every day. Override regular hours only with the separate source metadata above. Attraction conditions note is prudent planning advice, not a quoted price/booking rule."
+    },
+    {
+      "id": "osm-way-1296051287",
+      "names": {
+        "en": "Korean Garden of Friendship",
+        "ru": "Корейский сад дружбы",
+        "kk": "Корей достық бағы"
+      },
+      "themes": [
+        "nature",
+        "culture",
+        "architecture"
+      ],
+      "facts": [
+        {
+          "id": "korean-garden-pavilion",
+          "text": {
+            "en": "Inside Zhetysu Park, the garden has a Korean-style pavilion with curved eaves and traditional ornament.",
+            "ru": "В саду внутри парка Жетысу стоит корейская беседка с изогнутой крышей и традиционным орнаментом.",
+            "kk": "Жетісу саябағындағы бақта иілген шатырлы, дәстүрлі өрнекті корей күркесі бар."
+          },
+          "url": "https://visitastana.kz/en/about-city/what-to-see/korean-garden-of-friendship-/",
+          "title": "Visit Astana — Korean Garden of Friendship",
+          "checkedAt": "2026-10-18",
+          "publishedAt": null,
+          "scope": "Named garden within Zhetysu Park"
+        },
+        {
+          "id": "korean-garden-friendship",
+          "text": {
+            "en": "The garden symbolizes friendship between Kazakhstan and the Republic of Korea.",
+            "ru": "Сад символизирует дружбу Казахстана и Республики Корея.",
+            "kk": "Бақ Қазақстан мен Корея Республикасының достығын білдіреді."
+          },
+          "url": "https://visitastana.kz/en/about-city/what-to-see/korean-garden-of-friendship-/",
+          "title": "Visit Astana — Korean Garden of Friendship",
+          "checkedAt": "2026-10-18",
+          "publishedAt": null,
+          "scope": "Cultural purpose"
+        }
+      ],
+      "notes": [],
+      "researchNotes": "Do not turn the tourism page's generic quiet/meditation marketing into verified present noise levels."
+    },
+    {
+      "id": "osm-way-499328514",
+      "themes": [
+        "family",
+        "shopping",
+        "architecture"
+      ],
+      "facts": [
+        {
+          "id": "mega-silk-way-atrium",
+          "text": {
+            "en": "MEGA Silk Way has atriums reaching 25 metres, designed by Chapman Taylor.",
+            "ru": "В MEGA Silk Way, спроектированном Chapman Taylor, высота атриумов достигает 25 метров.",
+            "kk": "Chapman Taylor жобалаған MEGA Silk Way атриумдарының биіктігі 25 метрге жетеді."
+          },
+          "url": "https://mega.kz/Tenant/MEGA-Silk-Way",
+          "title": "MEGA — MEGA Silk Way centre profile",
+          "checkedAt": "2026-10-18",
+          "publishedAt": null,
+          "scope": "Building architecture"
+        },
+        {
+          "id": "mega-silk-way-activities",
+          "text": {
+            "en": "The operator lists a year-round MEGA Arena ice rink and an eleven-screen Chaplin cinema.",
+            "ru": "Оператор указывает круглогодичный каток MEGA Arena и одиннадцатизальный кинотеатр Chaplin.",
+            "kk": "Оператор жыл бойы жұмыс істейтін MEGA Arena мұз айдынын және он бір залды Chaplin кинотеатрын көрсетеді."
+          },
+          "url": "https://mega.kz/Tenant/MEGA-Silk-Way",
+          "title": "MEGA — MEGA Silk Way centre profile",
+          "checkedAt": "2026-10-18",
+          "publishedAt": null,
+          "scope": "Tenant facilities; actual sessions, tickets and operating status require checking"
+        }
+      ],
+      "notes": [
+        {
+          "en": "Check individual session times and admission before planning skating or a film.",
+          "ru": "Перед катанием или кино уточните время сеансов и условия входа.",
+          "kk": "Коньки тебу немесе кино үшін сеанс уақытын және кіру шарттарын нақтылаңыз."
+        }
+      ],
+      "researchNotes": "The corporate site's footer says 10:00–22:00, but this could be generic across malls; leave existing OSM hours unchanged unless confirmed directly."
+    },
+    {
+      "id": "osm-way-1470723968",
+      "names": {
+        "en": "NU Japanese Garden",
+        "ru": "Японский сад NU",
+        "kk": "NU жапон бағы"
+      },
+      "themes": [
+        "nature",
+        "culture"
+      ],
+      "accessRestricted": true,
+      "accessSource": {
+        "url": "https://campussecurity.nu.edu.kz/campusaccessprocedures",
+        "title": "Nazarbayev University — campus access procedures",
+        "checkedAt": "2026-10-18",
+        "publishedAt": null,
+        "scope": "University campus, including garden on campus"
+      },
+      "facts": [
+        {
+          "id": "nu-japanese-stones",
+          "text": {
+            "en": "The university says the garden's stones were brought from Japan.",
+            "ru": "По данным университета, камни для сада привезли из Японии.",
+            "kk": "Университет мәліметі бойынша, бақтың тастары Жапониядан әкелінген."
+          },
+          "url": "https://nu.edu.kz/news-en/place-oriental-philosophy-nu-campus/",
+          "title": "Nazarbayev University — Japanese Garden of Stones",
+          "checkedAt": "2026-10-18",
+          "publishedAt": "2019-07-09",
+          "scope": "Historical first-party description of campus garden"
+        },
+        {
+          "id": "nu-japanese-paths",
+          "text": {
+            "en": "The garden asks visitors to stay on paths and leave the stones and sand patterns undisturbed.",
+            "ru": "Посетителей просят ходить по дорожкам и не трогать камни и рисунки на песке.",
+            "kk": "Келушілерден жолмен жүріп, тастар мен құмдағы өрнектерді өзгертпеу сұралады."
+          },
+          "url": "https://nu.edu.kz/news-en/place-oriental-philosophy-nu-campus/",
+          "title": "Nazarbayev University — Japanese Garden of Stones",
+          "checkedAt": "2026-10-18",
+          "publishedAt": "2019-07-09",
+          "scope": "Garden visitor rules in dated first-party article"
+        }
+      ],
+      "notes": [
+        {
+          "en": "Campus entry is controlled; arrange access through a university host before visiting.",
+          "ru": "Вход в кампус контролируется: заранее согласуйте доступ через представителя университета.",
+          "kk": "Кампусқа кіру бақыланады: университет өкілі арқылы алдын ала келісіңіз.",
+          "url": "https://campussecurity.nu.edu.kz/campusaccessprocedures",
+          "title": "NU — campus access procedures",
+          "checkedAt": "2026-10-18"
+        },
+        {
+          "en": "The university's garden article says the stones are covered in winter.",
+          "ru": "В статье университета указано, что зимой камни накрывают.",
+          "kk": "Университет мақаласында қыста тастардың жабылатыны айтылған.",
+          "url": "https://nu.edu.kz/news-en/place-oriental-philosophy-nu-campus/",
+          "title": "NU — Japanese Garden of Stones",
+          "checkedAt": "2026-10-18"
+        }
+      ]
+    },
+    {
+      "id": "osm-way-1467797207",
+      "themes": [
+        "nature"
+      ],
+      "accessRestricted": true,
+      "accessSource": {
+        "url": "https://campussecurity.nu.edu.kz/campusaccessprocedures",
+        "title": "Nazarbayev University — campus access procedures",
+        "checkedAt": "2026-10-18",
+        "publishedAt": null,
+        "scope": "Campus-level restriction applied to mapped NU Park on campus"
+      },
+      "facts": [],
+      "notes": [
+        {
+          "en": "Campus entry is controlled; arrange access through a university host before visiting.",
+          "ru": "Вход в кампус контролируется: заранее согласуйте доступ через представителя университета.",
+          "kk": "Кампусқа кіру бақыланады: университет өкілі арқылы алдын ала келісіңіз.",
+          "url": "https://campussecurity.nu.edu.kz/campusaccessprocedures",
+          "title": "NU — campus access procedures",
+          "checkedAt": "2026-10-18"
+        }
+      ],
+      "researchNotes": "This is an access correction, not a new distinctive venue description. Mapping the university-wide rule to NU Park relies on its existing OSM location and name."
+    },
+    {
+      "id": "osm-way-112177946",
+      "themes": [
+        "nature",
+        "architecture"
+      ],
+      "facts": [
+        {
+          "id": "presidential-park-palace-setting",
+          "text": {
+            "en": "The park stretches between the Palace of Peace and Reconciliation and the presidential residence.",
+            "ru": "Парк расположен между Дворцом мира и согласия и президентской резиденцией.",
+            "kk": "Саябақ Бейбітшілік және келісім сарайы мен президент резиденциясының арасында орналасқан."
+          },
+          "url": "https://astana-piramida.kz/",
+          "title": "Palace of Peace and Reconciliation — official description",
+          "checkedAt": "2026-10-18",
+          "publishedAt": null,
+          "scope": "Park immediately around/beside Palace; not same-named park south of Ak Orda"
+        }
+      ],
+      "notes": [
+        {
+          "en": "The city reports reconstruction in this park; verify local paths and respect any barriers.",
+          "ru": "Акимат сообщает о реконструкции парка; уточняйте доступность дорожек и соблюдайте ограждения.",
+          "kk": "Әкімдік саябақтың қайта жаңғыртылып жатқанын хабарлайды; жолдардың ашықтығын тексеріп, қоршауларды сақтаңыз.",
+          "url": "https://www.gov.kz/org/astana/press/news/details/1251104",
+          "title": "Astana Akimat — Sarayshyk district development",
+          "checkedAt": "2026-10-18"
+        }
+      ],
+      "researchNotes": "Do not claim fully open/closed or that fountains operate today. Government article explicitly reports continuing reconstruction but gives no individual path status. Do not apply to osm-way-243041606, the second same-named park."
+    },
+    {
+      "id": "osm-way-230401645",
+      "names": {
+        "en": "Baiterek Monument",
+        "ru": "Монумент «Байтерек»",
+        "kk": "«Бәйтерек» монументі"
+      },
+      "themes": [
+        "architecture",
+        "culture",
+        "history"
+      ],
+      "facts": [
+        {
+          "id": "baiterek-three-worlds",
+          "text": {
+            "en": "Its Tree of Life design links three worlds: roots underground, trunk on earth and crown in the sky.",
+            "ru": "Образ Древа жизни объединяет три мира: корни — подземный, ствол — земной, крона — небесный.",
+            "kk": "Өмір ағашы үш әлемді біріктіреді: тамыры — жерасты, діңі — жерүсті, ұшар басы — аспан әлемі."
+          },
+          "url": "https://visitastana.kz/en/about-city/what-to-see/monument-astana-bayterek/",
+          "title": "Visit Astana — Baiterek Monument",
+          "checkedAt": "2026-10-18",
+          "publishedAt": null,
+          "scope": "Architectural symbolism; can be discussed from outside"
+        },
+        {
+          "id": "baiterek-97-metres",
+          "text": {
+            "en": "The Ayaly Alaqan composition stands 97 metres high, marking Astana's capital-city milestone in 1997.",
+            "ru": "Композиция «Аялы Алақан» находится на высоте 97 метров — в честь переноса столицы в Астану в 1997 году.",
+            "kk": "«Аялы Алақан» композициясы 97 метр биіктікте орналасқан: бұл 1997 жылы Астананың елорда болғанын білдіреді."
+          },
+          "url": "https://a-vm.kz/objects/bayterek/",
+          "title": "Astana Venue Management — Baiterek",
+          "checkedAt": "2026-10-18",
+          "publishedAt": null,
+          "scope": "Interior composition, admission required; this is not the 105-metre total building height",
+          "visitScope": "interior"
+        }
+      ],
+      "notes": [
+        {
+          "en": "This short stop is for viewing the exterior. Going inside needs a separate admission and queue allowance.",
+          "ru": "Короткая остановка рассчитана на осмотр снаружи. Для подъёма отдельно заложите время на вход и очередь.",
+          "kk": "Қысқа аялдама сыртынан көруге арналған. Ішке кіру мен кезекке бөлек уақыт қажет."
+        },
+        {
+          "en": "The interior requires admission. Operator hours: September–May 10:00–21:00; June–August 10:00–22:00. Check current entry arrangements before going up.",
+          "ru": "Для подъёма нужен входной билет. Часы оператора: сентябрь–май 10:00–21:00; июнь–август 10:00–22:00. Перед подъёмом уточните условия входа.",
+          "kk": "Ішке кіру үшін билет қажет. Оператор кестесі: қыркүйек–мамыр 10:00–21:00; маусым–тамыз 10:00–22:00. Көтерілер алдында кіру шарттарын нақтылаңыз.",
+          "url": "https://a-vm.kz/objects/bayterek/",
+          "title": "Astana Venue Management — Baiterek visitor information",
+          "checkedAt": "2026-10-18"
+        }
+      ],
+      "seasonalHoursEvidence": {
+        "url": "https://a-vm.kz/objects/bayterek/",
+        "title": "Astana Venue Management — Baiterek visitor information",
+        "checkedAt": "2026-10-18",
+        "publishedAt": null,
+        "scope": "Interior attraction; not outdoor monument viewing",
+        "seasons": [
+          {
+            "startMonthDay": "09-01",
+            "endMonthDay": "05-31",
+            "hours": "Mo-Su 10:00-21:00"
+          },
+          {
+            "startMonthDay": "06-01",
+            "endMonthDay": "08-31",
+            "hours": "Mo-Su 10:00-22:00"
+          }
+        ]
+      },
+      "researchNotes": "No permanent weekly-hours override supplied because operator hours are seasonal. The page lists admission prices; no queue duration, present lift availability, last-entry cut-off or verified step-free access established. Third-party technical-break claims deliberately excluded. For a 15–20-minute route stop suggest viewing the exterior unless admission/queue time is budgeted.",
+      "visitScope": "exterior"
+    },
+    {
+      "id": "osm-node-12520559591",
+      "names": {
+        "en": "Lepim i Varim — MEGA Silk Way",
+        "ru": "Лепим и варим — MEGA Silk Way",
+        "kk": "Лепим и варим — MEGA Silk Way"
+      },
+      "themes": [
+        "food"
+      ],
+      "hours": "Mo-Su 10:00-23:00",
+      "hoursSource": {
+        "url": "https://lepimivarim.ru/pelmennye/pelmennaya-velikoj-stepi/",
+        "title": "Lepim i Varim — MEGA Silk Way branch",
+        "checkedAt": "2026-10-18",
+        "publishedAt": null,
+        "scope": "Exact branch at Kabanbay Batyr 62; phone +77071807400 matches OSM"
+      },
+      "facts": [
+        {
+          "id": "lepim-mega-koni-island",
+          "text": {
+            "en": "The branch describes black-and-yellow Koni Island dumplings filled with horse meat and kazy.",
+            "ru": "Филиал описывает чёрно-жёлтые пельмени «Кони-Айленд» с кониной и казы.",
+            "kk": "Филиал жылқы еті мен қазы қосылған қара-сары «Кони-Айленд» тұшпарасын ұсынады."
+          },
+          "url": "https://lepimivarim.ru/pelmennye/pelmennaya-velikoj-stepi/",
+          "title": "Lepim i Varim — Pelmennaya Velikoy Stepi",
+          "checkedAt": "2026-10-18",
+          "publishedAt": null,
+          "scope": "Branch-specific published menu highlight; today's stock and ingredients must be checked with staff"
+        },
+        {
+          "id": "lepim-mega-high-ceilings",
+          "text": {
+            "en": "The operator describes six-metre ceilings in its MEGA Silk Way branch.",
+            "ru": "Оператор отмечает шестиметровые потолки филиала в MEGA Silk Way.",
+            "kk": "Оператор MEGA Silk Way филиалының төбесі алты метр биік екенін көрсетеді."
+          },
+          "url": "https://lepimivarim.ru/pelmennye/pelmennaya-velikoj-stepi/",
+          "title": "Lepim i Varim — Pelmennaya Velikoy Stepi",
+          "checkedAt": "2026-10-18",
+          "publishedAt": null,
+          "scope": "Branch interior description, not noise/crowding or available seating"
+        }
+      ],
+      "notes": [
+        {
+          "en": "Check today's menu, ingredients and preparation time with staff.",
+          "ru": "Уточните у сотрудников сегодняшнее меню, состав и время приготовления.",
+          "kk": "Қызметкерлерден бүгінгі мәзірді, құрамын және дайындау уақытын нақтылаңыз."
+        }
+      ],
+      "entityMatch": {
+        "address": "Astana, Kabanbay Batyr Avenue62, MEGA Silk Way",
+        "phone": "+77071807400",
+        "sourceUrl": "https://lepimivarim.ru/pelmennye/pelmennaya-velikoj-stepi/",
+        "evidence": "Exact official branch name/location and exact OSM phone; existing coordinates are within MEGA Silk Way."
+      },
+      "researchNotes": "This is a dumpling restaurant mapped as cafe in OSM, not strong evidence of a coffee-specialist venue. No prices, sockets, noise, wait duration, dietary safety or seat availability established. The chain homepage's free-under-7 promotion was not transferred to this branch because applicable local conditions were not established."
+    },
+    {
+      "id": "osm-way-1460763574",
+      "names": {
+        "en": "Uly Dala Eli — 25 Years of Independence",
+        "ru": "Ұлы Дала Елі — 25 лет Независимости",
+        "kk": "Ұлы Дала Елі — Тәуелсіздіктің 25 жылдығы"
+      },
+      "themes": [
+        "architecture",
+        "history",
+        "culture"
+      ],
+      "facts": [
+        {
+          "id": "independence-25-facets",
+          "text": {
+            "en": "The monument's 25 facets represent 25 years of independence and milestones in Kazakhstan's history.",
+            "ru": "25 граней монумента символизируют 25 лет независимости и важные этапы истории Казахстана.",
+            "kk": "Монументтің 25 қыры тәуелсіздіктің 25 жылын және Қазақстан тарихындағы маңызды кезеңдерді білдіреді."
+          },
+          "url": "https://visitastana.kz/ru/about-city/what-to-see/monument-uly-dala-eli/",
+          "title": "Visit Astana — Uly Dala Eli Monument",
+          "checkedAt": "2026-10-18",
+          "publishedAt": null,
+          "scope": "Architectural symbolism of the monument dedicated to the 25th independence anniversary"
+        },
+        {
+          "id": "independence-monument-creator",
+          "text": {
+            "en": "Visit Astana credits Edil Alimbekov and dates the monument to 16 December 2016.",
+            "ru": "Visit Astana называет автором Едила Алимбекова и датирует монумент 16 декабря 2016 года.",
+            "kk": "Visit Astana монумент авторы Еділ Әлімбеков екенін және жасалған күні 2016 жылғы 16 желтоқсан екенін көрсетеді."
+          },
+          "url": "https://visitastana.kz/ru/about-city/what-to-see/monument-uly-dala-eli/",
+          "title": "Visit Astana — Uly Dala Eli Monument",
+          "checkedAt": "2026-10-18",
+          "publishedAt": null,
+          "scope": "Author and creation date"
+        }
+      ],
+      "notes": [],
+      "entityMatch": {
+        "sourceUrl": "https://visitastana.kz/ru/about-city/what-to-see/monument-uly-dala-eli/",
+        "evidence": "Official page explicitly identifies dedication to 25 years of independence and creation in 2016. Other government-hosted official guides locate Uly Dala Eli at EXPO; existing OSM name and EXPO address match."
+      },
+      "researchNotes": "Do not enrich height: OSM records 46 m while several sources say 70 m. Do not infer 24/7 access, free admission, operating events, step-free access or today's route availability. Kazakhstan.travel attraction 437 has apparently wrong coordinates near NU, so retain OSM coordinates."
+    }
+  ],
+  "excludedFindings": [
+    {
+      "name": "NUR ALEM Energy Museum",
+      "url": "https://qazexpocongress.kz/ru/nur-alem/",
+      "title": "QazExpoCongress — legacy of the Energy Museum",
+      "checkedAt": "2026-10-18",
+      "publishedAt": null,
+      "finding": "Operator says the Energy Museum stopped admitting visitors in December 2024. The sphere now hosts alem.ai and a first-floor Singularity Museum. The old energy museum floor descriptions and opening timetable remain on the same page; do not mistake those for present operations.",
+      "mapping": "No existing NUR ALEM POI in data/pois.json. osm-node-2388707906 Астана-Экспо КС is an unrelated gallery at 51.12949, 71.41825. Do not attach sphere evidence there."
+    },
+    {
+      "name": "Atyrau Bridge",
+      "url": "https://visitastana.kz/ru/about-city/what-to-see/atyrauskiy-most/",
+      "checkedAt": "2026-10-18",
+      "finding": "Rejected despite official tourism domain: text describes a road bridge over the Ural in Atyrau city, while the existing POI is Astana's pedestrian bridge over the Yesil. Entity mismatch."
+    },
+    {
+      "name": "National Academic Library",
+      "url": "https://nabrk.kz/en/questions?category=all&page=35",
+      "checkedAt": "2026-10-18",
+      "finding": "Search index shows librarian reply dated 2025-02-05: readers register with ID or birth certificate and use books in reading rooms; books not loaned home. Direct open returned 403, so left out of ready-to-merge pack."
+    }
+  ],
+  "capabilityEvidence": [
+    {
+      "id": "osm-node-4894937300",
+      "capability": "interactiveInterpretation",
+      "value": true,
+      "url": "https://nmrk.kz/en/structure/exhibition-activities/",
+      "title": "National Museum — exhibition halls",
+      "checkedAt": "2026-10-18",
+      "publishedAt": null,
+      "scope": "Official description lists touchscreen devices and multimedia kiosks in Paleontology, and touchscreen kiosks in Ancient and Medieval History.",
+      "displayLabel": {
+        "en": "Interactive screens described by the museum",
+        "ru": "Музей сообщает об интерактивных экранах",
+        "kk": "Музей интерактивті экрандар бар екенін хабарлайды"
+      },
+      "operationalStatus": "not_live_verified",
+      "limitations": "Does not establish that every device works today, all exhibits are interactive, sessions are available, or ordinary objects may be touched."
+    },
+    {
+      "id": "osm-node-4894937300",
+      "capability": "tactileReplicas",
+      "value": true,
+      "url": "https://nmrk.kz/en/press/accessible-museum/",
+      "title": "National Museum — Accessible Museum",
+      "checkedAt": "2026-10-18",
+      "publishedAt": null,
+      "scope": "Selected designated tactile replicas with Braille descriptions and accessibility signage.",
+      "displayLabel": {
+        "en": "Designated tactile replicas",
+        "ru": "Специальные тактильные копии",
+        "kk": "Арнайы тактильді көшірмелер"
+      },
+      "operationalStatus": "not_live_verified",
+      "limitations": "Touch permission applies only to designated replicas; general museum rules prohibit touching ordinary exhibits. This does not establish a step-free walking route."
+    }
+  ]
+}

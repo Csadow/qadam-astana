@@ -1,5 +1,5 @@
 /** Pure retrieval and planning engine. No network, storage, user logging, or model dependency. */
-export const VERSION = '1.0.0';
+export const VERSION = '2.0.0';
 export const PRESETS = [
   {id:'expo',name:'EXPO / MEGA Silk Way',lat:51.0893,lon:71.4076},
   {id:'baiterek',name:'Baiterek',lat:51.1282,lon:71.4304},
@@ -8,6 +8,7 @@ export const PRESETS = [
   {id:'khan',name:'Khan Shatyr',lat:51.1325,lon:71.4039},
 ];
 const VISITS = {cafe:20,restaurant:35,museum:45,gallery:30,park:20,garden:15,playground:25,mall:30,library:30,viewpoint:15,attraction:20,artwork:10,arts_centre:30};
+const SHORT_VISITS={cafe:10,restaurant:25,museum:35,gallery:20,park:10,garden:10,playground:15,mall:15,library:20,viewpoint:10,attraction:10,artwork:8,arts_centre:20};
 const CONCEPTS = {
  coffee:{re:/coffee|café|cafe|коф|кафе/i,categories:['cafe']},
  culture:{re:/museum|culture|art\b|музе|культур|өнер/i,categories:['museum','gallery','arts_centre','artwork','attraction']},
@@ -87,12 +88,15 @@ export function validateInput(input) {
  if(!Number.isFinite(budget)||budget<10||budget>240||!Number.isFinite(maxWalk)||maxWalk<1||maxWalk>60)throw new Error('Time budget must be 10–240 minutes and walking limit 1–60 minutes.');
  const query=String(input.query||'').slice(0,600);
  const intent=parseIntent(query,Array.isArray(input.interests)?input.interests:[]);
- return {origin:{lat,lon},budget:Math.min(budget,intent.budget||budget),maxWalk,query,intent,
+ const group=Array.isArray(input.group)?input.group:[];
+ if(group.length>5||group.some(x=>!CONCEPTS[x]&&x!=='any'))throw new Error('Choose up to five supported group interests.');
+ const mode=['curious','calm','playful'].includes(input.mood)?input.mood:'balanced';
+ return {group:[...group],mood:mode,excludedIds:Array.isArray(input.excludedIds)?input.excludedIds.slice(0,50):[],origin:{lat,lon},budget:Math.min(budget,intent.budget||budget),maxWalk,query,intent,
   departure:parseDeparture(input.departure||astanaNow()),locale:['en','ru','kk'].includes(input.locale)?input.locale:'en',
   weather:['rain','cold'].includes(input.weather)?input.weather:'fair',pace:input.pace==='gentle'?'gentle':'normal',
   accessible:input.accessible===true||intent.accessible,verifiedHours:input.verifiedHours===true,returnToStart:input.returnToStart!==false};
 }
-function searchable(p){return [p.name,...Object.values(p.names||{}),p.category,p.description,...Object.values(p.tags||{})].join(' ');}
+function searchable(p){return [p.name,...Object.values(p.names||{}),p.category,p.description,...(p.evidence||[]).flatMap(f=>typeof f.text==='string'?[f.text]:Object.values(f.text)),...(p.themes||[]),...Object.values(p.tags||{})].join(' ');}
 function bm25(queryTokens,pois){
  const docs=pois.map(p=>tokens(searchable(p))), avg=docs.reduce((a,d)=>a+d.length,0)/(docs.length||1);
  const df=new Map(queryTokens.map(t=>[t,docs.filter(d=>d.includes(t)).length]));
@@ -102,20 +106,24 @@ function isIndoor(p){return ['cafe','restaurant','museum','gallery','mall','libr
 function reasons(p,input,walk,matched){const out=['nearby','fits_time'];if(matched.length)out.push(...matched.map(x=>'interest_'+x));if(input.weather!=='fair'&&isIndoor(p))out.push('indoor');if(p.wheelchair==='yes')out.push('wheelchair_source');return out;}
 export function recommend(raw,pois) {
  const input=validateInput(raw), {origin,intent}=input;
- const scores=bm25(tokens(input.query),pois), exclusions={distance:0,time:0,closed:0,accessibility:0,hoursUnknown:0,weather:0,interest:0};
+ const scores=bm25(tokens(input.query),pois), exclusions={distance:0,time:0,closed:0,accessibility:0,hoursUnknown:0,weather:0,interest:0,restricted:0,skipped:0};
  const candidates=[];
+ const desired=input.group.length?[...new Set(input.group.filter(x=>x!=='any'))]:intent.concepts;
  pois.forEach((p,index)=>{
+  if(p.accessRestricted||['private','no'].includes(p.tags?.access)){exclusions.restricted++;return;}
+  if(input.excludedIds.includes(p.id)){exclusions.skipped++;return;}
   const walk=walkMinutes(origin,p,input.pace),visit=VISITS[p.category]||20;
   if(walk>input.maxWalk){exclusions.distance++;return;}
   const total=walk*(input.returnToStart?2:1)+visit;
   if(total>input.budget){exclusions.time++;return;}
   if(input.accessible&&p.wheelchair!=='yes'){exclusions.accessibility++;return;}
   if(input.weather!=='fair'&&!isIndoor(p)){exclusions.weather++;return;}
-  const matched=intent.concepts.filter(c=>CONCEPTS[c].categories.includes(p.category));
+  const matched=desired.filter(c=>CONCEPTS[c].categories.includes(p.category));
+  const groupMatches=input.group.map((interest,i)=>(interest==='any'||CONCEPTS[interest].categories.includes(p.category))?i:-1).filter(i=>i>=0);
   // Coffee is an explicit place request. A child constraint limits appropriate categories.
-  if(intent.concepts.length===1&&intent.concepts.includes('coffee')&&p.category!=='cafe'){exclusions.interest++;return;}
-  if(intent.concepts.includes('family')&&!CONCEPTS.family.categories.includes(p.category)&&!intent.concepts.includes('coffee')){exclusions.interest++;return;}
-  if(intent.concepts.length&&!matched.length){exclusions.interest++;return;}
+  if(desired.length===1&&desired.includes('coffee')&&p.category!=='cafe'){exclusions.interest++;return;}
+  if((input.group.length?input.group.includes('family'):intent.concepts.includes('family'))&&!CONCEPTS.family.categories.includes(p.category)&&!desired.includes('coffee')){exclusions.interest++;return;}
+  if(desired.length&&!matched.length){exclusions.interest++;return;}
   const arrival=new Date(input.departure.getTime()+walk*60000),status=openingStatus(p.hours,arrival,visit);
   if(status==='closed'){exclusions.closed++;return;}
   if(input.verifiedHours&&status==='unknown'){exclusions.hoursUnknown++;return;}
@@ -124,42 +132,59 @@ export function recommend(raw,pois) {
   if(intent.quiet&&p.tags?.quiet!=='yes')uncertainties.push('quiet');
   if(intent.socket&&!['yes','available'].includes(p.tags?.socket))uncertainties.push('socket');
   if(input.accessible)uncertainties.push('step_free_route');
-  if(intent.concepts.includes('family')&&p.category==='museum')uncertainties.push('interactive');
-  const score=matched.length*5+Math.min(scores[index],6)+3*(1-walk/input.maxWalk)+(status==='open'?.6:0)+(p.description?.length?.2:0);
+  if(intent.concepts.includes('family')&&p.category==='museum')uncertainties.push(p.capabilities?.some(c=>c.capability==='interactiveInterpretation'&&c.value===true)?'interactive_availability':'interactive');
+  const moodBoost=input.mood==='curious'?(p.evidence?.length?2:0)+(['museum','artwork','attraction','gallery'].includes(p.category)?2:0):input.mood==='calm'?(['park','garden'].includes(p.category)?2:0):input.mood==='playful'?(['playground','museum'].includes(p.category)?2:0):0;
+  const score=moodBoost+matched.length*5+Math.min(scores[index],6)+3*(1-walk/input.maxWalk)+(status==='open'?.6:0)+(p.description?.length?.2:0);
   candidates.push({...p,walkMinutes:walk,distanceM:Math.round(distanceM(origin,p)),visitMinutes:visit,totalMinutes:total,
-   openingStatus:status,score:Math.round(score*100)/100,reasons:reasons(p,input,walk,matched),uncertainties,match:uncertainties.some(u=>['quiet','socket'].includes(u))?'partial':'context'});
+   openingStatus:status,groupMatches,score:Math.round(score*100)/100,reasons:reasons(p,input,walk,matched),uncertainties,match:uncertainties.some(u=>['quiet','socket'].includes(u))?'partial':'context'});
  });
  candidates.sort((a,b)=>b.score-a.score||a.walkMinutes-b.walkMinutes||a.id.localeCompare(b.id));
  const selected=[];
  // Prefer category variety for broad discovery, while preserving ranking within each category.
  for(const p of candidates)if(!selected.some(q=>q.category===p.category)&&selected.length<3)selected.push(p);
  for(const p of candidates)if(!selected.some(q=>q.id===p.id)&&selected.length<3)selected.push(p);
- const route=planRoute(candidates.slice(0,12),input);
+ const pool=[];
+ for(const p of candidates)if(pool.filter(q=>q.category===p.category).length<2&&pool.length<18)pool.push(p);
+ const route=planRoute(pool,input);
+ const coverage=input.group.map((interest,index)=>({index,interest,covered:route.stops.some(p=>p.groupMatches.includes(index))}));
  const warnings=['estimates'];
  if(intent.airport) warnings.push('airport');
  if(intent.night||input.departure.getUTCHours()+5>=22||(input.departure.getUTCHours()+5)%24<6) warnings.push('night');
  if(input.weather!=='fair')warnings.push('weather_manual');
- return {recommendations:selected,route,warnings,trace:{datasetSize:pois.length,candidates:candidates.length,exclusions,
-  concepts:intent.concepts,effectiveBudget:input.budget,retrieval:'BM25 + multilingual concepts + hard constraints'},
+ return {recommendations:selected,route,warnings,group:coverage,mood:input.mood,trace:{datasetSize:pois.length,candidates:candidates.length,exclusions,
+  concepts:desired,effectiveBudget:input.budget,retrieval:'BM25 + multilingual concepts + hard constraints'},
   mode:'retrieval-template',locale:input.locale,departure:raw.departure||astanaNow(),returnToStart:input.returnToStart};
 }
 export function planRoute(candidates,input){
  let best={stops:[],totalMinutes:0,walkMinutes:0,visitMinutes:0,returnMinutes:0,score:0};
  const explore=(stops,last,elapsed,walked,score)=>{
   const back=input.returnToStart?walkMinutes(last,input.origin,input.pace):0;
-  if(stops.length&&elapsed+back<=input.budget){
-   const utility=stops.length*20+score;
+  if(stops.length&&elapsed+back<=input.budget&&back<=input.maxWalk){
+   const covered=new Set(stops.flatMap(p=>p.groupMatches||[])).size;
+   const utility=covered*45+stops.length*20+score+(elapsed-walked)*.08-walked*.03;
    if(utility>best.score)best={stops:[...stops],totalMinutes:elapsed+back,walkMinutes:walked+back,visitMinutes:elapsed-walked,returnMinutes:back,score:utility};
   }
   if(stops.length===3)return;
   for(const p of candidates){
    if(stops.some(s=>s.id===p.id||s.category===p.category||s.name.toLowerCase()===p.name.toLowerCase()))continue;
-   const leg=walkMinutes(last,p,input.pace),next=elapsed+leg+p.visitMinutes;
-   if(leg>input.maxWalk||next>input.budget)continue;
-   const status=openingStatus(p.hours,new Date(input.departure.getTime()+(elapsed+leg)*60000),p.visitMinutes);
-   if(status==='closed'||(input.verifiedHours&&status!=='open'))continue;
-   explore([...stops,{id:p.id,name:p.name,names:p.names,lat:p.lat,lon:p.lon,category:p.category,legMinutes:leg,visitMinutes:p.visitMinutes,arrivalMinutes:elapsed+leg,openingStatus:status,source:p.source}],p,next,walked+leg,score+p.score);
+   const leg=walkMinutes(last,p,input.pace);
+   if(leg>input.maxWalk)continue;
+   for(const visit of [...new Set([p.visitMinutes,Math.min(p.visitMinutes,SHORT_VISITS[p.category]||p.visitMinutes)])]){
+    const next=elapsed+leg+visit;if(next>input.budget)continue;
+    const status=openingStatus(p.hours,new Date(input.departure.getTime()+(elapsed+leg)*60000),visit);
+    if(status==='closed'||(input.verifiedHours&&status!=='open'))continue;
+    explore([...stops,{id:p.id,name:p.name,names:p.names,lat:p.lat,lon:p.lon,category:p.category,legMinutes:leg,visitMinutes:visit,shortStop:visit<p.visitMinutes,arrivalMinutes:elapsed+leg,openingStatus:status,source:p.source,groupMatches:p.groupMatches||[]}],p,next,walked+leg,score+p.score);
+   }
   }
  };
  explore([],input.origin,0,0,0);return best;
+}
+
+/** Preview a changed context without weakening any other user constraint. */
+export function backupPlans(raw,pois) {
+ const base=recommend(raw,pois), budget=base.trace.effectiveBudget;
+ return [
+  {id:'shorter',changes:{budget:Math.max(15,budget-15)}},
+  {id:'rain',changes:{weather:'rain'}},
+ ].filter(p=>(p.id!=='rain'||raw.weather!=='rain')&&(p.id!=='shorter'||budget>15)).map(p=>({...p,result:recommend({...raw,...p.changes},pois)}));
 }

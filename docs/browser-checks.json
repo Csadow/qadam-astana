@@ -1,47 +1,87 @@
 {
   "checks": [
     {
-      "name": "Initial scenario shows 1\u20133 sourced recommendations",
+      "name": "Initial scenario shows 1\u20133 sourced recommendations with separate map labels",
       "pass": true
     },
     {
-      "name": "Initial two-stop route fits 60 minutes",
+      "name": "Narrative explanation, action and discovery mission render",
       "pass": true
     },
     {
-      "name": "Socket and quietness warnings visible",
+      "name": "Discovery mission can be marked and undone",
       "pass": true
     },
     {
-      "name": "Coffee itinerary avoids repetitive caf\u00e9 hopping",
+      "name": "Official facts and citations are visible separately",
       "pass": true
     },
     {
-      "name": "Russian interface and evidence labels work",
+      "name": "Controlled campus access affects recommendations",
       "pass": true
     },
     {
-      "name": "Family scenario returns source-backed places",
+      "name": "Socket and quietness uncertainty remains visible",
       "pass": true
     },
     {
-      "name": "Export includes source citations and timing",
+      "name": "Coffee-only route avoids repeated cafe stops",
       "pass": true
     },
     {
-      "name": "Privacy explanation is accessible in dialog",
+      "name": "Russian controls and warnings work",
       "pass": true
     },
     {
-      "name": "Kazakh interface works",
+      "name": "Group controls show three people",
       "pass": true
     },
     {
-      "name": "Impossible request has a clear empty state",
+      "name": "Shared route covers all three selected interests",
       "pass": true
     },
     {
-      "name": "Mobile page has no horizontal overflow",
+      "name": "Rain backup applies without changing walking limit or group",
+      "pass": true
+    },
+    {
+      "name": "Unmet group interests are shown after a compromise",
+      "pass": true
+    },
+    {
+      "name": "Original plan can be restored",
+      "pass": true
+    },
+    {
+      "name": "Shorter backup reduces the budget by 15 minutes",
+      "pass": true
+    },
+    {
+      "name": "Monday excludes the officially closed National Museum",
+      "pass": true
+    },
+    {
+      "name": "Tuesday museum exposes official exhibits and visitor restrictions",
+      "pass": true
+    },
+    {
+      "name": "Export carries timing and first-party source links",
+      "pass": true
+    },
+    {
+      "name": "Privacy explanation is available",
+      "pass": true
+    },
+    {
+      "name": "Kazakh upgrade controls are translated",
+      "pass": true
+    },
+    {
+      "name": "Impossible request retains an honest empty state",
+      "pass": true
+    },
+    {
+      "name": "Mobile has no horizontal overflow",
       "pass": true
     },
     {
@@ -49,19 +89,19 @@
       "pass": true
     },
     {
-      "name": "Clearing location removes it from the selector",
+      "name": "Clearing location removes it",
       "pass": true
     },
     {
-      "name": "No exact coordinates or raw query are sent to generation",
+      "name": "Exact location and raw query never enter generation payloads",
       "pass": true
     },
     {
-      "name": "No third-party requests during normal use",
+      "name": "No third-party browser requests",
       "pass": true
     },
     {
-      "name": "No persistent browser storage",
+      "name": "No persistent location or mission storage",
       "pass": true
     },
     {
@@ -69,9 +109,10 @@
       "pass": true
     }
   ],
-  "passed": 17,
-  "total": 17,
+  "passed": 27,
+  "total": 27,
   "browser": "Installed Chromium via Playwright",
+  "generation": "Controlled fixtures for UI checks; real provider checks in live-rag-evaluation.json",
   "externalRequests": [],
   "pageErrors": []
 }

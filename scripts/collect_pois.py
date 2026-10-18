@@ -18,6 +18,7 @@ QUERY = f'''[out:json][timeout:90];(
  nwr["tourism"~"^(museum|gallery|attraction|viewpoint|artwork)$"]({BBOX});
  nwr["leisure"~"^(park|garden|playground)$"]({BBOX});
  nwr["shop"="mall"]({BBOX});
+ nwr["historic"="monument"]({BBOX});
 );out center tags;'''
 MAP_QUERY = f'''[out:json][timeout:90];(
  way["highway"~"^(primary|secondary|tertiary|residential|pedestrian)$"]({BBOX});
@@ -66,7 +67,7 @@ def collect_map_api():
             obj['center']={'lat':sum(p['lat'] for p in geom)/len(geom),'lon':sum(p['lon'] for p in geom)/len(geom)}
             if t.get('highway') in ('primary','secondary','tertiary','residential','pedestrian') or t.get('waterway')=='river' or t.get('natural')=='water' or t.get('leisure')=='park':
                 geometry.append({**obj,'geometry':geom})
-        if (t.get('amenity') in ('cafe','restaurant','library','arts_centre') or t.get('tourism') in ('museum','gallery','attraction','viewpoint','artwork') or t.get('leisure') in ('park','garden','playground') or t.get('shop')=='mall'):
+        if (t.get('amenity') in ('cafe','restaurant','library','arts_centre') or t.get('tourism') in ('museum','gallery','attraction','viewpoint','artwork') or t.get('leisure') in ('park','garden','playground') or t.get('shop')=='mall' or t.get('historic')=='monument'):
             pois.append(obj)
     return {'elements':pois,'qadamCollectedAt':min(fetched_at.values()),'qadamAreaFetchedAt':fetched_at}, {'elements':geometry}
 
@@ -87,6 +88,7 @@ def fetch(query):
     raise RuntimeError('; '.join(errors))
 
 def category(tags):
+    if tags.get('historic') == 'monument': return 'attraction'
     if tags.get('amenity') in ('cafe', 'restaurant'): return tags['amenity']
     if tags.get('leisure') in ('park', 'garden', 'playground'): return tags['leisure']
     if tags.get('shop') == 'mall': return 'mall'

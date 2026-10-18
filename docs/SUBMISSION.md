@@ -9,9 +9,9 @@ Deadline: **19 October 2026 inclusive**, as supplied by the participant. Confirm
 | Automated POI collection | `scripts/collect_pois.py`, source snapshot, metadata | Collected and reproducible |
 | RAG explanation | README, slide 6, `live-generation-check.json` | Live Gemini verified locally and on the hosted site |
 | Test cases and limitations | `docs/SCENARIOS.md`, evaluation reports | Ready |
-| Privacy and ethics | `docs/PRIVACY.md`, slide 7 | Ready |
+| Privacy and ethics | `docs/PRIVACY.md`, slide 8 | Ready |
 | Repository or prototype archive | GitHub plus prepared ZIP | Repository private; give judges access or submit ZIP |
-| Presentation, 5–7 minutes | PDF, PPTX, Russian speaker notes | Ready; rehearsal target 6:20 |
+| Presentation, 5–7 minutes | PDF, PPTX, Russian speaker notes | Ready; rehearsal target 6:50 |
 | YouTube demo link | MP4, SRT, upload copy | Video ready; upload still required |
 
 Repository: https://github.com/Csadow/qadam-astana
@@ -29,9 +29,9 @@ YouTube watch URL: **not uploaded**.
 1. Live Gemini is configured and verified. Before presenting, open the demo and confirm the Gemini badge appears after planning. A fresh local installation needs its own server-side key; use `node --env-file=.env scripts/check_gemini.mjs` to check it. If the provider is unavailable, explain the labelled template fallback.
 2. Upload `presentation/Qadam_demo_RU.mp4` to YouTube and insert the actual watch URL. Use the supplied Russian title/description and optional SRT. The video has captions and no voiceover; you may replace it with your own narrated recording.
 3. Give judges access to the private repository, explicitly choose to make it public, or submit the source ZIP. The brief allows an archive. The hosted demo is private too; use the local app/video unless audience settings are changed.
-4. Rehearse the 6:20 Russian pitch. Keep the MP4 and PDF locally as backups. Check the exact deadline, AI-assistance rules and submission form with the organizers; those details are absent from the provided brief.
+4. Rehearse the 6:50 Russian pitch. Keep the MP4 and PDF locally as backups. Check the exact deadline, AI-assistance rules and submission form with the organizers; those details are absent from the provided brief.
 5. Submit the actual links/files. This project has not been submitted to an organizer automatically.
 
 ## Claims supported by evidence
 
-298 collected POIs, 102 opening-hour records, 26 accessibility tags; 32 code/API/Worker tests, 160 constraint combinations, 8 acceptance scenarios, and 17 browser checks. These are deterministic engineering checks, not traction, user satisfaction, or live-model quality measurements.
+300 collected POIs; 21 first-party facts across 11 places, 102 opening-hour records, 26 accessibility tags; 47 code/API/Worker tests, 160 constraint combinations, 12 acceptance scenarios, and 27 browser checks. These are deterministic engineering checks, not traction, user satisfaction, or live-model quality measurements.

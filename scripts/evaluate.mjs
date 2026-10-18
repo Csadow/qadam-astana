@@ -1,11 +1,16 @@
 import {readFile,writeFile} from 'node:fs/promises';
+import {attachEvidence} from '../src/evidence.js';
 import {recommend,PRESETS} from '../src/engine.js';
-const pois=JSON.parse(await readFile(new URL('../data/pois.json',import.meta.url),'utf8'));
+const pois=attachEvidence(JSON.parse(await readFile(new URL('../data/pois.json',import.meta.url),'utf8')),JSON.parse(await readFile(new URL('../data/evidence.json',import.meta.url),'utf8')));
 const at=id=>PRESETS.find(p=>p.id===id);
 const cases=[
+ {id:'group-coverage',input:{origin:at('expo'),budget:120,group:['coffee','nature','landmark']},expect:'All three chosen interests covered by a feasible shared route.'},
+ {id:'monday-museum',input:{origin:at('museum'),budget:120,interests:['culture']},expect:'National Museum excluded on Monday using official hours.'},
+ {id:'restricted-campus',input:{origin:at('expo'),budget:120,interests:['nature']},expect:'NU Park and Japanese Garden excluded due to campus access restrictions.'},
+ {id:'baiterek-evidence',input:{origin:at('baiterek'),budget:60,interests:['landmark'],mood:'curious'},expect:'Baiterek retrieved with official architectural evidence and an exterior visit scope.'},
  {id:'expo-hour',input:{origin:at('expo'),budget:60,interests:['landmark','nature','coffee']},expect:'1–3 nearby options; total route including return ≤60 minutes.'},
  {id:'quiet-coffee',input:{origin:at('baiterek'),budget:60,query:'Хочу тихое кафе с розеткой'},expect:'Cafés only; quietness and sockets explicitly unverified.'},
- {id:'family-museum',input:{origin:at('museum'),budget:120,query:'Прогулка с ребёнком'},expect:'Family candidate categories; no invented interactive exhibits.'},
+ {id:'family-museum',input:{origin:at('museum'),budget:120,query:'Прогулка с ребёнком',departure:'2026-10-20T14:00'},expect:'Family candidate categories; no invented interactive exhibits.'},
  {id:'rainy-khan',input:{origin:at('khan'),budget:90,weather:'rain'},expect:'Indoor categories; weather labelled user-selected.'},
  {id:'too-little-time',input:{origin:at('museum'),budget:10,interests:['culture'],maxWalk:1},expect:'No invented match when nothing fits.'},
  {id:'wheelchair',input:{origin:at('baiterek'),budget:60,accessible:true},expect:'Only explicit wheelchair=yes; route access still unverified.'},
@@ -17,7 +22,11 @@ const report=cases.map(c=>{
  const checks={budget:r.route.totalMinutes<=r.trace.effectiveBudget,count:r.recommendations.length<=3,
   sourceLinks:r.recommendations.every(p=>p.source.url.startsWith('https://www.openstreetmap.org/')),
   noClosed:r.recommendations.every(p=>p.openingStatus!=='closed'),
-  specific:c.id==='quiet-coffee'?r.recommendations.length>0&&r.recommendations.every(p=>p.category==='cafe'&&p.uncertainties.includes('quiet')&&p.uncertainties.includes('socket')):
+  specific:c.id==='group-coverage'?r.group.length===3&&r.group.every(g=>g.covered):
+   c.id==='monday-museum'?!r.recommendations.some(p=>p.id==='osm-node-4894937300')&&r.trace.exclusions.closed>0:
+   c.id==='restricted-campus'?r.trace.exclusions.restricted>=2&&r.route.stops.every(p=>!['osm-way-1467797207','osm-way-1470723968'].includes(p.id)):
+   c.id==='baiterek-evidence'?r.recommendations.some(p=>p.id==='osm-way-230401645'&&p.evidence.length>0&&p.visitScope==='exterior'):
+   c.id==='quiet-coffee'?r.recommendations.length>0&&r.recommendations.every(p=>p.category==='cafe'&&p.uncertainties.includes('quiet')&&p.uncertainties.includes('socket')):
    c.id==='family-museum'?r.recommendations.length>0&&r.recommendations.every(p=>['museum','park','playground','mall'].includes(p.category)):
    c.id==='rainy-khan'?r.recommendations.every(p=>!['park','garden','playground','viewpoint'].includes(p.category)):
    ['too-little-time','outside-coverage'].includes(c.id)?r.recommendations.length===0:

@@ -47,3 +47,7 @@ OSM coverage is uneven; collection timestamps do not imply venue verification. C
 ## Business hypothesis
 
 Free consumer discovery; paid municipal, hotel, and event integrations after a pilot. Any future sponsored placements must be labelled and must not bypass feasibility constraints. Pilot metrics: useful recommendation rate, planning time, constraint violations, and source coverage. No invented traction or guaranteed winning claims.
+
+## Implemented upgrade
+
+The original delivery plan above remains as the planning record. The completed second pass is described in [UPGRADE_PLAN.md](UPGRADE_PLAN.md): rich cited generation, separate primary-source evidence, group coverage, reversible backup plans and small discovery missions. The original action-ID-only generation has been replaced; current behavior and limitations are in the README and SCENARIOS.md.
