@@ -25,6 +25,6 @@ const results=cases.map(c=>{
  }
  return {...c,actual,pass:Object.entries(c.expected).every(([k,v])=>same(actual[k],v))};
 });
-const report={checkedAt:new Date().toISOString(),appVersion:'3.0.0',method:'Ten deliberately selected edge cases with manually specified expected behavior, including synthetic category-isolation fixtures. A diagnostic baseline, not a random sample, independent evaluation, user study, or overall accuracy estimate. Failed cases are tracked work; this script does not gate the existing supported-scenario CI.',passed:results.filter(r=>r.pass).length,total:results.length,results};
+const report={checkedAt:new Date().toISOString(),appVersion:'4.0.0',method:'Ten deliberately selected edge cases with manually specified expected behavior, including synthetic category-isolation fixtures. A targeted before/after regression audit, not a random sample, independent evaluation, user study, or overall accuracy estimate. The original 3/10 baseline is preserved in intent-audit-before.json.',passed:results.filter(r=>r.pass).length,total:results.length,results};
 await writeFile(new URL('../docs/intent-audit.json',import.meta.url),JSON.stringify(report,null,2)+'\n');
 console.log(JSON.stringify({passed:report.passed,total:report.total,gaps:results.filter(r=>!r.pass).map(r=>r.id)}));

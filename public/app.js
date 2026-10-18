@@ -4,13 +4,19 @@ import {attachEvidence,evidenceFor} from '/src/evidence.js';
 import {messages} from '/i18n.js';
 import {upgrades} from '/upgrades.js';
 import {refinement} from '/refinement.js';
-for(const key of Object.keys(upgrades))Object.assign(messages[key],upgrades[key],refinement[key]);
+import {expansion} from '/expansion.js';
+import {createRouter} from '/src/routing.js';
+import {recoveryOptions} from '/src/recovery.js';
+import {journeyStory} from '/src/journeys.js';
+for(const key of Object.keys(upgrades))Object.assign(messages[key],upgrades[key],refinement[key],expansion[key]);
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 let locale='en',pois=[],geometry=[],metadata={},result=null,origin=PRESETS[0],customLocation=null,runId=0,zoom=1,simulated=false,generation={},datasetReady=false;
 let lastInput=null,backupOptions=[],originalPlan=null,generationPending=false;
 const generationCache=new Map(),completedMissions=new Set();
 let editState={pinnedIds:[],excludedIds:[],preferredIds:[],maxStops:3},editHistory=[],editFeedback='',generationController;
+let routing=null,journeys=[],recovery={options:[]},recoveryOriginal=null;
+const clockTime=value=>value?.slice(11,16)||"";
 const DEMO_TIME='2026-10-20T14:00';
 const t=k=>messages[locale][k]??messages.en[k]??k;
 const name=p=>p.names?.[locale]||p.name;
@@ -27,12 +33,13 @@ function translate(){
  $$('[data-i18n]').forEach(el=>{const value=t(el.dataset.i18n);if(['headline','heroText'].includes(el.dataset.i18n))el.innerHTML=value;else el.textContent=value;});
  $('#query').placeholder=t('placeholder');$('#budget-value').textContent=`${$('#budget').value} ${t('min')}`;
  $('#about-content').innerHTML=`<h3>${t('aboutHeading')}</h3><p>${t('aboutFlow')}</p><h3>${t('aboutData')}</h3><p>${t('aboutLimits')}</p><h3>${t('aboutPrivacy')}</h3><p>${t('privacyAbout')}</p>`;
+ const selectedJourney=$('#journey').value;$('#journey').innerHTML=`<option value="">${t('freeWalk')}</option>${journeys.map(j=>`<option value="${esc(j.id)}">${esc(localized(j.title))}</option>`).join('')}`;$('#journey').value=selectedJourney;
  $('#locate span:last-child').textContent=t(customLocation?'clearLocation':'useLocation');groupFields();if(result)render();
 }
 function input(){
  origin=customLocation&&$('#location').value==='custom'?customLocation:PRESETS.find(p=>p.id===$('#location').value)||PRESETS[0];
  if($('#time-mode').value==='now')$('#departure').value=astanaNow();
- return {...editState,origin,budget:Number($('#budget').value),maxWalk:Number($('#max-walk').value),query:$('#query').value,
+ return {...editState,routing,journeyIds:journeys.find(j=>j.id===$('#journey').value)?.stops.map(s=>s.poiId)||[],bufferMinutes:Number($('#buffer').value),returnBy:$('#deadline-enabled').checked?$('#return-by').value:null,origin,budget:Number($('#budget').value),maxWalk:Number($('#max-walk').value),query:$('#query').value,
   interests:$$('[data-interest][aria-pressed=true]').map(b=>b.dataset.interest),weather:$('#weather').value,setting:$('#setting').value,
   group:$('#group-enabled').checked?$$('[data-member]').map(el=>el.value):[],mood:$('#mood').value,
   departure:$('#departure').value,locale,accessible:$('#accessible').checked,verifiedHours:$('#verified-hours').checked,
@@ -44,7 +51,7 @@ async function plan({prepared,context:given,scroll=false}={}){
  if(!prepared){editHistory=[];editFeedback='';}
  if(!datasetReady)return;generationController?.abort();generationController=new AbortController();const controller=generationController,current=++runId;$('#find-button').disabled=true;notify(t('loading'));
  try{
-  const context=given||input();lastInput=context;result=prepared||recommend(context,pois);backupOptions=backupPlans(context,pois);generation={};generationPending=false;zoom=1;render();if(scroll){$('#planner').classList.add('compact');$('#planner-toggle').setAttribute('aria-expanded','false');$('#results-title').focus({preventScroll:true});$('.discovery').scrollIntoView({behavior:'smooth',block:'start'});}
+  const context=given||input();lastInput=context;result=prepared||recommend(context,pois);backupOptions=backupPlans(context,pois);recovery=recoveryOptions(context,pois,result);generation={};generationPending=false;zoom=1;render();if(scroll){$('#planner').classList.add('compact');$('#planner-toggle').setAttribute('aria-expanded','false');$('#results-title').focus({preventScroll:true});$('.discovery').scrollIntoView({behavior:'smooth',block:'start'});}
   if(result.recommendations.length){
    const intent=parseIntent(context.query,context.interests);
    const payload={ids:result.recommendations.map(p=>p.id),visits:result.recommendations.map(p=>({id:p.id,minutes:result.route.stops.find(s=>s.id===p.id)?.visitMinutes||p.visitMinutes})),locale,context:{family:intent.concepts.includes('family')||context.group.includes('family'),quiet:intent.quiet,socket:intent.socket,interests:result.trace.concepts,group:context.group,mood:context.mood,weather:context.weather,setting:result.intent.setting,excluded:result.intent.excluded,budget:result.trace.effectiveBudget}};
@@ -87,14 +94,15 @@ function render(){
  $('#trace').innerHTML=`<div class="trace-grid"><div><strong>${result.trace.datasetSize}</strong><span>${t('loaded')}</span></div><div><strong>${result.trace.candidates}</strong><span>${t('eligible')}</span></div><div><strong>${result.trace.effectiveBudget}</strong><span>${t('budgetLabel')}</span></div></div><p>${t('traceText')}</p><p>${t(generation.mode==='gemini-grounded'?'geminiExplain':'templateExplain')}</p><p>${t('estimateNote')}</p><p>${t('sourceDate')}: ${esc(metadata.collectedAt?.slice(0,10)||'')} · OpenStreetMap / ODbL · ${esc(result.trace.retrieval)}</p><p>${t('excluded')}: ${Object.entries(result.trace.exclusions).filter(([,v])=>v).map(([k,v])=>`${esc(k)} ${v}`).join(' · ')}</p>`;drawMap();
 }
 function renderExtras(){
+ renderExpansion();
  const intent=result.intent,planOrigin=PRESETS.find(p=>p.lat===lastInput.origin.lat&&p.lon===lastInput.origin.lon)?.name||t('currentLocation');
  $('#planner-brief').textContent=`${planOrigin} · ${result.trace.effectiveBudget} ${t('min')}`;
- const chips=[`${planOrigin}`,`${result.trace.effectiveBudget} ${t('min')}`,`${intent.maxWalk} ${t('min')} ${t('walkingCap')}`,...result.trace.concepts.map(t),...intent.excluded.map(k=>t('exclude')+' '+t(k)),intent.setting!=='any'?t(intent.setting):'',lastInput.returnToStart?t('returnIncluded'):'',lastInput.verifiedHours?t('hoursRequired'):''].filter(Boolean);
+ const chips=[`${planOrigin}`,`${result.trace.effectiveBudget} ${t('min')}`,`${intent.maxWalk} ${t('min')} ${t('walkingCap')}`,...result.trace.concepts.map(t),...intent.excluded.map(k=>t('exclude')+' '+t(k)),...intent.excludedCategories.map(k=>t('exclude')+' '+(t('categories')[k]||k)),...(result.timing.returnBy?[t('deadlineChip')+' '+clockTime(result.timing.returnBy)]:[]),...(result.timing.bufferMinutes?[result.timing.bufferMinutes+' '+t('minReserve')]:[]),intent.setting!=='any'?t(intent.setting):'',result.returnToStart?t('returnIncluded'):'',lastInput.verifiedHours?t('hoursRequired'):''].filter(Boolean);
  $('#intent-summary').innerHTML=`<span>${t('intentTitle')}</span><div>${chips.map(c=>`<span class="intent-chip">${esc(c)}</span>`).join('')}</div><button type="button" id="edit-request">${t('editRequest')} ↗</button>`;
  $('#edit-request').addEventListener('click',()=>{openPlanner();$('#query').focus();$('#planner').scrollIntoView({behavior:'smooth',block:'start'});});
  $('#edit-feedback').textContent=editFeedback;
  $('#edit-summary').innerHTML=(editHistory.length||editState.excludedIds.length||editState.pinnedIds.length)?`<div class="edit-summary"><p>${t('keptExplain')}</p><div>${editState.pinnedIds.map(id=>{const p=pois.find(p=>p.id===id);return `<button type="button" data-release="${esc(id)}">${esc(p?name(p):id)} · ${t('keptStop')} ×</button>`;}).join('')}${editHistory.length?`<button type="button" id="undo-edit">↶ ${t('undoEdit')}</button>`:''}<button type="button" id="reset-edits">${t('resetEdits')}</button></div></div>`:'';
- $('#undo-edit')?.addEventListener('click',()=>{const previous=editHistory.pop();generationController?.abort();++runId;({editState,result,generation,lastInput}=previous);generationPending=false;$('#find-button').disabled=false;editFeedback='';backupOptions=backupPlans(lastInput,pois);render();});
+ $('#undo-edit')?.addEventListener('click',()=>{const previous=editHistory.pop();generationController?.abort();++runId;({editState,result,generation,lastInput}=previous);generationPending=false;$('#find-button').disabled=false;editFeedback='';backupOptions=backupPlans(lastInput,pois);recovery=recoveryOptions(lastInput,pois,result);render();});
  $('#reset-edits')?.addEventListener('click',()=>{resetEdits();plan();});
  $$('[data-release]').forEach(button=>button.addEventListener('click',()=>{editState.pinnedIds=editState.pinnedIds.filter(id=>id!==button.dataset.release);editFeedback='';plan();}));
 
@@ -107,6 +115,25 @@ function renderExtras(){
  $('#source-updates').innerHTML=`<summary>${t('sourceChanges')}</summary><p>${t('sourceChangesHelp')}</p><ul class="source-updates-list">${corrections.map(p=>`<li><strong>${esc(name(p))}</strong><br>${p.accessRestricted?(p.operationalNotes||[]).filter(n=>n.url).slice(0,1).map(n=>`${esc(localized(n))} <a href="${esc(safeUrl(n.url))}" target="_blank" rel="noreferrer">${t('source')} ↗</a>`).join(''):`${t('hours')}: ${esc(p.hours||'')} <a href="${esc(safeUrl(p.hoursSource?.url))}" target="_blank" rel="noreferrer">${t('source')} ↗</a>`}</li>`).join('')}</ul>`;
 }
 function resetEdits(){editState={pinnedIds:[],excludedIds:[],preferredIds:[],maxStops:3};editHistory=[];editFeedback='';}
+function renderExpansion(){
+ const r=result.route,tm=result.timing,j=journeys.find(j=>j.id===$('#journey').value),story=journeyStory(j,pois,result,locale);
+ const stamp=minutes=>clockTime(new Date(new Date(result.departure+':00+05:00').getTime()+minutes*60000+5*3600000).toISOString());
+ $('#timing-panel').innerHTML=r.stops.length?`<details class="timing-details"><summary>${t('timeline')} · ${t(result.returnToStart?'plannedReturn':'plannedFinish')} ≈ ${clockTime(tm.plannedEnd)}${tm.bufferMinutes?' · '+tm.bufferMinutes+' '+t('minReserve'):''}</summary><p>${t('leaveAt')}: ${esc(result.departure.replace('T',' '))} · UTC+5</p><ol>${r.stops.map(s=>`<li><strong>${stamp(s.arrivalMinutes)}–${stamp(s.arrivalMinutes+s.visitMinutes)}</strong> ${esc(name(s))}</li>`).join('')}</ol><p>${t(result.returnToStart?'plannedReturn':'plannedFinish')}: ≈ ${esc(tm.plannedEnd.replace('T',' '))}<br>${t('reserveUntil')}: ${esc(tm.reservedEnd.replace('T',' '))}${tm.returnBy?'<br>'+t('deadlineChip')+': '+esc(tm.returnBy.replace('T',' ')):''}<br>${t('spareTime')}: ${tm.slackMinutes} ${t('min')}</p></details>`:'';
+ $('#story-panel').hidden=!story;
+ $('#story-panel').innerHTML=story?`<div class="story-header"><span class="eyebrow small">${t('sourceStory')}</span><h3>${esc(story.title)}</h3><span class="story-count">${story.chapters.length} / ${story.total} ${t('storyPart')}</span></div><p>${esc(story.introduction||t('storyPartial'))}</p><div class="story-chapters">${story.chapters.map((c,i)=>`<article><span class="chapter-number">0${i+1}</span><h4>${esc(c.name)}</h4><p class="story-question">${esc(c.question)}</p><details><summary>${t('storySources')}</summary>${c.facts.map(f=>`<p>${esc(f.text)} <a href="${esc(safeUrl(f.url))}" target="_blank" rel="noreferrer">${esc(f.title)} ↗</a></p>`).join('')}<p>${esc(c.condition)}</p></details></article>`).join('')}</div><button id="leave-story">${t('storyCustom')}</button>`:'';
+ $('#leave-story')?.addEventListener('click',()=>{$('#journey').value='';editState.maxStops=3;recoveryOriginal=null;plan();});
+ $('#recovery-panel').hidden=!recovery.reason&&!recoveryOriginal;
+ $('#recovery-panel').innerHTML=`${recovery.reason?`<h3>${t('recoveryTitle')}</h3><p>${t('recovery_'+recovery.reason)}</p>${result.intent.stroller?'<p>'+t('strollerNote')+'</p>':''}<div class="recovery-options">${recovery.options.map((o,i)=>`<article><strong>${t(o.id==='more-time'?'moreTime':'laterDeparture')}</strong><p>${o.changes.departure?esc(o.changes.departure.replace('T',' ')):o.changes.budget+' '+t('min')}</p><p>≈ ${o.result.route.totalMinutes} ${t('min')} · ${o.result.route.stops.map(name).map(esc).join(' → ')}</p><button data-recovery="${i}">${t('applyAlternative')}</button></article>`).join('')}</div>${recovery.options.length?'':'<p>'+t('noAlternative')+'</p>'}`:''}${recoveryOriginal?`<button id="restore-recovery">↶ ${t('restoreAlternative')}</button>`:''}`;
+ $$('[data-recovery]').forEach(b=>b.addEventListener('click',()=>{
+  const o=recovery.options[Number(b.dataset.recovery)];recoveryOriginal||={budget:lastInput.budget,query:lastInput.query,departure:lastInput.departure,timeMode:$('#time-mode').value};editHistory=[];
+  if(o.changes.budget)$('#budget').value=String(o.changes.budget);if(o.changes.query!==undefined)$('#query').value=o.changes.query;
+  if(o.changes.departure){$('#departure').value=o.changes.departure;$('#time-mode').value='custom';}
+  $('#budget-value').textContent=`${$('#budget').value} ${t('min')}`;plan({prepared:o.result,context:{...lastInput,...o.changes}});
+ }));
+ $('#restore-recovery')?.addEventListener('click',()=>{const old=recoveryOriginal;recoveryOriginal=null;$('#budget').value=String(old.budget);$('#query').value=old.query;$('#departure').value=old.departure;$('#time-mode').value=old.timeMode;$('#budget-value').textContent=`${$('#budget').value} ${t('min')}`;plan();});
+ const mapped=r.legs.filter(l=>l.mode==='mapped').length,estimated=r.legs.some(l=>l.mode==='estimated'||l.connectorMeters>0);
+ $('#routing-summary').textContent=[t(mapped?(estimated?'routingMixed':'routingMapped'):'routingEstimated'),mapped?t('routingConnection'):t('routingOutside'),r.legs.some(l=>l.exteriorViewpoint)?t('exteriorViewpoint'):'',result.intent.stroller?t('strollerNote'):''].filter(Boolean).join(' · ');
+}
 function changeStop(type,id){
  const edited=editPlan({...lastInput,...editState},pois,result,{type,id});
  if(!edited.ok){editFeedback=t(edited.reason);$('#edit-feedback').textContent=editFeedback;return;}
@@ -114,12 +141,13 @@ function changeStop(type,id){
  editState={pinnedIds:edited.input.pinnedIds||[],excludedIds:edited.input.excludedIds||[],preferredIds:edited.input.preferredIds||[],maxStops:edited.input.maxStops??3};
  const before=result.route,after=edited.result.route,removed=before.stops.filter(p=>!after.stops.some(q=>q.id===p.id)),added=after.stops.filter(p=>!before.stops.some(q=>q.id===p.id));
  editFeedback=[removed.length?t('changeRemoved')+': '+removed.map(name).join(', '):'',added.length?t('changeAdded')+': '+added.map(name).join(', '):'',type!=='keep'?`${t('changeTime')}: ${before.totalMinutes} → ${after.totalMinutes} ${t('min')}`:''].filter(Boolean).join(' · ');
- if(type==='keep'){lastInput=edited.input;backupOptions=backupPlans(lastInput,pois);render();}else plan({prepared:edited.result,context:edited.input});
+ if(type==='keep'){lastInput=edited.input;backupOptions=backupPlans(lastInput,pois);recovery=recoveryOptions(lastInput,pois,result);render();}else plan({prepared:edited.result,context:edited.input});
 }
 function drawMap(){
  if(!result)return;
  const all=[...result.recommendations];for(const p of result.route.stops)if(!all.some(q=>p.id===q.id))all.push(p);
- const points=[origin,...all], cos=Math.cos(origin.lat*Math.PI/180),width=900,height=420;
+ const routeCoordinates=result.route.legs.flatMap(l=>[...l.points,...l.connectors.flat()]).map(([lon,lat])=>({lon,lat}));
+ const points=[origin,...all,...routeCoordinates], cos=Math.cos(origin.lat*Math.PI/180),width=900,height=420;
  const xs=points.map(p=>(p.lon-origin.lon)*cos*111320),ys=points.map(p=>(p.lat-origin.lat)*111320);
  let spanX=Math.max(1700,Math.max(...xs)-Math.min(...xs)+900),spanY=Math.max(1300,Math.max(...ys)-Math.min(...ys)+800);
  const scale=Math.min(width/spanX,height/spanY)*zoom,cx=(Math.max(...xs)+Math.min(...xs))/2,cy=(Math.max(...ys)+Math.min(...ys))/2;
@@ -129,8 +157,7 @@ function drawMap(){
  const roads=geometry.filter(f=>!['park','water','river'].includes(f.kind));
  const roadBorders=roads.map(f=>`<path d="${pathFor(f.points)}" stroke="${['primary','secondary'].includes(f.kind)?'#d5dbcc':'#e1e5d7'}" stroke-width="${['primary','secondary'].includes(f.kind)?9:4}"/>`).join('');
  const roadLines=roads.map(f=>`<path d="${pathFor(f.points)}" stroke="#fffef5" stroke-width="${['primary','secondary'].includes(f.kind)?6:2}"/>`).join('');
- const routePoints=[origin,...result.route.stops,...(result.returnToStart?[origin]:[])];
- const routePath=result.route.stops.length?`<path d="${pathFor(routePoints.map(p=>[p.lon,p.lat]))}" fill="none" stroke="#5f8055" stroke-width="2" stroke-dasharray="5 6" opacity=".65"/>`:'';
+ const routePath=result.route.legs.map(l=>`<path class="route-line ${l.mode}" d="${pathFor(l.points)}" fill="none" stroke="${l.mode==='mapped'?'#365e40':'#a17739'}" stroke-width="${l.mode==='mapped'?4:2}" ${l.mode==='mapped'?'':'stroke-dasharray="5 6"'}/>${l.connectors.map(c=>`<path class="route-connector" d="${pathFor(c)}" fill="none" stroke="#a17739" stroke-width="2" stroke-dasharray="3 4"/>`).join('')}`).join('');
  const [ox,oy]=project(origin.lon,origin.lat);
  // Separate nearby labels while a leader line preserves the actual geographic position.
  const placed=[],leaders=[];
@@ -149,12 +176,13 @@ function drawMap(){
  $$('.map-marker').forEach(el=>{const highlight=()=>{$$('.place-card').forEach(c=>c.classList.remove('highlight'));const card=document.getElementById('card-'+el.dataset.poi);card?.classList.add('highlight');card?.scrollIntoView({behavior:'smooth',block:'nearest'});};el.addEventListener('click',highlight);el.addEventListener('keydown',e=>{if(['Enter',' '].includes(e.key)){e.preventDefault();highlight();}});});
 }
 function exportWalk(){
- const r=result.route;const content=[t('exportTitle'),'ArcSolo · Build with AI',`${result.departure} · UTC+5`,`${r.totalMinutes} ${t('min')} · ${result.returnToStart?t('routeBack'):t('routeOneWay')}`,'',...r.stops.flatMap((stop,i)=>{const p=pois.find(p=>p.id===stop.id),s=generation.suggestions?.find(s=>s.id===p.id);return [`${i+1}. ${name(p)}`,`${stop.legMinutes} ${t('min')} ${t('walk')} + ${stop.visitMinutes} ${t('min')} ${t('visit')}`,p.source.url,t(stop.openingStatus==='open'?'openHours':'unknownHours'),s?.why||'',s?.activity||actionText(p,locale),...evidenceFor(p,locale).slice(1).flatMap(f=>[f.text,f.url]),...(p.operationalNotes||[]).map(localized),''];}),t('estimateNote'),t('aboutLimits')].join('\n');
+ const r=result.route,story=journeyStory(journeys.find(j=>j.id===$('#journey').value),pois,result,locale),tm=result.timing;
+ const content=[t('exportTitle'),'ArcSolo · Build with AI',`${result.departure} · UTC+5`,`${r.totalMinutes} ${t('min')} · ${result.returnToStart?t('routeBack'):t('routeOneWay')}`,`${t('plannedFinish')}: ${tm.plannedEnd}`,`${t('reserveUntil')}: ${tm.reservedEnd} · ${tm.bufferMinutes} ${t('minReserve')}`,tm.returnBy?`${t('deadlineChip')}: ${tm.returnBy}`:'',story?`${story.title} · ${story.chapters.length}/${story.total}`:'','',...r.stops.flatMap((stop,i)=>{const p=pois.find(p=>p.id===stop.id),s=generation.suggestions?.find(s=>s.id===p.id),chapter=story?.chapters.find(c=>c.id===p.id);return [`${i+1}. ${name(p)}`,`${stop.legMinutes} ${t('min')} ${t('walk')} + ${stop.visitMinutes} ${t('min')} ${t('visit')}`,t(stop.travel.mode==='mapped'?'routingMapped':'routingEstimated'),p.source.url,t(stop.openingStatus==='open'?'openHours':'unknownHours'),chapter?.question||'',chapter?.condition||'',s?.why||'',s?.activity||actionText(p,locale),...evidenceFor(p,locale).slice(1).flatMap(f=>[f.text,f.url]),...(p.operationalNotes||[]).map(localized),''];}),t('routingNote'),t('estimateNote'),t('aboutLimits')].join('\n');
  const url=URL.createObjectURL(new Blob([content],{type:'text/plain;charset=utf-8'})),a=document.createElement('a');a.href=url;a.download='qadam-walk.txt';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
 }
 function scenario(id){
- const presets={expo:{location:'expo',interests:['landmark','nature','coffee'],budget:60,weather:'fair',query:{en:'Discover something unusual near EXPO',ru:'Необычная прогулка возле EXPO',kk:'EXPO маңында қызықты серуен'}},coffee:{location:'baiterek',interests:['coffee'],budget:60,weather:'fair',query:{en:'A quiet coffee stop with a socket',ru:'Хочу тихое кафе с розеткой',kk:'Розеткасы бар тыныш кафе'}},family:{location:'museum',interests:['family'],budget:120,weather:'fair',query:{en:'Explore with a child',ru:'Прогулка с ребёнком',kk:'Баламен серуендеу'}},rain:{location:'khan',interests:[],budget:90,weather:'rain',query:{en:'An indoor break from the rain',ru:'Укрыться от дождя и отдохнуть',kk:'Жаңбырдан паналап демалу'}}};
- originalPlan=null;completedMissions.clear();resetEdits();
+ const presets={expo:{location:'expo',interests:['nature','coffee'],budget:60,weather:'fair',query:{en:'Discover something unusual near EXPO',ru:'Необычная прогулка возле EXPO',kk:'EXPO маңында қызықты серуен'}},coffee:{location:'baiterek',interests:['coffee'],budget:60,weather:'fair',query:{en:'A quiet coffee stop with a socket',ru:'Хочу тихое кафе с розеткой',kk:'Розеткасы бар тыныш кафе'}},family:{location:'museum',interests:['family'],budget:120,weather:'fair',query:{en:'Explore with a child',ru:'Прогулка с ребёнком',kk:'Баламен серуендеу'}},rain:{location:'khan',interests:[],budget:90,weather:'rain',query:{en:'An indoor break from the rain',ru:'Укрыться от дождя и отдохнуть',kk:'Жаңбырдан паналап демалу'}}};
+ originalPlan=null;recoveryOriginal=null;$('#journey').value='';completedMissions.clear();resetEdits();
  const isGroup=id==='group';$('#preferences').open=isGroup;$('.group-options').open=isGroup;const p=presets[isGroup?'expo':id];$('#group-enabled').checked=isGroup;$('#group-size').value='3';groupFields();$('#mood').value=isGroup?'curious':id==='family'?'playful':'balanced';
  if(isGroup){$('#group-members [data-member="0"]').value='coffee';$('#group-members [data-member="1"]').value='nature';$('#group-members [data-member="2"]').value='landmark';}$('#location').value=p.location;$('#query').value=p.query[locale];$('#budget').value=isGroup?120:p.budget;$('#weather').value=p.weather;$('#setting').value='any';$('#max-walk').value='20';$('#accessible').checked=false;$('#verified-hours').checked=false;$('#gentle').checked=false;$('#return').checked=true;
  if($('#time-mode').value==='demo')$('#departure').value=DEMO_TIME;
@@ -164,7 +192,7 @@ function scenario(id){
  $$('.scenario').forEach(b=>b.classList.toggle('active',b.dataset.scenario===id));translate();plan();
 }
 $('#location').innerHTML=PRESETS.map(p=>`<option value="${p.id}">${p.name}</option>`).join('');$('#departure').value=astanaNow();
-$('#plan-form').addEventListener('submit',e=>{e.preventDefault();editHistory=[];editFeedback='';plan({scroll:matchMedia('(max-width:760px)').matches});});
+$('#plan-form').addEventListener('submit',e=>{e.preventDefault();editHistory=[];editFeedback='';recoveryOriginal=null;plan({scroll:matchMedia('(max-width:760px)').matches});});
 $('#budget').addEventListener('input',()=>$('#budget-value').textContent=`${$('#budget').value} ${t('min')}`);
 $('#departure').addEventListener('change',()=>{simulated=false;$('#time-mode').value='custom';});
 $('#time-mode').addEventListener('change',()=>{const mode=$('#time-mode').value;simulated=mode==='demo';if(mode==='custom'){$('#preferences').open=true;$('.more-options').open=true;$('#departure').focus();return;}$('#departure').value=mode==='demo'?DEMO_TIME:astanaNow();editFeedback='';plan();});
@@ -174,15 +202,17 @@ $('#language').addEventListener('change',()=>{locale=$('#language').value;genera
 $('#zoom-in').addEventListener('click',()=>{zoom=Math.min(zoom*1.35,4);drawMap();});$('#zoom-out').addEventListener('click',()=>{zoom=Math.max(zoom/1.35,.4);drawMap();});$('#map-reset').addEventListener('click',()=>{zoom=1;drawMap();});
 $('#about-button').addEventListener('click',()=>$('#about-dialog').showModal());$('#close-dialog').addEventListener('click',()=>$('#about-dialog').close());
 $('#locate').addEventListener('click',()=>{
- if(customLocation){customLocation=null;$('#location option[value=custom]')?.remove();$('#location').value='expo';translate();plan();return;}
+ if(customLocation){routing?.clear();customLocation=null;$('#location option[value=custom]')?.remove();$('#location').value='expo';translate();plan();return;}
  if(!navigator.geolocation){notify(t('locationDenied'),true);return;}
  notify(t('locationConsent'));
  navigator.geolocation.getCurrentPosition(pos=>{customLocation={id:'custom',lat:pos.coords.latitude,lon:pos.coords.longitude};const option=document.createElement('option');option.value='custom';option.textContent=t('currentLocation');$('#location').append(option);$('#location').value='custom';translate();plan();},()=>notify(t('locationDenied'),true),{enableHighAccuracy:false,timeout:10000,maximumAge:0});
 });
+$('#deadline-enabled').addEventListener('change',()=>{$('#deadline-fields').hidden=!$('#deadline-enabled').checked;$('#return-by').required=$('#deadline-enabled').checked;if($('#deadline-enabled').checked){$('#return').checked=true;if(!$('#return-by').value)$('#return-by').value=$('#departure').value.slice(0,10)+'T15:00';}});
+$('#journey').addEventListener('change',()=>{const j=journeys.find(j=>j.id===$('#journey').value);resetEdits();recoveryOriginal=null;if(j){$('#location').value=j.origin;$('#query').value='';$('#group-enabled').checked=false;groupFields();$$('[data-interest]').forEach(b=>b.setAttribute('aria-pressed','false'));$('#mood').value='curious';editState.preferredIds=j.stops.map(s=>s.poiId);editState.maxStops=2;}plan();});
 $('#group-enabled').addEventListener('change',groupFields);$('#group-size').addEventListener('change',groupFields);
 function openPlanner(){$('#planner').classList.remove('compact');$('#planner-toggle').setAttribute('aria-expanded','true');}
 $('#planner-toggle').addEventListener('click',()=>{const compact=$('#planner').classList.toggle('compact');$('#planner-toggle').setAttribute('aria-expanded',String(!compact));});
 $('#planner').classList.toggle('compact',matchMedia('(max-width:760px)').matches);
 $('#map-details').open=matchMedia('(min-width:761px)').matches;
 translate();
-try{const responses=await Promise.all(['/data/pois.json','/data/map.json','/data/metadata.json','/data/evidence.json'].map(url=>fetch(url)));if(responses.some(r=>!r.ok))throw new Error('Dataset unavailable');const [raw,geo,meta,pack]=await Promise.all(responses.map(r=>r.json()));pois=attachEvidence(raw,pack);geometry=geo;metadata=meta;datasetReady=true;scenario('expo');}catch{notify(t('loadError'),true);$('#find-button').disabled=true;}
+try{const responses=await Promise.all(['/data/pois.json','/data/map.json','/data/metadata.json','/data/evidence.json','/data/walking-graph.json','/data/journeys.json'].map(url=>fetch(url)));if(responses.some(r=>!r.ok))throw new Error('Dataset unavailable');const [raw,geo,meta,pack,graph,stories]=await Promise.all(responses.map(r=>r.json()));pois=attachEvidence(raw,pack);geometry=geo;metadata=meta;routing=createRouter(graph);journeys=stories.journeys;datasetReady=true;translate();scenario('expo');}catch{notify(t('loadError'),true);$('#find-button').disabled=true;}

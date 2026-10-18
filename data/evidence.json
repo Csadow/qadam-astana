@@ -595,7 +595,8 @@
         "sourceUrl": "https://visitastana.kz/ru/about-city/what-to-see/monument-uly-dala-eli/",
         "evidence": "Official page explicitly identifies dedication to 25 years of independence and creation in 2016. Other government-hosted official guides locate Uly Dala Eli at EXPO; existing OSM name and EXPO address match."
       },
-      "researchNotes": "Do not enrich height: OSM records 46 m while several sources say 70 m. Do not infer 24/7 access, free admission, operating events, step-free access or today's route availability. Kazakhstan.travel attraction 437 has apparently wrong coordinates near NU, so retain OSM coordinates."
+      "researchNotes": "Do not enrich height: OSM records 46 m while several sources say 70 m. Do not infer 24/7 access, free admission, operating events, step-free access or today's route availability. Kazakhstan.travel attraction 437 has apparently wrong coordinates near NU, so retain OSM coordinates.",
+      "visitScope": "exterior"
     },
     {
       "id": "osm-way-69232075",

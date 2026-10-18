@@ -141,6 +141,54 @@
       "pass": true
     },
     {
+      "name": "EXPO route follows mapped geometry with distinct estimated connections",
+      "pass": true
+    },
+    {
+      "name": "Story selection changes the start and renders two cited chapters",
+      "pass": true
+    },
+    {
+      "name": "Story source and interior visit conditions are visible",
+      "pass": true
+    },
+    {
+      "name": "Story export includes source-backed observations and route caveats",
+      "pass": true
+    },
+    {
+      "name": "Partial story is labelled and does not present the full introduction",
+      "pass": true
+    },
+    {
+      "name": "A useful time increase is computed before offering recovery",
+      "pass": true
+    },
+    {
+      "name": "Applying recovery completes both chapters without changing walking limit",
+      "pass": true
+    },
+    {
+      "name": "Recovery restore returns the original budget and incomplete story",
+      "pass": true
+    },
+    {
+      "name": "Return deadline and reserve are visible in the interpreted request",
+      "pass": true
+    },
+    {
+      "name": "Timeline includes reserve and the fixed deadline",
+      "pass": true
+    },
+    {
+      "name": "Past deadline returns no stops and no unverified recovery",
+      "pass": true
+    },
+    {
+      "name": "Monday story retains the museum closure and offers a checked later departure",
+      "pass": true
+    },
+    {
       "name": "Kazakh controls and itinerary editing are translated",
       "pass": true
     },
@@ -177,6 +225,14 @@
       "pass": true
     },
     {
+      "name": "Expanded story and deadline controls fit a narrow mobile screen",
+      "pass": true
+    },
+    {
+      "name": "Story chapters stack vertically on mobile",
+      "pass": true
+    },
+    {
       "name": "Coordinates and raw query never enter generation payloads",
       "pass": true
     },
@@ -193,8 +249,8 @@
       "pass": true
     }
   ],
-  "passed": 48,
-  "total": 48,
+  "passed": 62,
+  "total": 62,
   "metrics": {
     "mobileRouteTop": 627,
     "mobileViewport": {

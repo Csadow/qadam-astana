@@ -1,9 +1,11 @@
+import {createRouter} from '../src/routing.js';
 import {readFile,writeFile} from 'node:fs/promises';
 import {recommend,PRESETS} from '../src/engine.js';
 import {attachEvidence} from '../src/evidence.js';
 import {generateSuggestions} from '../src/generate.js';
 const root=new URL('../',import.meta.url),read=async p=>JSON.parse(await readFile(new URL(p,root),'utf8'));
 const pois=attachEvidence(await read('data/pois.json'),await read('data/evidence.json'));
+const routing=createRouter(await read('data/walking-graph.json'));
 const cases=[
  {id:'family-paleontology',input:{origin:PRESETS[2],interests:['family'],mood:'playful',budget:120},context:{family:true,mood:'playful',interests:['family'],budget:120}},
  {id:'curious-baiterek',input:{origin:PRESETS[1],interests:['landmark'],mood:'curious',budget:60},context:{mood:'curious',interests:['landmark'],budget:60}},
@@ -15,7 +17,7 @@ const results=[];
 for(const c of cases){
  const prior=previous?.results.find(r=>r.id===c.id);
  if(prior?.mode==='gemini-grounded'){results.push(prior);continue;}
- const plan=recommend({maxWalk:20,departure:'2026-10-20T14:00',...c.input},pois);
+ const plan=recommend({routing,maxWalk:20,departure:'2026-10-20T14:00',...c.input},pois);
  const generated=await generateSuggestions({ids:plan.recommendations.map(p=>p.id),visits:plan.recommendations.map(p=>({id:p.id,minutes:plan.route.stops.find(s=>s.id===p.id)?.visitMinutes||p.visitMinutes})),locale:'ru',context:c.context},pois,process.env);
  const attempts=prior?[...(prior.attempts||[{mode:prior.mode,reason:prior.reason,checkedAt:previous.checkedAt}]),{mode:generated.mode,reason:generated.reason||null,checkedAt:new Date().toISOString()}]:[{mode:generated.mode,reason:generated.reason||null,checkedAt:new Date().toISOString()}];
  results.push({id:c.id,mode:generated.mode,reason:generated.reason||null,attempts,places:plan.recommendations.map(p=>({id:p.id,name:p.name,evidenceCount:p.evidence.length})),suggestions:generated.suggestions});

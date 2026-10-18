@@ -13,7 +13,12 @@ jobs:
       - run: node scripts/build.mjs
       - run: node --test tests/*.test.mjs
       - run: node scripts/evaluate.mjs
+      - run: python3 tests/collector_test.py
       - name: Verify data provenance
         run: python3 scripts/collect_pois.py --from-raw data/raw-osm.json
       - name: Verify reproducible normalized data
         run: git diff --exit-code -- data/pois.json data/metadata.json
+      - name: Reproduce pedestrian graph
+        run: python3 scripts/collect_walk_graph.py --from-source data/walking-source.json
+      - name: Verify reproducible pedestrian graph
+        run: git diff --exit-code -- data/walking-graph.json

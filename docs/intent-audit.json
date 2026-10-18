@@ -1,8 +1,8 @@
 {
-  "checkedAt": "2026-10-18T18:46:48.747Z",
-  "appVersion": "3.0.0",
-  "method": "Ten deliberately selected edge cases with manually specified expected behavior, including synthetic category-isolation fixtures. A diagnostic baseline, not a random sample, independent evaluation, user study, or overall accuracy estimate. Failed cases are tracked work; this script does not gate the existing supported-scenario CI.",
-  "passed": 3,
+  "checkedAt": "2026-10-18T19:09:12.200Z",
+  "appVersion": "4.0.0",
+  "method": "Ten deliberately selected edge cases with manually specified expected behavior, including synthetic category-isolation fixtures. A targeted before/after regression audit, not a random sample, independent evaluation, user study, or overall accuracy estimate. The original 3/10 baseline is preserved in intent-audit-before.json.",
+  "passed": 10,
   "total": 10,
   "results": [
     {
@@ -12,9 +12,9 @@
         "budget": 90
       },
       "actual": {
-        "budget": 30
+        "budget": 90
       },
-      "pass": false
+      "pass": true
     },
     {
       "id": "not-only",
@@ -44,9 +44,9 @@
       },
       "actual": {
         "museumExcluded": true,
-        "artworkRetained": false
+        "artworkRetained": true
       },
-      "pass": false
+      "pass": true
     },
     {
       "id": "walking-cap",
@@ -57,9 +57,9 @@
       },
       "actual": {
         "budget": 90,
-        "maxWalk": null
+        "maxWalk": 10
       },
-      "pass": false
+      "pass": true
     },
     {
       "id": "mixed-duration-ru",
@@ -68,9 +68,9 @@
         "budget": 90
       },
       "actual": {
-        "budget": 30
+        "budget": 90
       },
-      "pass": false
+      "pass": true
     },
     {
       "id": "duration-kk",
@@ -93,12 +93,12 @@
         "excluded": []
       },
       "actual": {
-        "concepts": [],
-        "excluded": [
+        "concepts": [
           "coffee"
-        ]
+        ],
+        "excluded": []
       },
-      "pass": false
+      "pass": true
     },
     {
       "id": "free-wifi",
@@ -107,9 +107,9 @@
         "free": false
       },
       "actual": {
-        "free": true
+        "free": false
       },
-      "pass": false
+      "pass": true
     },
     {
       "id": "stroller-context",
@@ -120,9 +120,11 @@
         ]
       },
       "actual": {
-        "concepts": []
+        "concepts": [
+          "family"
+        ]
       },
-      "pass": false
+      "pass": true
     },
     {
       "id": "basic-negation",

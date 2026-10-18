@@ -1,0 +1,131 @@
+{
+  "checkedAt": "2026-10-18T18:14:43.166Z",
+  "model": "gemini-3.5-flash-lite",
+  "method": "Three live scenarios with validated place/citation IDs. Explicit --retry-failed requests retain prior fallback attempts. Outputs retained for human review. Not an independent factuality benchmark or user study.",
+  "results": [
+    {
+      "id": "family-paleontology",
+      "mode": "gemini-grounded",
+      "reason": null,
+      "attempts": [
+        {
+          "mode": "retrieval-template",
+          "reason": "provider_unavailable_or_invalid",
+          "checkedAt": "2026-10-18T18:12:59.693Z"
+        },
+        {
+          "mode": "gemini-grounded",
+          "reason": null,
+          "checkedAt": "2026-10-18T18:14:43.166Z"
+        }
+      ],
+      "places": [
+        {
+          "id": "osm-node-4894937300",
+          "name": "Қазақстан Республикасының Ұлттық Мұражайы",
+          "evidenceCount": 3
+        },
+        {
+          "id": "osm-way-112177946",
+          "name": "Президент саябағы",
+          "evidenceCount": 1
+        }
+      ],
+      "suggestions": [
+        {
+          "id": "osm-node-4894937300",
+          "why": "Скелеты древних животных и интерактивные экраны подходят для знакомства с палеонтологией.",
+          "activity": "Загляните в зал палеонтологии, чтобы осмотреть скелеты мамонта и тираннозавра, а также изучить интерактивные экраны за отведенное время.",
+          "mission": "Обсудите с детьми, какое животное из представленных в зале поразило вас больше всего.",
+          "evidenceIds": [
+            "national-museum-paleontology"
+          ]
+        },
+        {
+          "id": "osm-way-112177946",
+          "why": "Пространство между Дворцом мира и согласия и резиденцией президента подходит для короткой прогулки.",
+          "activity": "Пройдитесь по доступным публичным тропинкам парка и обратите внимание на окружающий ландшафт.",
+          "mission": "Отыщите три примечательные детали в ландшафте парка, которые обычно остаются незамеченными.",
+          "evidenceIds": [
+            "presidential-park-palace-setting"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "curious-baiterek",
+      "mode": "gemini-grounded",
+      "reason": null,
+      "places": [
+        {
+          "id": "osm-way-230401645",
+          "name": "Бәйтерек",
+          "evidenceCount": 2
+        }
+      ],
+      "suggestions": [
+        {
+          "id": "osm-way-230401645",
+          "why": "Этот монумент воплощает в себе идею древа жизни, объединяющего три мира от подземного до небесного.",
+          "activity": "Осмотрите архитектурные элементы сооружения и оцените его масштабы со стороны.",
+          "mission": "Найдите и обсудите визуальные различия между земной и небесной частями памятника.",
+          "evidenceIds": [
+            "baiterek-three-worlds"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mixed-group",
+      "mode": "gemini-grounded",
+      "reason": null,
+      "places": [
+        {
+          "id": "osm-node-12520559591",
+          "name": "Лепим и варим",
+          "evidenceCount": 2
+        },
+        {
+          "id": "osm-way-1460763574",
+          "name": "Тәуелсіздіктің 25 жылдығы",
+          "evidenceCount": 2
+        },
+        {
+          "id": "osm-way-1456208624",
+          "name": "Бейбітшілік пен Келісім аллеясы",
+          "evidenceCount": 0
+        }
+      ],
+      "suggestions": [
+        {
+          "id": "osm-node-12520559591",
+          "why": "Этот филиал выделяется шестиметровыми потолками и позицией в торговом центре.",
+          "activity": "Зайдите на короткую чашку кофе и рассмотрите интерьер с высокими потолками.",
+          "mission": "Обратите внимание на детали оформления зала.",
+          "evidenceIds": [
+            "lepim-mega-high-ceilings"
+          ]
+        },
+        {
+          "id": "osm-way-1460763574",
+          "why": "Монумент посвящен юбилею независимости и имеет символическую архитектурную структуру.",
+          "activity": "Осмотрите 25 граней монумента, каждая из которых отражает определенный этап истории.",
+          "mission": "Посчитайте видимые грани сооружения.",
+          "evidenceIds": [
+            "independence-25-facets",
+            "independence-monument-creator"
+          ]
+        },
+        {
+          "id": "osm-way-1456208624",
+          "why": "Аллея мира и согласия представляет собой открытое парковое пространство для короткой прогулки.",
+          "activity": "Пройдитесь по аллее и понаблюдайте за окружающим ландшафтом.",
+          "mission": "Найдите три примечательных элемента в оформлении парка.",
+          "evidenceIds": [
+            "osm-way-1456208624:category"
+          ]
+        }
+      ]
+    }
+  ]
+}

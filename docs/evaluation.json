@@ -1,10 +1,653 @@
 {
-  "evaluatedAt": "2026-10-18T18:12:49.926Z",
+  "evaluatedAt": "2026-10-18T19:14:58.571Z",
   "datasetSize": 300,
-  "passed": 17,
-  "total": 17,
-  "method": "Deterministic scenario acceptance checks on the collected snapshot. Not a user study or LLM quality benchmark.",
+  "passed": 25,
+  "total": 25,
+  "appVersion": "4.0.0",
+  "method": "Deterministic scenario acceptance checks on the collected snapshot using the same pedestrian router as the browser. Not a user study or LLM quality benchmark.",
   "scenarios": [
+    {
+      "id": "story-expo-space-and-symbols",
+      "expect": "Both source-backed chapters fit; every factual chapter resolves to its exact evidence record.",
+      "pass": true,
+      "checks": {
+        "budget": true,
+        "count": true,
+        "itineraryAgreement": true,
+        "sourceLinks": true,
+        "noClosed": true,
+        "specific": true
+      },
+      "resultCount": 2,
+      "names": [
+        "Mega Silk Way",
+        "Тәуелсіздіктің 25 жылдығы"
+      ],
+      "routeMinutes": 88,
+      "budget": 120,
+      "timing": {
+        "departure": "2026-10-20T14:00",
+        "plannedEnd": "2026-10-20T15:28",
+        "reservedEnd": "2026-10-20T15:28",
+        "returnBy": null,
+        "bufferMinutes": 0,
+        "grossBudget": 120,
+        "requestedBudget": 120,
+        "slackMinutes": 32
+      },
+      "routingModes": [
+        "estimated",
+        "mapped",
+        "mapped"
+      ],
+      "routingLegs": [
+        {
+          "mode": "estimated",
+          "minutes": 1,
+          "distanceM": 46,
+          "connectorMeters": 0,
+          "geometryPoints": 2,
+          "wayIds": [],
+          "reason": "interior_connection",
+          "exteriorViewpoint": false
+        },
+        {
+          "mode": "mapped",
+          "minutes": 22,
+          "distanceM": 1634,
+          "connectorMeters": 96,
+          "geometryPoints": 114,
+          "wayIds": [
+            1126402593,
+            1460763595,
+            1126401951,
+            622637374,
+            622637384,
+            1177767456,
+            1182401696,
+            1182401697,
+            1414796242,
+            1414796243,
+            1427085749
+          ],
+          "reason": null,
+          "exteriorViewpoint": true
+        },
+        {
+          "mode": "mapped",
+          "minutes": 15,
+          "distanceM": 1124,
+          "connectorMeters": 109,
+          "geometryPoints": 101,
+          "wayIds": [
+            1177767258,
+            1525376649,
+            1525376651,
+            1177767259,
+            1525376652,
+            1525376648,
+            1525376647,
+            1525376644,
+            1525376645,
+            1525376643,
+            1525376637,
+            1177767461,
+            1177767462,
+            622637384,
+            622637374,
+            1126401951,
+            1460763595,
+            1126402593
+          ],
+          "reason": null,
+          "exteriorViewpoint": true
+        }
+      ],
+      "uncertainties": [
+        {
+          "id": "osm-way-499328514",
+          "unknowns": []
+        },
+        {
+          "id": "osm-way-1460763574",
+          "unknowns": [
+            "hours"
+          ]
+        }
+      ],
+      "warnings": [
+        "estimates"
+      ]
+    },
+    {
+      "id": "story-symbols-in-sculpture",
+      "expect": "Both source-backed chapters fit; every factual chapter resolves to its exact evidence record.",
+      "pass": true,
+      "checks": {
+        "budget": true,
+        "count": true,
+        "itineraryAgreement": true,
+        "sourceLinks": true,
+        "noClosed": true,
+        "specific": true
+      },
+      "resultCount": 2,
+      "names": [
+        "Бәйтерек",
+        "Ғашықтар саябағы"
+      ],
+      "routeMinutes": 95,
+      "budget": 120,
+      "timing": {
+        "departure": "2026-10-20T14:00",
+        "plannedEnd": "2026-10-20T15:35",
+        "reservedEnd": "2026-10-20T15:35",
+        "returnBy": null,
+        "bufferMinutes": 0,
+        "grossBudget": 120,
+        "requestedBudget": 120,
+        "slackMinutes": 25
+      },
+      "routingModes": [
+        "estimated",
+        "estimated",
+        "estimated"
+      ],
+      "routingLegs": [
+        {
+          "mode": "estimated",
+          "minutes": 1,
+          "distanceM": 14,
+          "connectorMeters": 0,
+          "geometryPoints": 2,
+          "wayIds": [],
+          "reason": "outside_graph",
+          "exteriorViewpoint": false
+        },
+        {
+          "mode": "estimated",
+          "minutes": 27,
+          "distanceM": 2021,
+          "connectorMeters": 0,
+          "geometryPoints": 2,
+          "wayIds": [],
+          "reason": "outside_graph",
+          "exteriorViewpoint": false
+        },
+        {
+          "mode": "estimated",
+          "minutes": 27,
+          "distanceM": 2019,
+          "connectorMeters": 0,
+          "geometryPoints": 2,
+          "wayIds": [],
+          "reason": "outside_graph",
+          "exteriorViewpoint": false
+        }
+      ],
+      "uncertainties": [
+        {
+          "id": "osm-way-230401645",
+          "unknowns": [
+            "hours"
+          ]
+        },
+        {
+          "id": "osm-way-37884583",
+          "unknowns": [
+            "hours"
+          ]
+        }
+      ],
+      "warnings": [
+        "estimates"
+      ]
+    },
+    {
+      "id": "story-ancient-life-modern-city",
+      "expect": "Both source-backed chapters fit; every factual chapter resolves to its exact evidence record.",
+      "pass": true,
+      "checks": {
+        "budget": true,
+        "count": true,
+        "itineraryAgreement": true,
+        "sourceLinks": true,
+        "noClosed": true,
+        "specific": true
+      },
+      "resultCount": 2,
+      "names": [
+        "Қазақстан Республикасының Ұлттық Мұражайы",
+        "Президент саябағы"
+      ],
+      "routeMinutes": 104,
+      "budget": 120,
+      "timing": {
+        "departure": "2026-10-20T14:00",
+        "plannedEnd": "2026-10-20T15:44",
+        "reservedEnd": "2026-10-20T15:44",
+        "returnBy": null,
+        "bufferMinutes": 0,
+        "grossBudget": 120,
+        "requestedBudget": 120,
+        "slackMinutes": 16
+      },
+      "routingModes": [
+        "estimated",
+        "estimated",
+        "estimated"
+      ],
+      "routingLegs": [
+        {
+          "mode": "estimated",
+          "minutes": 1,
+          "distanceM": 15,
+          "connectorMeters": 0,
+          "geometryPoints": 2,
+          "wayIds": [],
+          "reason": "outside_graph",
+          "exteriorViewpoint": false
+        },
+        {
+          "mode": "estimated",
+          "minutes": 19,
+          "distanceM": 1365,
+          "connectorMeters": 0,
+          "geometryPoints": 2,
+          "wayIds": [],
+          "reason": "outside_graph",
+          "exteriorViewpoint": false
+        },
+        {
+          "mode": "estimated",
+          "minutes": 19,
+          "distanceM": 1366,
+          "connectorMeters": 0,
+          "geometryPoints": 2,
+          "wayIds": [],
+          "reason": "outside_graph",
+          "exteriorViewpoint": false
+        }
+      ],
+      "uncertainties": [
+        {
+          "id": "osm-node-4894937300",
+          "unknowns": []
+        },
+        {
+          "id": "osm-way-112177946",
+          "unknowns": [
+            "hours"
+          ]
+        }
+      ],
+      "warnings": [
+        "estimates"
+      ]
+    },
+    {
+      "id": "mapped-expo",
+      "expect": "Route uses mapped EXPO geometry while retaining explicit estimated endpoint connections.",
+      "pass": true,
+      "checks": {
+        "budget": true,
+        "count": true,
+        "itineraryAgreement": true,
+        "sourceLinks": true,
+        "noClosed": true,
+        "specific": true
+      },
+      "resultCount": 2,
+      "names": [
+        "Лепим и варим",
+        "Бейбітшілік пен Келісім аллеясы"
+      ],
+      "routeMinutes": 53,
+      "budget": 60,
+      "timing": {
+        "departure": "2026-10-20T14:00",
+        "plannedEnd": "2026-10-20T14:53",
+        "reservedEnd": "2026-10-20T14:53",
+        "returnBy": null,
+        "bufferMinutes": 0,
+        "grossBudget": 60,
+        "requestedBudget": 60,
+        "slackMinutes": 7
+      },
+      "routingModes": [
+        "estimated",
+        "mapped",
+        "mapped"
+      ],
+      "routingLegs": [
+        {
+          "mode": "estimated",
+          "minutes": 1,
+          "distanceM": 30,
+          "connectorMeters": 0,
+          "geometryPoints": 2,
+          "wayIds": [],
+          "reason": "interior_connection",
+          "exteriorViewpoint": false
+        },
+        {
+          "mode": "mapped",
+          "minutes": 16,
+          "distanceM": 1129,
+          "connectorMeters": 108,
+          "geometryPoints": 105,
+          "wayIds": [
+            1126402593,
+            1460763595,
+            1126401951,
+            622637374,
+            622637384,
+            1177767462,
+            1177767461,
+            1525376637,
+            1525376643,
+            1525376645,
+            1525376644,
+            1525376647,
+            1525376648,
+            1525376652,
+            1177767259,
+            1525376651,
+            1525376649,
+            1177767258
+          ],
+          "reason": null,
+          "exteriorViewpoint": false
+        },
+        {
+          "mode": "mapped",
+          "minutes": 16,
+          "distanceM": 1131,
+          "connectorMeters": 110,
+          "geometryPoints": 105,
+          "wayIds": [
+            1177767258,
+            1525376649,
+            1525376651,
+            1177767259,
+            1525376652,
+            1525376648,
+            1525376647,
+            1525376644,
+            1525376645,
+            1525376643,
+            1525376637,
+            1177767461,
+            1177767462,
+            622637384,
+            622637374,
+            1126401951,
+            1460763595,
+            1126402593
+          ],
+          "reason": null,
+          "exteriorViewpoint": false
+        }
+      ],
+      "uncertainties": [
+        {
+          "id": "osm-node-12520559591",
+          "unknowns": []
+        },
+        {
+          "id": "osm-way-1456208624",
+          "unknowns": [
+            "hours"
+          ]
+        }
+      ],
+      "warnings": [
+        "estimates"
+      ]
+    },
+    {
+      "id": "compound-duration",
+      "expect": "Effective time is 90 minutes and walking cap is 10 minutes.",
+      "pass": true,
+      "checks": {
+        "budget": true,
+        "count": true,
+        "itineraryAgreement": true,
+        "sourceLinks": true,
+        "noClosed": true,
+        "specific": true
+      },
+      "resultCount": 3,
+      "names": [
+        "Mega Silk Way",
+        "Luckee Yu",
+        "Gasteria"
+      ],
+      "routeMinutes": 82,
+      "budget": 90,
+      "timing": {
+        "departure": "2026-10-19T14:00",
+        "plannedEnd": "2026-10-19T15:22",
+        "reservedEnd": "2026-10-19T15:22",
+        "returnBy": null,
+        "bufferMinutes": 0,
+        "grossBudget": 90,
+        "requestedBudget": 90,
+        "slackMinutes": 8
+      },
+      "routingModes": [
+        "estimated",
+        "estimated",
+        "estimated",
+        "estimated"
+      ],
+      "routingLegs": [
+        {
+          "mode": "estimated",
+          "minutes": 1,
+          "distanceM": 46,
+          "connectorMeters": 0,
+          "geometryPoints": 2,
+          "wayIds": [],
+          "reason": "interior_connection",
+          "exteriorViewpoint": false
+        },
+        {
+          "mode": "estimated",
+          "minutes": 1,
+          "distanceM": 62,
+          "connectorMeters": 0,
+          "geometryPoints": 2,
+          "wayIds": [],
+          "reason": "interior_connection",
+          "exteriorViewpoint": false
+        },
+        {
+          "mode": "estimated",
+          "minutes": 2,
+          "distanceM": 141,
+          "connectorMeters": 0,
+          "geometryPoints": 2,
+          "wayIds": [],
+          "reason": "interior_connection",
+          "exteriorViewpoint": false
+        },
+        {
+          "mode": "estimated",
+          "minutes": 3,
+          "distanceM": 167,
+          "connectorMeters": 0,
+          "geometryPoints": 2,
+          "wayIds": [],
+          "reason": "interior_connection",
+          "exteriorViewpoint": false
+        }
+      ],
+      "uncertainties": [
+        {
+          "id": "osm-way-499328514",
+          "unknowns": []
+        },
+        {
+          "id": "osm-node-13397061026",
+          "unknowns": []
+        },
+        {
+          "id": "osm-node-13173517356",
+          "unknowns": []
+        }
+      ],
+      "warnings": [
+        "estimates"
+      ]
+    },
+    {
+      "id": "deadline-buffer",
+      "expect": "The deadline forces a return; visits, walking and ten-minute reserve fit before 15:00.",
+      "pass": true,
+      "checks": {
+        "budget": true,
+        "count": true,
+        "itineraryAgreement": true,
+        "sourceLinks": true,
+        "noClosed": true,
+        "specific": true
+      },
+      "resultCount": 2,
+      "names": [
+        "Лепим и варим",
+        "Luckee Yu"
+      ],
+      "routeMinutes": 48,
+      "budget": 50,
+      "timing": {
+        "departure": "2026-10-19T14:00",
+        "plannedEnd": "2026-10-19T14:48",
+        "reservedEnd": "2026-10-19T14:58",
+        "returnBy": "2026-10-19T15:00",
+        "bufferMinutes": 10,
+        "grossBudget": 60,
+        "requestedBudget": 90,
+        "slackMinutes": 2
+      },
+      "routingModes": [
+        "estimated",
+        "estimated",
+        "estimated"
+      ],
+      "routingLegs": [
+        {
+          "mode": "estimated",
+          "minutes": 1,
+          "distanceM": 30,
+          "connectorMeters": 0,
+          "geometryPoints": 2,
+          "wayIds": [],
+          "reason": "interior_connection",
+          "exteriorViewpoint": false
+        },
+        {
+          "mode": "estimated",
+          "minutes": 1,
+          "distanceM": 17,
+          "connectorMeters": 0,
+          "geometryPoints": 2,
+          "wayIds": [],
+          "reason": "interior_connection",
+          "exteriorViewpoint": false
+        },
+        {
+          "mode": "estimated",
+          "minutes": 1,
+          "distanceM": 26,
+          "connectorMeters": 0,
+          "geometryPoints": 2,
+          "wayIds": [],
+          "reason": "interior_connection",
+          "exteriorViewpoint": false
+        }
+      ],
+      "uncertainties": [
+        {
+          "id": "osm-node-12520559591",
+          "unknowns": []
+        },
+        {
+          "id": "osm-node-13397061026",
+          "unknowns": []
+        }
+      ],
+      "warnings": [
+        "estimates"
+      ]
+    },
+    {
+      "id": "expired-deadline",
+      "expect": "Past deadline yields no stops and a visible deadline warning.",
+      "pass": true,
+      "checks": {
+        "budget": true,
+        "count": true,
+        "itineraryAgreement": true,
+        "sourceLinks": true,
+        "noClosed": true,
+        "specific": true
+      },
+      "resultCount": 0,
+      "names": [],
+      "routeMinutes": 0,
+      "budget": 0,
+      "timing": {
+        "departure": "2026-10-19T14:00",
+        "plannedEnd": "2026-10-19T14:00",
+        "reservedEnd": "2026-10-19T14:00",
+        "returnBy": "2026-10-19T13:00",
+        "bufferMinutes": 0,
+        "grossBudget": 0,
+        "requestedBudget": 90,
+        "slackMinutes": 0
+      },
+      "routingModes": [],
+      "routingLegs": [],
+      "uncertainties": [],
+      "warnings": [
+        "estimates",
+        "deadline_passed"
+      ]
+    },
+    {
+      "id": "recovery-museum",
+      "expect": "Empty short museum plan offers a recomputed time increase without relaxing the walking limit.",
+      "pass": true,
+      "checks": {
+        "budget": true,
+        "count": true,
+        "itineraryAgreement": true,
+        "sourceLinks": true,
+        "noClosed": true,
+        "specific": true
+      },
+      "resultCount": 0,
+      "names": [],
+      "routeMinutes": 0,
+      "budget": 15,
+      "timing": {
+        "departure": "2026-10-20T14:00",
+        "plannedEnd": "2026-10-20T14:00",
+        "reservedEnd": "2026-10-20T14:00",
+        "returnBy": null,
+        "bufferMinutes": 0,
+        "grossBudget": 15,
+        "requestedBudget": 15,
+        "slackMinutes": 15
+      },
+      "routingModes": [],
+      "routingLegs": [],
+      "uncertainties": [],
+      "warnings": [
+        "estimates"
+      ]
+    },
     {
       "id": "no-coffee-en",
       "expect": "Park request overrides stale coffee interest; cafes excluded.",
@@ -21,8 +664,82 @@
       "names": [
         "Бейбітшілік пен Келісім аллеясы"
       ],
-      "routeMinutes": 50,
+      "routeMinutes": 52,
       "budget": 90,
+      "timing": {
+        "departure": "2026-10-19T14:00",
+        "plannedEnd": "2026-10-19T14:52",
+        "reservedEnd": "2026-10-19T14:52",
+        "returnBy": null,
+        "bufferMinutes": 0,
+        "grossBudget": 90,
+        "requestedBudget": 90,
+        "slackMinutes": 38
+      },
+      "routingModes": [
+        "mapped",
+        "mapped"
+      ],
+      "routingLegs": [
+        {
+          "mode": "mapped",
+          "minutes": 16,
+          "distanceM": 1131,
+          "connectorMeters": 110,
+          "geometryPoints": 105,
+          "wayIds": [
+            1126402593,
+            1460763595,
+            1126401951,
+            622637374,
+            622637384,
+            1177767462,
+            1177767461,
+            1525376637,
+            1525376643,
+            1525376645,
+            1525376644,
+            1525376647,
+            1525376648,
+            1525376652,
+            1177767259,
+            1525376651,
+            1525376649,
+            1177767258
+          ],
+          "reason": null,
+          "exteriorViewpoint": false
+        },
+        {
+          "mode": "mapped",
+          "minutes": 16,
+          "distanceM": 1131,
+          "connectorMeters": 110,
+          "geometryPoints": 105,
+          "wayIds": [
+            1177767258,
+            1525376649,
+            1525376651,
+            1177767259,
+            1525376652,
+            1525376648,
+            1525376647,
+            1525376644,
+            1525376645,
+            1525376643,
+            1525376637,
+            1177767461,
+            1177767462,
+            622637384,
+            622637374,
+            1126401951,
+            1460763595,
+            1126402593
+          ],
+          "reason": null,
+          "exteriorViewpoint": false
+        }
+      ],
       "uncertainties": [
         {
           "id": "osm-way-1456208624",
@@ -51,8 +768,82 @@
       "names": [
         "Бейбітшілік пен Келісім аллеясы"
       ],
-      "routeMinutes": 50,
+      "routeMinutes": 52,
       "budget": 90,
+      "timing": {
+        "departure": "2026-10-19T14:00",
+        "plannedEnd": "2026-10-19T14:52",
+        "reservedEnd": "2026-10-19T14:52",
+        "returnBy": null,
+        "bufferMinutes": 0,
+        "grossBudget": 90,
+        "requestedBudget": 90,
+        "slackMinutes": 38
+      },
+      "routingModes": [
+        "mapped",
+        "mapped"
+      ],
+      "routingLegs": [
+        {
+          "mode": "mapped",
+          "minutes": 16,
+          "distanceM": 1131,
+          "connectorMeters": 110,
+          "geometryPoints": 105,
+          "wayIds": [
+            1126402593,
+            1460763595,
+            1126401951,
+            622637374,
+            622637384,
+            1177767462,
+            1177767461,
+            1525376637,
+            1525376643,
+            1525376645,
+            1525376644,
+            1525376647,
+            1525376648,
+            1525376652,
+            1177767259,
+            1525376651,
+            1525376649,
+            1177767258
+          ],
+          "reason": null,
+          "exteriorViewpoint": false
+        },
+        {
+          "mode": "mapped",
+          "minutes": 16,
+          "distanceM": 1131,
+          "connectorMeters": 110,
+          "geometryPoints": 105,
+          "wayIds": [
+            1177767258,
+            1525376649,
+            1525376651,
+            1177767259,
+            1525376652,
+            1525376648,
+            1525376647,
+            1525376644,
+            1525376645,
+            1525376643,
+            1525376637,
+            1177767461,
+            1177767462,
+            622637384,
+            622637374,
+            1126401951,
+            1460763595,
+            1126402593
+          ],
+          "reason": null,
+          "exteriorViewpoint": false
+        }
+      ],
       "uncertainties": [
         {
           "id": "osm-way-1456208624",
@@ -81,8 +872,82 @@
       "names": [
         "Бейбітшілік пен Келісім аллеясы"
       ],
-      "routeMinutes": 50,
+      "routeMinutes": 52,
       "budget": 90,
+      "timing": {
+        "departure": "2026-10-19T14:00",
+        "plannedEnd": "2026-10-19T14:52",
+        "reservedEnd": "2026-10-19T14:52",
+        "returnBy": null,
+        "bufferMinutes": 0,
+        "grossBudget": 90,
+        "requestedBudget": 90,
+        "slackMinutes": 38
+      },
+      "routingModes": [
+        "mapped",
+        "mapped"
+      ],
+      "routingLegs": [
+        {
+          "mode": "mapped",
+          "minutes": 16,
+          "distanceM": 1131,
+          "connectorMeters": 110,
+          "geometryPoints": 105,
+          "wayIds": [
+            1126402593,
+            1460763595,
+            1126401951,
+            622637374,
+            622637384,
+            1177767462,
+            1177767461,
+            1525376637,
+            1525376643,
+            1525376645,
+            1525376644,
+            1525376647,
+            1525376648,
+            1525376652,
+            1177767259,
+            1525376651,
+            1525376649,
+            1177767258
+          ],
+          "reason": null,
+          "exteriorViewpoint": false
+        },
+        {
+          "mode": "mapped",
+          "minutes": 16,
+          "distanceM": 1131,
+          "connectorMeters": 110,
+          "geometryPoints": 105,
+          "wayIds": [
+            1177767258,
+            1525376649,
+            1525376651,
+            1177767259,
+            1525376652,
+            1525376648,
+            1525376647,
+            1525376644,
+            1525376645,
+            1525376643,
+            1525376637,
+            1177767461,
+            1177767462,
+            622637384,
+            622637374,
+            1126401951,
+            1460763595,
+            1126402593
+          ],
+          "reason": null,
+          "exteriorViewpoint": false
+        }
+      ],
       "uncertainties": [
         {
           "id": "osm-way-1456208624",
@@ -115,6 +980,64 @@
       ],
       "routeMinutes": 90,
       "budget": 90,
+      "timing": {
+        "departure": "2026-10-19T14:00",
+        "plannedEnd": "2026-10-19T15:30",
+        "reservedEnd": "2026-10-19T15:30",
+        "returnBy": null,
+        "bufferMinutes": 0,
+        "grossBudget": 90,
+        "requestedBudget": 90,
+        "slackMinutes": 0
+      },
+      "routingModes": [
+        "estimated",
+        "estimated",
+        "estimated",
+        "estimated"
+      ],
+      "routingLegs": [
+        {
+          "mode": "estimated",
+          "minutes": 1,
+          "distanceM": 55,
+          "connectorMeters": 0,
+          "geometryPoints": 2,
+          "wayIds": [],
+          "reason": "outside_graph",
+          "exteriorViewpoint": false
+        },
+        {
+          "mode": "estimated",
+          "minutes": 1,
+          "distanceM": 54,
+          "connectorMeters": 0,
+          "geometryPoints": 2,
+          "wayIds": [],
+          "reason": "outside_graph",
+          "exteriorViewpoint": false
+        },
+        {
+          "mode": "estimated",
+          "minutes": 1,
+          "distanceM": 68,
+          "connectorMeters": 0,
+          "geometryPoints": 2,
+          "wayIds": [],
+          "reason": "outside_graph",
+          "exteriorViewpoint": false
+        },
+        {
+          "mode": "estimated",
+          "minutes": 2,
+          "distanceM": 82,
+          "connectorMeters": 0,
+          "geometryPoints": 2,
+          "wayIds": [],
+          "reason": "outside_graph",
+          "exteriorViewpoint": false
+        }
+      ],
       "uncertainties": [
         {
           "id": "osm-way-1449317691",
@@ -153,6 +1076,42 @@
       ],
       "routeMinutes": 10,
       "budget": 15,
+      "timing": {
+        "departure": "2026-10-19T14:00",
+        "plannedEnd": "2026-10-19T14:10",
+        "reservedEnd": "2026-10-19T14:10",
+        "returnBy": null,
+        "bufferMinutes": 0,
+        "grossBudget": 15,
+        "requestedBudget": 15,
+        "slackMinutes": 5
+      },
+      "routingModes": [
+        "same_point",
+        "same_point"
+      ],
+      "routingLegs": [
+        {
+          "mode": "same_point",
+          "minutes": 0,
+          "distanceM": 0,
+          "connectorMeters": 0,
+          "geometryPoints": 0,
+          "wayIds": [],
+          "reason": null,
+          "exteriorViewpoint": false
+        },
+        {
+          "mode": "same_point",
+          "minutes": 0,
+          "distanceM": 0,
+          "connectorMeters": 0,
+          "geometryPoints": 0,
+          "wayIds": [],
+          "reason": null,
+          "exteriorViewpoint": false
+        }
+      ],
       "uncertainties": [
         {
           "id": "osm-way-69232075",
@@ -180,24 +1139,122 @@
       "resultCount": 3,
       "names": [
         "Лепим и варим",
-        "Бейбітшілік пен Келісім аллеясы",
-        "Тәуелсіздіктің 25 жылдығы"
+        "Тәуелсіздіктің 25 жылдығы",
+        "Бейбітшілік пен Келісім аллеясы"
       ],
-      "routeMinutes": 92,
+      "routeMinutes": 93,
       "budget": 120,
+      "timing": {
+        "departure": "2026-10-19T14:00",
+        "plannedEnd": "2026-10-19T15:33",
+        "reservedEnd": "2026-10-19T15:33",
+        "returnBy": null,
+        "bufferMinutes": 0,
+        "grossBudget": 120,
+        "requestedBudget": 120,
+        "slackMinutes": 27
+      },
+      "routingModes": [
+        "estimated",
+        "mapped",
+        "mapped",
+        "mapped"
+      ],
+      "routingLegs": [
+        {
+          "mode": "estimated",
+          "minutes": 1,
+          "distanceM": 30,
+          "connectorMeters": 0,
+          "geometryPoints": 2,
+          "wayIds": [],
+          "reason": "interior_connection",
+          "exteriorViewpoint": false
+        },
+        {
+          "mode": "mapped",
+          "minutes": 15,
+          "distanceM": 1123,
+          "connectorMeters": 108,
+          "geometryPoints": 101,
+          "wayIds": [
+            1126402593,
+            1460763595,
+            1126401951,
+            622637374,
+            622637384,
+            1177767462,
+            1177767461,
+            1525376637,
+            1525376643,
+            1525376645,
+            1525376644,
+            1525376647,
+            1525376648,
+            1525376652,
+            1177767259,
+            1525376651,
+            1525376649,
+            1177767258
+          ],
+          "reason": null,
+          "exteriorViewpoint": true
+        },
+        {
+          "mode": "mapped",
+          "minutes": 1,
+          "distanceM": 6,
+          "connectorMeters": 1,
+          "geometryPoints": 5,
+          "wayIds": [
+            1126402593
+          ],
+          "reason": null,
+          "exteriorViewpoint": true
+        },
+        {
+          "mode": "mapped",
+          "minutes": 16,
+          "distanceM": 1131,
+          "connectorMeters": 110,
+          "geometryPoints": 105,
+          "wayIds": [
+            1177767258,
+            1525376649,
+            1525376651,
+            1177767259,
+            1525376652,
+            1525376648,
+            1525376647,
+            1525376644,
+            1525376645,
+            1525376643,
+            1525376637,
+            1177767461,
+            1177767462,
+            622637384,
+            622637374,
+            1126401951,
+            1460763595,
+            1126402593
+          ],
+          "reason": null,
+          "exteriorViewpoint": false
+        }
+      ],
       "uncertainties": [
         {
           "id": "osm-node-12520559591",
           "unknowns": []
         },
         {
-          "id": "osm-way-1456208624",
+          "id": "osm-way-1460763574",
           "unknowns": [
             "hours"
           ]
         },
         {
-          "id": "osm-way-1460763574",
+          "id": "osm-way-1456208624",
           "unknowns": [
             "hours"
           ]
@@ -223,6 +1280,18 @@
       "names": [],
       "routeMinutes": 0,
       "budget": 120,
+      "timing": {
+        "departure": "2026-10-19T14:00",
+        "plannedEnd": "2026-10-19T14:00",
+        "reservedEnd": "2026-10-19T14:00",
+        "returnBy": null,
+        "bufferMinutes": 0,
+        "grossBudget": 120,
+        "requestedBudget": 120,
+        "slackMinutes": 120
+      },
+      "routingModes": [],
+      "routingLegs": [],
       "uncertainties": [],
       "warnings": [
         "estimates"
@@ -244,8 +1313,82 @@
       "names": [
         "Бейбітшілік пен Келісім аллеясы"
       ],
-      "routeMinutes": 50,
+      "routeMinutes": 52,
       "budget": 120,
+      "timing": {
+        "departure": "2026-10-19T14:00",
+        "plannedEnd": "2026-10-19T14:52",
+        "reservedEnd": "2026-10-19T14:52",
+        "returnBy": null,
+        "bufferMinutes": 0,
+        "grossBudget": 120,
+        "requestedBudget": 120,
+        "slackMinutes": 68
+      },
+      "routingModes": [
+        "mapped",
+        "mapped"
+      ],
+      "routingLegs": [
+        {
+          "mode": "mapped",
+          "minutes": 16,
+          "distanceM": 1131,
+          "connectorMeters": 110,
+          "geometryPoints": 105,
+          "wayIds": [
+            1126402593,
+            1460763595,
+            1126401951,
+            622637374,
+            622637384,
+            1177767462,
+            1177767461,
+            1525376637,
+            1525376643,
+            1525376645,
+            1525376644,
+            1525376647,
+            1525376648,
+            1525376652,
+            1177767259,
+            1525376651,
+            1525376649,
+            1177767258
+          ],
+          "reason": null,
+          "exteriorViewpoint": false
+        },
+        {
+          "mode": "mapped",
+          "minutes": 16,
+          "distanceM": 1131,
+          "connectorMeters": 110,
+          "geometryPoints": 105,
+          "wayIds": [
+            1177767258,
+            1525376649,
+            1525376651,
+            1177767259,
+            1525376652,
+            1525376648,
+            1525376647,
+            1525376644,
+            1525376645,
+            1525376643,
+            1525376637,
+            1177767461,
+            1177767462,
+            622637384,
+            622637374,
+            1126401951,
+            1460763595,
+            1126402593
+          ],
+          "reason": null,
+          "exteriorViewpoint": false
+        }
+      ],
       "uncertainties": [
         {
           "id": "osm-way-1456208624",
@@ -276,6 +1419,42 @@
       ],
       "routeMinutes": 22,
       "budget": 60,
+      "timing": {
+        "departure": "2026-10-19T14:00",
+        "plannedEnd": "2026-10-19T14:22",
+        "reservedEnd": "2026-10-19T14:22",
+        "returnBy": null,
+        "bufferMinutes": 0,
+        "grossBudget": 60,
+        "requestedBudget": 60,
+        "slackMinutes": 38
+      },
+      "routingModes": [
+        "estimated",
+        "estimated"
+      ],
+      "routingLegs": [
+        {
+          "mode": "estimated",
+          "minutes": 1,
+          "distanceM": 14,
+          "connectorMeters": 0,
+          "geometryPoints": 2,
+          "wayIds": [],
+          "reason": "outside_graph",
+          "exteriorViewpoint": false
+        },
+        {
+          "mode": "estimated",
+          "minutes": 1,
+          "distanceM": 14,
+          "connectorMeters": 0,
+          "geometryPoints": 2,
+          "wayIds": [],
+          "reason": "outside_graph",
+          "exteriorViewpoint": false
+        }
+      ],
       "uncertainties": [
         {
           "id": "osm-way-230401645",
@@ -305,8 +1484,93 @@
         "Лепим и варим",
         "Бейбітшілік пен Келісім аллеясы"
       ],
-      "routeMinutes": 51,
+      "routeMinutes": 53,
       "budget": 60,
+      "timing": {
+        "departure": "2026-10-19T14:00",
+        "plannedEnd": "2026-10-19T14:53",
+        "reservedEnd": "2026-10-19T14:53",
+        "returnBy": null,
+        "bufferMinutes": 0,
+        "grossBudget": 60,
+        "requestedBudget": 60,
+        "slackMinutes": 7
+      },
+      "routingModes": [
+        "estimated",
+        "mapped",
+        "mapped"
+      ],
+      "routingLegs": [
+        {
+          "mode": "estimated",
+          "minutes": 1,
+          "distanceM": 30,
+          "connectorMeters": 0,
+          "geometryPoints": 2,
+          "wayIds": [],
+          "reason": "interior_connection",
+          "exteriorViewpoint": false
+        },
+        {
+          "mode": "mapped",
+          "minutes": 16,
+          "distanceM": 1129,
+          "connectorMeters": 108,
+          "geometryPoints": 105,
+          "wayIds": [
+            1126402593,
+            1460763595,
+            1126401951,
+            622637374,
+            622637384,
+            1177767462,
+            1177767461,
+            1525376637,
+            1525376643,
+            1525376645,
+            1525376644,
+            1525376647,
+            1525376648,
+            1525376652,
+            1177767259,
+            1525376651,
+            1525376649,
+            1177767258
+          ],
+          "reason": null,
+          "exteriorViewpoint": false
+        },
+        {
+          "mode": "mapped",
+          "minutes": 16,
+          "distanceM": 1131,
+          "connectorMeters": 110,
+          "geometryPoints": 105,
+          "wayIds": [
+            1177767258,
+            1525376649,
+            1525376651,
+            1177767259,
+            1525376652,
+            1525376648,
+            1525376647,
+            1525376644,
+            1525376645,
+            1525376643,
+            1525376637,
+            1177767461,
+            1177767462,
+            622637384,
+            622637374,
+            1126401951,
+            1460763595,
+            1126402593
+          ],
+          "reason": null,
+          "exteriorViewpoint": false
+        }
+      ],
       "uncertainties": [
         {
           "id": "osm-node-12520559591",
@@ -341,6 +1605,42 @@
       ],
       "routeMinutes": 28,
       "budget": 60,
+      "timing": {
+        "departure": "2026-10-19T14:00",
+        "plannedEnd": "2026-10-19T14:28",
+        "reservedEnd": "2026-10-19T14:28",
+        "returnBy": null,
+        "bufferMinutes": 0,
+        "grossBudget": 60,
+        "requestedBudget": 60,
+        "slackMinutes": 32
+      },
+      "routingModes": [
+        "estimated",
+        "estimated"
+      ],
+      "routingLegs": [
+        {
+          "mode": "estimated",
+          "minutes": 4,
+          "distanceM": 271,
+          "connectorMeters": 0,
+          "geometryPoints": 2,
+          "wayIds": [],
+          "reason": "outside_graph",
+          "exteriorViewpoint": false
+        },
+        {
+          "mode": "estimated",
+          "minutes": 4,
+          "distanceM": 271,
+          "connectorMeters": 0,
+          "geometryPoints": 2,
+          "wayIds": [],
+          "reason": "outside_graph",
+          "exteriorViewpoint": false
+        }
+      ],
       "uncertainties": [
         {
           "id": "osm-node-10564988185",
@@ -373,6 +1673,53 @@
       ],
       "routeMinutes": 104,
       "budget": 120,
+      "timing": {
+        "departure": "2026-10-20T14:00",
+        "plannedEnd": "2026-10-20T15:44",
+        "reservedEnd": "2026-10-20T15:44",
+        "returnBy": null,
+        "bufferMinutes": 0,
+        "grossBudget": 120,
+        "requestedBudget": 120,
+        "slackMinutes": 16
+      },
+      "routingModes": [
+        "estimated",
+        "estimated",
+        "estimated"
+      ],
+      "routingLegs": [
+        {
+          "mode": "estimated",
+          "minutes": 1,
+          "distanceM": 15,
+          "connectorMeters": 0,
+          "geometryPoints": 2,
+          "wayIds": [],
+          "reason": "outside_graph",
+          "exteriorViewpoint": false
+        },
+        {
+          "mode": "estimated",
+          "minutes": 19,
+          "distanceM": 1365,
+          "connectorMeters": 0,
+          "geometryPoints": 2,
+          "wayIds": [],
+          "reason": "outside_graph",
+          "exteriorViewpoint": false
+        },
+        {
+          "mode": "estimated",
+          "minutes": 19,
+          "distanceM": 1366,
+          "connectorMeters": 0,
+          "geometryPoints": 2,
+          "wayIds": [],
+          "reason": "outside_graph",
+          "exteriorViewpoint": false
+        }
+      ],
       "uncertainties": [
         {
           "id": "osm-node-4894937300",
@@ -411,6 +1758,64 @@
       ],
       "routeMinutes": 90,
       "budget": 90,
+      "timing": {
+        "departure": "2026-10-19T14:00",
+        "plannedEnd": "2026-10-19T15:30",
+        "reservedEnd": "2026-10-19T15:30",
+        "returnBy": null,
+        "bufferMinutes": 0,
+        "grossBudget": 90,
+        "requestedBudget": 90,
+        "slackMinutes": 0
+      },
+      "routingModes": [
+        "estimated",
+        "estimated",
+        "estimated",
+        "estimated"
+      ],
+      "routingLegs": [
+        {
+          "mode": "estimated",
+          "minutes": 1,
+          "distanceM": 55,
+          "connectorMeters": 0,
+          "geometryPoints": 2,
+          "wayIds": [],
+          "reason": "outside_graph",
+          "exteriorViewpoint": false
+        },
+        {
+          "mode": "estimated",
+          "minutes": 1,
+          "distanceM": 54,
+          "connectorMeters": 0,
+          "geometryPoints": 2,
+          "wayIds": [],
+          "reason": "outside_graph",
+          "exteriorViewpoint": false
+        },
+        {
+          "mode": "estimated",
+          "minutes": 1,
+          "distanceM": 68,
+          "connectorMeters": 0,
+          "geometryPoints": 2,
+          "wayIds": [],
+          "reason": "outside_graph",
+          "exteriorViewpoint": false
+        },
+        {
+          "mode": "estimated",
+          "minutes": 2,
+          "distanceM": 82,
+          "connectorMeters": 0,
+          "geometryPoints": 2,
+          "wayIds": [],
+          "reason": "outside_graph",
+          "exteriorViewpoint": false
+        }
+      ],
       "uncertainties": [
         {
           "id": "osm-way-1449317691",
@@ -448,6 +1853,18 @@
       "names": [],
       "routeMinutes": 0,
       "budget": 10,
+      "timing": {
+        "departure": "2026-10-19T14:00",
+        "plannedEnd": "2026-10-19T14:00",
+        "reservedEnd": "2026-10-19T14:00",
+        "returnBy": null,
+        "bufferMinutes": 0,
+        "grossBudget": 10,
+        "requestedBudget": 10,
+        "slackMinutes": 10
+      },
+      "routingModes": [],
+      "routingLegs": [],
       "uncertainties": [],
       "warnings": [
         "estimates"
@@ -472,6 +1889,53 @@
       ],
       "routeMinutes": 56,
       "budget": 60,
+      "timing": {
+        "departure": "2026-10-19T14:00",
+        "plannedEnd": "2026-10-19T14:56",
+        "reservedEnd": "2026-10-19T14:56",
+        "returnBy": null,
+        "bufferMinutes": 0,
+        "grossBudget": 60,
+        "requestedBudget": 60,
+        "slackMinutes": 4
+      },
+      "routingModes": [
+        "estimated",
+        "estimated",
+        "estimated"
+      ],
+      "routingLegs": [
+        {
+          "mode": "estimated",
+          "minutes": 7,
+          "distanceM": 482,
+          "connectorMeters": 0,
+          "geometryPoints": 2,
+          "wayIds": [],
+          "reason": "outside_graph",
+          "exteriorViewpoint": false
+        },
+        {
+          "mode": "estimated",
+          "minutes": 9,
+          "distanceM": 654,
+          "connectorMeters": 0,
+          "geometryPoints": 2,
+          "wayIds": [],
+          "reason": "outside_graph",
+          "exteriorViewpoint": false
+        },
+        {
+          "mode": "estimated",
+          "minutes": 15,
+          "distanceM": 1121,
+          "connectorMeters": 0,
+          "geometryPoints": 2,
+          "wayIds": [],
+          "reason": "outside_graph",
+          "exteriorViewpoint": false
+        }
+      ],
       "uncertainties": [
         {
           "id": "osm-way-108096984",
@@ -508,10 +1972,87 @@
       "names": [
         "Coco",
         "завтрак бар",
-        "Бейбітшілік пен Келісім аллеясы"
+        "Тәуелсіздіктің 25 жылдығы"
       ],
       "routeMinutes": 113,
       "budget": 120,
+      "timing": {
+        "departure": "2026-10-19T23:00",
+        "plannedEnd": "2026-10-20T00:53",
+        "reservedEnd": "2026-10-20T00:53",
+        "returnBy": null,
+        "bufferMinutes": 0,
+        "grossBudget": 120,
+        "requestedBudget": 120,
+        "slackMinutes": 7
+      },
+      "routingModes": [
+        "estimated",
+        "estimated",
+        "estimated",
+        "mapped"
+      ],
+      "routingLegs": [
+        {
+          "mode": "estimated",
+          "minutes": 2,
+          "distanceM": 102,
+          "connectorMeters": 0,
+          "geometryPoints": 2,
+          "wayIds": [],
+          "reason": "interior_connection",
+          "exteriorViewpoint": false
+        },
+        {
+          "mode": "estimated",
+          "minutes": 10,
+          "distanceM": 729,
+          "connectorMeters": 0,
+          "geometryPoints": 2,
+          "wayIds": [],
+          "reason": "unverified_endpoint",
+          "exteriorViewpoint": false
+        },
+        {
+          "mode": "estimated",
+          "minutes": 11,
+          "distanceM": 752,
+          "connectorMeters": 0,
+          "geometryPoints": 2,
+          "wayIds": [],
+          "reason": "unverified_endpoint",
+          "exteriorViewpoint": false
+        },
+        {
+          "mode": "mapped",
+          "minutes": 15,
+          "distanceM": 1124,
+          "connectorMeters": 109,
+          "geometryPoints": 101,
+          "wayIds": [
+            1177767258,
+            1525376649,
+            1525376651,
+            1177767259,
+            1525376652,
+            1525376648,
+            1525376647,
+            1525376644,
+            1525376645,
+            1525376643,
+            1525376637,
+            1177767461,
+            1177767462,
+            622637384,
+            622637374,
+            1126401951,
+            1460763595,
+            1126402593
+          ],
+          "reason": null,
+          "exteriorViewpoint": true
+        }
+      ],
       "uncertainties": [
         {
           "id": "osm-node-13397061028",
@@ -524,7 +2065,7 @@
           ]
         },
         {
-          "id": "osm-way-1456208624",
+          "id": "osm-way-1460763574",
           "unknowns": [
             "hours"
           ]
@@ -552,6 +2093,18 @@
       "names": [],
       "routeMinutes": 0,
       "budget": 60,
+      "timing": {
+        "departure": "2026-10-19T14:00",
+        "plannedEnd": "2026-10-19T14:00",
+        "reservedEnd": "2026-10-19T14:00",
+        "returnBy": null,
+        "bufferMinutes": 0,
+        "grossBudget": 60,
+        "requestedBudget": 60,
+        "slackMinutes": 60
+      },
+      "routingModes": [],
+      "routingLegs": [],
       "uncertainties": [],
       "warnings": [
         "estimates"

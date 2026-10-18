@@ -22,7 +22,7 @@ No invented user study, ratings, opening status or venue access. Research and en
 | Changing plans | Manually edit inputs | Preview rain or 15-minutes-less alternatives, apply and restore | Other walking, accessibility and return constraints remain enforced |
 | Discovery | General category activity | Curious/calm/playful context and optional observation missions | Browser completion/undo checks; state stays in memory |
 
-The remaining differentiator to validate is usefulness with real people. No user study has been run. Participant testing is deferred. The next engineering priorities and targeted diagnostic findings are in [NEXT_STEPS.md](NEXT_STEPS.md). A future pilot can measure time to choose a plan, accepted recommendations, source misunderstandings and constraint errors. Walking estimates still need a pedestrian graph; model citation membership still does not prove the meaning of every generated sentence.
+The remaining differentiator to validate is usefulness with real people. No user study has been run. Participant testing is deferred. The next engineering priorities and targeted diagnostic findings are in [NEXT_STEPS.md](NEXT_STEPS.md). A future pilot can measure time to choose a plan, accepted recommendations, source misunderstandings and constraint errors. Version 4 adds an EXPO pedestrian graph and the other four improvements documented in NEXT_STEPS.md; model citation membership still does not prove the meaning of every generated sentence.
 
 
 ## Final refinement pass — implemented
@@ -37,4 +37,4 @@ The remaining differentiator to validate is usefulness with real people. No user
 | Scenario time looked current | Explicit Demo / Now / custom mode | Fixed demo and actual-clock browser checks |
 | Source and generated restrictions could blur | Source visitor rules stay separate; reject common route-access and photography paraphrases | Regression checks; no claim of complete semantic validation |
 
-The museum live smoke check initially fell back and passed a follow-up request; the report retains both outcomes. No user satisfaction, latency distribution, or independent factuality benchmark is claimed. A 3–5-person usability protocol is ready in `USABILITY.md` for future use; participant sessions are deferred.
+The museum live smoke check initially fell back and passed a follow-up request; `live-rag-v3.json` retains both outcomes. No user satisfaction, latency distribution, or independent factuality benchmark is claimed. A 3–5-person usability protocol is ready in `USABILITY.md` for future use; participant sessions are deferred.

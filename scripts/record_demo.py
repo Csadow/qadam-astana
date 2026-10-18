@@ -1,6 +1,6 @@
 """Record a real, live-Gemini Russian walkthrough and capture matching pitch assets."""
 from pathlib import Path
-import time,json
+import time,json,subprocess
 from datetime import datetime,timezone
 from playwright.sync_api import sync_playwright,expect
 ROOT=Path(__file__).resolve().parents[1];OUT=ROOT/'presentation';TEMP=ROOT/'artifacts/video';TEMP.mkdir(parents=True,exist_ok=True)
@@ -31,11 +31,11 @@ with sync_playwright() as p:
  capture('.map-card','map.png');capture('.planner-panel','planner.png')
  page.locator('#result-cards').scroll_into_view_if_needed()
  page.locator('.source-facts').first.evaluate('(e)=>e.open=true')
- caption('01 / ИДЕИ ПО МЕСТНЫМ ДАННЫМ','Gemini объясняет выбор и предлагает занятие. Факты о филиале и монументе показаны отдельно, со ссылками.',9)
+ caption('01 / ИДЕИ ПО МЕСТНЫМ ДАННЫМ','Gemini объясняет выбор и предлагает занятие. Факты выбранных мест показаны отдельно, со ссылками.',9)
  page.locator('.micro-mission').first.evaluate('(e)=>e.open=true');page.locator('.micro-mission').first.scroll_into_view_if_needed();page.locator('.mission-toggle').first.click()
  caption('02 / МАЛЕНЬКАЯ МИССИЯ','Небольшое наблюдение или вопрос делает прогулку личной. Отметка остаётся только в памяти этой страницы.',7)
  page.locator('#route-panel').scroll_into_view_if_needed();capture('#route-panel','route.png')
- caption('03 / ЧАС ВОЗЛЕ EXPO','Около 51 минуты: 31 на ходьбу и 20 на короткие остановки. Возвращение включено; время приблизительное.',8)
+ caption('03 / ЧАС ВОЗЛЕ EXPO','Около 53 минут: 33 на ходьбу и 20 на короткие остановки. Возвращение включено; время приблизительное.',8)
  park='osm-way-1456208624';before=page.locator('[data-edit=keep]').evaluate_all('(es)=>es.map(e=>e.dataset.stop)');other=next(x for x in before if x!=park)
  page.locator('[data-edit=keep][data-stop="'+park+'"]').click();page.locator('[data-edit=replace][data-stop="'+other+'"]').click();ready();page.locator('#route-panel').scroll_into_view_if_needed();capture('#route-panel','editing.png')
  caption('04 / ОСТАВИТЬ МЕСТО, ЗАМЕНИТЬ СОСЕДНЮЮ ОСТАНОВКУ','Закрепили аллею, заменили кафе. Видны добавленное место и новое время. Удаление и отмена возвращают контроль пользователю.',9)
@@ -46,7 +46,7 @@ with sync_playwright() as p:
  page.locator('#source-updates').evaluate('(e)=>e.open=true');page.locator('#source-updates').scroll_into_view_if_needed()
  caption('06 / ИСТОЧНИК МЕНЯЕТ РЕШЕНИЕ','Сады кампуса NU исключены: для входа нужно согласовать доступ. Запись на карте ещё не означает свободный вход.',7)
  scenario('group');page.locator('#group-summary').scroll_into_view_if_needed();capture('#group-summary','group.png');capture('#backup-panel','backup.png')
- caption('07 / ТРОЕ ДРУЗЕЙ — ТРИ ИНТЕРЕСА','Кофе, природа и достопримечательности. Один маршрут на 92 минуты учитывает все три выбранных интереса.',8)
+ caption('07 / ТРОЕ ДРУЗЕЙ — ТРИ ИНТЕРЕСА','Кофе, природа и достопримечательности. Один маршрут на 93 минуты учитывает все три выбранных интереса.',8)
  page.locator('[data-backup=rain]').click();ready();page.locator('#group-summary').scroll_into_view_if_needed()
  caption('08 / ПОШЁЛ ДОЖДЬ — ЕСТЬ ПЛАН Б','Пересчитываем маршрут для помещений. Видно, чьи интересы не удалось учесть. Остальные ограничения сохранены.',8)
  page.locator('#restore-plan').click();ready();page.locator('#backup-panel').scroll_into_view_if_needed()
@@ -59,16 +59,29 @@ with sync_playwright() as p:
  caption('12 / НЕИЗВЕСТНОЕ НЕ СТАНОВИТСЯ ОБЕЩАНИЕМ','Запрос о розетке и тишине сохраняет предупреждения. Точные координаты и исходный запрос не отправляются в Gemini.',8)
  scenario('expo');page.locator('#query').fill('Не хочу кофе, только парк');page.locator('#find-button').click();ready();page.locator('#intent-summary').scroll_into_view_if_needed()
  caption('13 / УЧИТЫВАЕМ ОТРИЦАНИЕ','«Не хочу кофе, только парк»: интерпретация запроса видна, кафе исключены. Карточки и карта показывают тот же маршрут.',8)
+ page.locator('#query').fill('1 час 30 минут, пешком до 10 минут');page.locator('#budget').fill('120');page.locator('#find-button').click();ready();page.locator('#intent-summary').scroll_into_view_if_needed()
+ caption('14 / ТОЧНЕЕ ПОНИМАЕМ ВРЕМЯ','«1 час 30 минут» — это 90 минут. Ограничение «пешком до 10 минут» применяется отдельно к каждому переходу.',7)
+ page.locator('#preferences').evaluate('(e)=>e.open=true');page.select_option('#max-walk','30');page.select_option('#journey','expo-space-and-symbols');ready();page.locator('#story-panel').scroll_into_view_if_needed();page.locator('.story-chapters details').first.evaluate('(e)=>e.open=true');capture('#story-panel','story.png')
+ caption('15 / ИСТОРИЯ МЕЖДУ ОСТАНОВКАМИ','Три истории по первоисточникам. Здесь — атриумы MEGA и грани монумента. У каждой главы есть вопрос, источник и условия посещения.',9)
+ page.locator('#budget').fill('30');page.locator('#find-button').click();ready();page.locator('#recovery-panel').scroll_into_view_if_needed();capture('#recovery-panel','recovery.png')
+ caption('16 / ЕСЛИ ПЛАН НЕ ПОМЕЩАЕТСЯ','Неполная история обозначена. Предложение увеличить время уже проверено планировщиком. Погода, доступ и предел ходьбы сохраняются.',8)
+ page.locator('[data-recovery]').first.click();ready();page.locator('#story-panel').scroll_into_view_if_needed()
+ caption('17 / ВЫБРАТЬ ВАРИАНТ ИЛИ ВЕРНУТЬСЯ','Применили предложенное время — обе главы вписались. Можно восстановить прежние условия одной кнопкой.',6)
+ page.locator('#leave-story').click();ready();scenario('expo');page.locator('.deadline-options').evaluate('(e)=>e.open=true');page.select_option('#buffer','5');page.locator('#deadline-enabled').check();page.locator('#return-by').fill('2026-10-20T15:00');page.locator('#find-button').click();ready();page.locator('.timing-details').evaluate('(e)=>e.open=true');page.locator('#timing-panel').scroll_into_view_if_needed();capture('#timing-panel','timing.png')
+ caption('18 / ВЕРНУТЬСЯ К 15:00 С ЗАПАСОМ','Возвращение включено. Пять минут оставлены на задержки. Расписание показывает оценку окончания и остаток времени; точное прибытие не гарантируется.',8)
+ page.locator('#map-details').evaluate('(e)=>e.open=true');page.locator('.map-card').scroll_into_view_if_needed()
+ caption('19 / КАРТА ПОКАЗЫВАЕТ ТОЧНОСТЬ','В EXPO — связные пути по OSM. Сплошная линия идёт по карте, пунктир обозначает примерные соединения. Входы и текущие перекрытия требуют проверки.',8)
  page.evaluate('window.scrollTo(0,0)')
- caption('QADAM / ARCSOLO','300 POI · 25 дополнительных фактов · 57 тестов · 17 сценариев · 48 проверок браузера. При ошибке модели — явно обозначенный шаблон.',7)
+ caption('QADAM / ARCSOLO','300 POI · 25 дополнительных фактов · 75 тестов · 25 сценариев · 62 проверки браузера. При ошибке модели — явно обозначенный шаблон.',7)
  assert any(c['mode']=='gemini-grounded' for c in checks);assert not errors
  video=page.video;context.close();video.save_as(str(TEMP/'qadam-demo-raw.webm'));browser.close()
-end=time.monotonic()-start
+wall_end=time.monotonic()-start
+end=float(subprocess.check_output(['ffprobe','-v','error','-show_entries','format=duration','-of','default=noprint_wrappers=1:nokey=1',str(TEMP/'qadam-demo-raw.webm')]).decode())
 def stamp(s):
  ms=int(s*1000);return f'{ms//3600000:02}:{ms//60000%60:02}:{ms//1000%60:02},{ms%1000:03}'
 srt=[]
 for i,c in enumerate(chapters):
  finish=chapters[i+1]['start'] if i+1<len(chapters) else end;srt.extend([str(i+1),f'{stamp(c["start"])} --> {stamp(finish)}',c['title'],c['text'],''])
 (OUT/'Qadam_demo_RU.srt').write_text('\n'.join(srt),encoding='utf-8');(TEMP/'chapters.json').write_text(json.dumps(chapters,ensure_ascii=False,indent=2))
-(ROOT/'docs/demo-generation-check.json').write_text(json.dumps({'checkedAt':datetime.now(timezone.utc).isoformat(),'generationResponses':checks,'pageErrors':errors,'durationSeconds':round(end,2)},indent=2)+'\n')
+(ROOT/'docs/demo-generation-check.json').write_text(json.dumps({'checkedAt':datetime.now(timezone.utc).isoformat(),'generationResponses':checks,'pageErrors':errors,'durationSeconds':round(end,2),'recordingWallSeconds':round(wall_end,2)},indent=2)+'\n')
 print(f'Recorded {end:.1f} seconds with {len(checks)} real generation responses.')

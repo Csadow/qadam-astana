@@ -12,6 +12,6 @@ The PDF uses embedded Cyrillic-capable fonts. The PPTX uses Noto Sans and Noto S
 
 Regenerate the deck with `.venv/bin/python scripts/make_presentation.py`. To replace the video, run the local server, install Playwright's encoder (`.venv/bin/python -m playwright install ffmpeg`), run `scripts/record_demo.py`, and transcode `artifacts/video/qadam-demo-raw.webm` with ffmpeg. The app uses simulated afternoon scenario times, explicitly labelled on screen.
 
-The 135-second video records ten successful live Gemini responses and no browser errors. It demonstrates source-backed ideas, keep/replace/remove/undo, negative preferences, group coverage, reversible rain/time backups, museum schedule checks and small discovery missions. Source facts remain separate from generated advice: citation validation does not prove every sentence.
+The 201-second video records 16 successful live Gemini responses, 0 labelled fallbacks and no browser errors. It demonstrates mapped EXPO paths, three source-backed story choices, partial-story recovery, return deadlines and buffers, precise duration parsing, itinerary editing, group coverage, museum hours and source uncertainty. Source facts remain separate from generated advice: citation validation does not prove every sentence.
 
 Before the pitch, recheck live model connectivity. The GitHub repository is public. The hosted demo remains private; use the local app/video for judges. The YouTube upload is still required. Participant testing is deferred; the pitch presents it as future work.

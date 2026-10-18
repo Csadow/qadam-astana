@@ -22,7 +22,7 @@ The repository is **public**: judges can read or clone it without an invitation.
 
 ## Try it
 
-1. **An hour near EXPO:** a café pause and public alley, approximately 51 minutes including return. Controlled-access campus gardens are excluded.
+1. **An hour near EXPO:** a café pause and public alley, approximately 53 minutes including return. Controlled-access campus gardens are excluded.
 2. **A walk for everyone:** three people choose coffee, nature and landmarks. Inspect the shared route and interest coverage; try the rain backup and see the compromise.
 3. **A day with the kids:** on Tuesday 20 October, explore a museum recommendation grounded in its actual paleontology exhibits. On Monday 19 October, the official schedule excludes it.
 4. **Coffee & a quiet corner:** cafés with sockets and quietness explicitly unverified.
@@ -30,6 +30,11 @@ The repository is **public**: judges can read or clone it without an invitation.
 6. Write **“No coffee, just a park”**: the interpretation chips show the excluded category and the route contains no café. English, Russian and Kazakh negation cases are covered.
 7. **Keep** a stop, **replace** another, **remove** a stop without refilling its slot, and **undo**. Kept stops still obey opening hours, weather and time limits.
 8. Use **Demo**, **Now**, or a custom departure. Demo is explicitly fixed to Tuesday 20 October 2026, 14:00 Astana; Now reads the current clock.
+
+9. Select **a story walk**: EXPO: Space and Symbols; Symbols in Sculpture; or Ancient Life, Modern City. For the complete examples, use 120 minutes, a 30-minute walking cap, and Tuesday 20 October at 14:00. Every chapter links to its source; partial stories are labelled.
+10. Set **Back by 15:00** and a **5-minute buffer**. The deadline includes returning to the start, and the timeline shows when the reserve ends.
+11. Reduce a story to 30 minutes. Apply a **recomputed time alternative**, then restore the previous conditions. On Monday, the museum story offers a checked later departure.
+12. Inspect the **EXPO pedestrian paths**: solid lines follow OSM geometry; dotted connections remain estimates. Outside EXPO, walking is explicitly approximate.
 
 On mobile, the route appears first and the preference editor can be expanded. Demo scenarios explicitly simulate afternoon departure. All estimates use Astana UTC+5. EN/RU/KK interface, keyboard controls, opt-in geolocation, mobile layout and itinerary export are included.
 
@@ -55,8 +60,8 @@ Personalized explanation + activity + discovery mission; source facts shown sepa
 
 Retrieval is sparse and concept-based; there is no vector database. Gemini composes an explanation, a focused activity and a discovery mission from the retrieved facts and normalized context. It receives mood, group interests, planned visit lengths and limited preference flags. Citation IDs must belong to the selected POI; an exterior visit cannot cite interior-only exhibits. Invalid output, provider errors and timeouts fall back to labelled templates.
 
-Venue fields, routes and source facts are deterministic. Generated prose is separately labelled: citation and lexical checks do **not** establish that every sentence is supported. Three live scenario outputs, including an observed museum fallback and successful recheck, are retained for review in [the RAG evaluation](docs/live-rag-evaluation.json).
-**Current verified mode:** retrieval plus live Gemini structured generation, verified locally and on the private hosted site on 18 October 2026. See [live integration evidence](docs/live-generation-check.json). The UI labels validated model responses as Gemini; missing keys, provider failures and invalid responses fall back to explicitly labelled templates. These smoke checks confirm connectivity and validated output, not model quality.
+Venue fields, routes and source facts are deterministic. Generated prose is separately labelled: citation and lexical checks do **not** establish that every sentence is supported. Three live scenario outputs are retained for review in [the current RAG evaluation](docs/live-rag-evaluation.json). The earlier museum fallback and successful recheck remain in [the v3 report](docs/live-rag-v3.json).
+**Current verified mode:** retrieval plus live Gemini structured generation, verified locally and on the private hosted site on 19 October 2026 (Astana). See [live integration evidence](docs/live-generation-check.json). The UI labels validated model responses as Gemini; missing keys, provider failures and invalid responses fall back to explicitly labelled templates. These smoke checks confirm connectivity and validated output, not model quality.
 
 For a new installation, copy `.env.example` to `.env`, set `GEMINI_API_KEY` locally, and restart the server. Keep the key out of chat, commits and frontend files. Then verify one real call:
 
@@ -79,7 +84,7 @@ python3 scripts/collect_pois.py --from-raw data/raw-osm.json  # reproducible off
 
 Precise origin coordinates stay in browser memory. No account, location history, analytics or external map tiles. Optional Gemini requests contain public POI records and limited preference flags, not the origin or raw user query. [Privacy and reliability notes](docs/PRIVACY.md).
 
-Walking times are estimates (straight-line distance × 1.3, 75 m/min or 55 in gentle mode), not safe pedestrian navigation. Complex hours remain unknown. Weather is manual. Venue accessibility tags do not verify a step-free route. [Scenarios and full limitations](docs/SCENARIOS.md).
+EXPO routing uses a reproducible OSM pedestrian graph: 5,747 nodes, 6,421 edges and 1,122 ways. Restricted campus paths and unknown gates are excluded. Connected paths use their mapped length; entrance connections and other areas use explicitly labelled estimates (straight-line distance × 1.3). Speeds are 75 m/min, or 55 in gentle mode. This is not verified pedestrian navigation. Complex hours remain unknown. Weather is manual. Venue accessibility tags do not verify a step-free route. [Scenarios and full limitations](docs/SCENARIOS.md).
 
 ## Verify
 
@@ -87,9 +92,11 @@ Walking times are estimates (straight-line distance × 1.3, 75 m/min or 55 in ge
 node scripts/build.mjs
 node --test tests/*.test.mjs
 node scripts/evaluate.mjs
+python3 tests/collector_test.py
+python3 scripts/collect_walk_graph.py --from-source data/walking-source.json
 ```
 
-**57 unit/API/Worker tests**, a **160-case constraint matrix**, **100 route/card agreement combinations**, **17/17 scenario checks**, and **48/48 browser checks** passed during development. These are engineering checks, not user-study results. Reports: [scenarios](docs/evaluation.json), [browser](docs/browser-checks.json).
+**75 unit/API/Worker tests** plus **6 graph-collector tests**, a **160-case constraint matrix**, **100 route/card agreement combinations**, **25/25 scenario checks**, and **62/62 browser checks** passed during development. These are engineering checks, not user-study results. Reports: [scenarios](docs/evaluation.json), [browser](docs/browser-checks.json).
 
 Optional browser QA and presentation tools:
 
@@ -101,7 +108,7 @@ python3 -m venv .venv
 .venv/bin/python scripts/make_presentation.py
 ```
 
-Participant testing is deferred. The [next improvement plan](docs/NEXT_STEPS.md) prioritizes request interpretation, pedestrian paths and source-backed themed journeys. A targeted [intent audit](docs/intent-audit.json) records seven unresolved edge cases out of ten deliberately selected examples; it is not an overall accuracy estimate. The existing [usability guide](docs/USABILITY.md) remains available for later.
+Participant testing is deferred. All five items in the [improvement plan](docs/NEXT_STEPS.md) are implemented. The targeted [intent audit](docs/intent-audit.json) now passes 10/10, compared with [3/10 before](docs/intent-audit-before.json); [12 additional paraphrases](docs/intent-paraphrases.json) also pass. These are authored engineering examples, not an independent language benchmark or overall accuracy estimate. The [usability guide](docs/USABILITY.md) remains available for later.
 
 ## Submission materials
 

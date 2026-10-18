@@ -1,7 +1,9 @@
 /** Pure retrieval and planning engine. No network, storage, user logging, or model dependency. */
 import {CONCEPTS,parseIntent} from './intent.js';
+import {distanceM,walkMinutes} from './geo.js';
+export {distanceM,walkMinutes} from './geo.js';
 export {parseIntent} from './intent.js';
-export const VERSION = '3.0.0';
+export const VERSION = '4.0.0';
 export const PRESETS = [
   {id:'expo',name:'EXPO / MEGA Silk Way',lat:51.0893,lon:71.4076},
   {id:'baiterek',name:'Baiterek',lat:51.1282,lon:71.4304},
@@ -14,12 +16,7 @@ const SHORT_VISITS={cafe:10,restaurant:25,museum:35,gallery:20,park:10,garden:10
 const STOP = new Set('i a an the in near me my want to for with and of is on at a я у в на с хочу мне рядом меня и для возле около как что за это'.split(' '));
 export const CATEGORIES = Object.keys(VISITS);
 export function tokens(text='') {return String(text).toLocaleLowerCase().match(/[\p{L}\p{N}]+/gu)?.filter(t=>t.length>1&&!STOP.has(t))||[];}
-export function distanceM(a,b) {
- const rad=Math.PI/180,dlat=(b.lat-a.lat)*rad,dlon=(b.lon-a.lon)*rad;
- const x=Math.sin(dlat/2)**2+Math.cos(a.lat*rad)*Math.cos(b.lat*rad)*Math.sin(dlon/2)**2;
- return 6371000*2*Math.atan2(Math.sqrt(x),Math.sqrt(Math.max(0,1-x)));
-}
-export function walkMinutes(a,b,pace='normal'){return Math.ceil(distanceM(a,b)*1.3/(pace==='gentle'?55:75));}
+export function travelLeg(input,a,b){return input.routing?.leg(a,b,{pace:input.pace,avoidSteps:input.accessible||input.intent?.stroller})||{minutes:walkMinutes(a,b,input.pace),distanceM:Math.round(distanceM(a,b)*1.3),mode:'estimated',reason:'outside_graph',points:[[a.lon,a.lat],[b.lon,b.lat]],connectors:[]};}
 export function astanaNow(date=new Date()) {return new Date(date.getTime()+5*3600000).toISOString().slice(0,16);}
 export function parseDeparture(value) {
  if(typeof value!=='string'||!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/.test(value)) throw new Error('Choose a valid departure date and time.');
@@ -76,11 +73,16 @@ export function validateInput(input) {
  const pinnedIds=boundedIds(input.pinnedIds,3),preferredIds=boundedIds(input.preferredIds,3);
  const maxStops=Number.isInteger(input.maxStops)?Math.min(3,Math.max(0,input.maxStops)):3;
  const mode=['curious','calm','playful'].includes(input.mood)?input.mood:'balanced';
- return {group:[...group],mood:mode,pinnedIds,preferredIds,maxStops,excludedIds:boundedIds(input.excludedIds,50),origin:{lat,lon},budget:Math.min(budget,intent.budget||budget),maxWalk:Math.min(maxWalk,intent.maxWalk||maxWalk),query,intent,
+ const departure=parseDeparture(input.departure||astanaNow()),bufferMinutes=Number(input.bufferMinutes??0);
+ if(!Number.isInteger(bufferMinutes)||bufferMinutes<0||bufferMinutes>60)throw new Error('Buffer must be 0–60 minutes.');
+ const clock=intent.returnByClock?.padStart(5,'0'),returnBy=input.returnBy||(clock?astanaNow(departure).slice(0,10)+'T'+clock:null);
+ const deadline=returnBy?parseDeparture(returnBy):null,deadlineMinutes=deadline?Math.floor((deadline-departure)/60000):null;
+ const requestedBudget=Math.min(budget,intent.budget??budget),grossBudget=Math.max(0,Math.min(requestedBudget,deadlineMinutes??Infinity));
+ return {group:[...group],mood:mode,pinnedIds,preferredIds,maxStops,journeyIds:boundedIds(input.journeyIds,3),excludedIds:boundedIds(input.excludedIds,50),origin:{lat,lon},budget:Math.max(0,grossBudget-bufferMinutes),requestedBudget,grossBudget,bufferMinutes,deadline,deadlineMinutes,routing:input.routing,maxWalk:Math.min(maxWalk,intent.maxWalk??maxWalk),query,intent,
   setting:['indoor','outdoor'].includes(input.setting)?input.setting:intent.setting,
-  departure:parseDeparture(input.departure||astanaNow()),locale:['en','ru','kk'].includes(input.locale)?input.locale:'en',
+  departure,locale:['en','ru','kk'].includes(input.locale)?input.locale:'en',
   weather:['rain','cold'].includes(input.weather)?input.weather:'fair',pace:input.pace==='gentle'?'gentle':'normal',
-  accessible:input.accessible===true||intent.accessible,verifiedHours:input.verifiedHours===true,returnToStart:input.returnToStart!==false};
+  accessible:input.accessible===true||intent.accessible,verifiedHours:input.verifiedHours===true,returnToStart:!!deadline||input.returnToStart!==false};
 }
 function searchable(p){return [p.name,...Object.values(p.names||{}),p.category,p.description,...(p.evidence||[]).flatMap(f=>typeof f.text==='string'?[f.text]:Object.values(f.text)),...(p.themes||[]),...Object.values(p.tags||{})].join(' ');}
 function bm25(queryTokens,pois){
@@ -92,23 +94,26 @@ function isIndoor(p){return ['cafe','restaurant','museum','gallery','mall','libr
 function reasons(p,input,walk,matched){const out=['nearby','fits_time'];if(matched.length)out.push(...matched.map(x=>'interest_'+x));if(input.weather!=='fair'&&isIndoor(p))out.push('indoor');if(p.wheelchair==='yes')out.push('wheelchair_source');return out;}
 export function recommend(raw,pois) {
  const input=validateInput(raw), {origin,intent}=input;
- const scores=bm25(tokens(input.query),pois), exclusions={distance:0,time:0,closed:0,accessibility:0,hoursUnknown:0,weather:0,interest:0,restricted:0,skipped:0,excludedInterest:0,setting:0};
+ const scores=bm25(tokens(input.query),pois), exclusions={distance:0,time:0,closed:0,accessibility:0,hoursUnknown:0,weather:0,interest:0,restricted:0,skipped:0,excludedInterest:0,setting:0,path:0,journey:0};
  const candidates=[];
  const desired=input.group.length?[...new Set(input.group.filter(x=>x!=='any'))]:intent.concepts;
  pois.forEach((p,index)=>{
+  if(input.journeyIds.length&&!input.journeyIds.includes(p.id)){exclusions.journey++;return;}
   if(p.accessRestricted||['private','no'].includes(p.tags?.access)){exclusions.restricted++;return;}
   if(input.excludedIds.includes(p.id)){exclusions.skipped++;return;}
-  const walk=walkMinutes(origin,p,input.pace),idealVisit=VISITS[p.category]||20,shortVisit=Math.min(idealVisit,SHORT_VISITS[p.category]||idealVisit);
+  const outward=travelLeg(input,origin,p),backward=input.returnToStart?travelLeg(input,p,origin):{minutes:0};
+  const walk=outward.minutes,idealVisit=VISITS[p.category]||20,shortVisit=Math.min(idealVisit,SHORT_VISITS[p.category]||idealVisit);
   let visit=idealVisit;
-  if(walk>input.maxWalk){exclusions.distance++;return;}
-  const travel=walk*(input.returnToStart?2:1);
+  if(!Number.isFinite(walk)||!Number.isFinite(backward.minutes)){exclusions.path++;return;}
+  if(walk>input.maxWalk||backward.minutes>input.maxWalk){exclusions.distance++;return;}
+  const travel=walk+backward.minutes;
   if(travel+visit>input.budget)visit=shortVisit;
   const total=travel+visit;
   if(total>input.budget){exclusions.time++;return;}
   if(input.accessible&&p.wheelchair!=='yes'){exclusions.accessibility++;return;}
   if(input.intent.settingConflict){exclusions.setting++;return;}
   if((input.setting==='indoor'&&!isIndoor(p))||(input.setting==='outdoor'&&isIndoor(p))){exclusions.setting++;return;}
-  if(intent.excluded.some(c=>c!=='family'&&CONCEPTS[c].categories.includes(p.category))){exclusions.excludedInterest++;return;}
+  if(intent.excludedCategories.includes(p.category)||intent.excluded.some(c=>c!=='family'&&CONCEPTS[c].categories.includes(p.category))){exclusions.excludedInterest++;return;}
   if(input.weather!=='fair'&&!isIndoor(p)){exclusions.weather++;return;}
   const matched=desired.filter(c=>CONCEPTS[c].categories.includes(p.category));
   const groupMatches=input.group.map((interest,i)=>(interest==='any'||CONCEPTS[interest].categories.includes(p.category))?i:-1).filter(i=>i>=0);
@@ -128,7 +133,7 @@ export function recommend(raw,pois) {
   if(intent.free)uncertainties.push('cost');
   if(intent.concepts.includes('family')&&p.category==='museum')uncertainties.push(p.capabilities?.some(c=>c.capability==='interactiveInterpretation'&&c.value===true)?'interactive_availability':'interactive');
   const moodBoost=input.mood==='curious'?(p.evidence?.length?2:0)+(['museum','artwork','attraction','gallery'].includes(p.category)?2:0):input.mood==='calm'?(['park','garden'].includes(p.category)?2:0):input.mood==='playful'?(['playground','museum'].includes(p.category)?2:0):0;
-  const score=moodBoost+matched.length*5+Math.min(scores[index],6)+3*(1-walk/input.maxWalk)+(status==='open'?.6:0)+(p.description?.length?.2:0);
+  const score=moodBoost+matched.length*5+Math.min(scores[index],6)+3*(1-walk/Math.max(1,input.maxWalk))+(status==='open'?.6:0)+(p.description?.length?.2:0);
   candidates.push({...p,walkMinutes:walk,distanceM:Math.round(distanceM(origin,p)),visitMinutes:visit,idealVisitMinutes:idealVisit,totalMinutes:travel+visit,
    openingStatus:status,groupMatches,score:Math.round(score*100)/100,reasons:reasons(p,input,walk,matched),uncertainties,match:uncertainties.some(u=>['quiet','socket'].includes(u))?'partial':'context'});
  });
@@ -138,7 +143,7 @@ export function recommend(raw,pois) {
  for(const id of [...input.pinnedIds,...input.preferredIds]){const p=candidates.find(p=>p.id===id);if(p&&!pool.includes(p))pool.push(p);}
  for(const p of candidates)if(!pool.includes(p)&&pool.filter(q=>q.category===p.category).length<2&&pool.length<18)pool.push(p);
  const route=planRoute(pool,input);
- const selected=route.stops.map(stop=>({...candidates.find(p=>p.id===stop.id),...stop,totalMinutes:walkMinutes(origin,stop,input.pace)*(input.returnToStart?2:1)+stop.visitMinutes}));
+ const selected=route.stops.map(stop=>({...candidates.find(p=>p.id===stop.id),...stop}));
  const conflicts=input.pinnedIds.filter(id=>!route.stops.some(p=>p.id===id)).map(id=>({id,reason:candidates.some(p=>p.id===id)?'combination':'constraint'}));
  const coverage=input.group.map((interest,index)=>({index,interest,covered:route.stops.some(p=>p.groupMatches.includes(index))}));
  const warnings=['estimates'];
@@ -148,31 +153,35 @@ export function recommend(raw,pois) {
  if(intent.settingConflict)warnings.push('setting_conflict');
  if(intent.free)warnings.push('cost_unknown');
  if(conflicts.length)warnings.push('kept_conflict');
- return {recommendations:selected,route,warnings,conflicts,intent:{...intent,setting:input.setting,maxWalk:input.maxWalk},group:coverage,mood:input.mood,trace:{datasetSize:pois.length,candidates:candidates.length,exclusions,
+ if(input.deadlineMinutes!==null&&input.deadlineMinutes<=0)warnings.push('deadline_passed');
+ if(input.bufferMinutes&&input.budget===0)warnings.push('buffer_exhausted');
+ const plannedEnd=new Date(input.departure.getTime()+route.totalMinutes*60000),reservedEnd=new Date(plannedEnd.getTime()+input.bufferMinutes*60000);
+ const timing={departure:astanaNow(input.departure),plannedEnd:astanaNow(plannedEnd),reservedEnd:astanaNow(reservedEnd),returnBy:input.deadline?astanaNow(input.deadline):null,bufferMinutes:input.bufferMinutes,grossBudget:input.grossBudget,requestedBudget:input.requestedBudget,slackMinutes:input.budget-route.totalMinutes};
+ return {recommendations:selected,route,timing,warnings,conflicts,intent:{...intent,setting:input.setting,maxWalk:input.maxWalk},group:coverage,mood:input.mood,trace:{datasetSize:pois.length,candidates:candidates.length,exclusions,
   concepts:desired,effectiveBudget:input.budget,retrieval:'BM25 + multilingual concepts + hard constraints'},
-  mode:'retrieval-template',locale:input.locale,departure:raw.departure||astanaNow(),returnToStart:input.returnToStart};
+  mode:'retrieval-template',locale:input.locale,departure:astanaNow(input.departure),returnToStart:input.returnToStart};
 }
 export function planRoute(candidates,input){
  input={pinnedIds:[],preferredIds:[],maxStops:3,...input};
- let best={stops:[],totalMinutes:0,walkMinutes:0,visitMinutes:0,returnMinutes:0,score:0};
+ let best={stops:[],totalMinutes:0,walkMinutes:0,visitMinutes:0,returnMinutes:0,legs:[],score:0};
  const explore=(stops,last,elapsed,walked,score)=>{
-  const back=input.returnToStart?walkMinutes(last,input.origin,input.pace):0;
+  const backLeg=input.returnToStart?travelLeg(input,last,input.origin):null,back=backLeg?.minutes||0;
   if(stops.length&&input.pinnedIds.every(id=>stops.some(p=>p.id===id))&&elapsed+back<=input.budget&&back<=input.maxWalk){
    const covered=new Set(stops.flatMap(p=>p.groupMatches||[])).size;
    const retained=stops.filter(p=>input.preferredIds.includes(p.id)).length;
    const utility=retained*200+covered*45+stops.length*20+score+(elapsed-walked)*.08-walked*.03;
-   if(utility>best.score)best={stops:[...stops],totalMinutes:elapsed+back,walkMinutes:walked+back,visitMinutes:elapsed-walked,returnMinutes:back,score:utility};
+   if(utility>best.score)best={stops:[...stops],totalMinutes:elapsed+back,walkMinutes:walked+back,visitMinutes:elapsed-walked,returnMinutes:back,legs:[...stops.map(p=>p.travel),...(backLeg?[backLeg]:[])],score:utility};
   }
   if(stops.length===input.maxStops)return;
   for(const p of candidates){
    if(stops.some(s=>s.id===p.id||(s.category===p.category&&!input.pinnedIds.includes(p.id))||s.name.toLowerCase()===p.name.toLowerCase()))continue;
-   const leg=walkMinutes(last,p,input.pace);
+   const travel=travelLeg(input,last,p),leg=travel.minutes;
    if(leg>input.maxWalk)continue;
    for(const visit of [...new Set([p.visitMinutes,Math.min(p.visitMinutes,SHORT_VISITS[p.category]||p.visitMinutes)])]){
     const next=elapsed+leg+visit;if(next>input.budget)continue;
     const status=openingStatus(p.hours,new Date(input.departure.getTime()+(elapsed+leg)*60000),visit);
     if(status==='closed'||(input.verifiedHours&&status!=='open'))continue;
-    explore([...stops,{id:p.id,name:p.name,names:p.names,lat:p.lat,lon:p.lon,category:p.category,legMinutes:leg,visitMinutes:visit,shortStop:visit<(p.idealVisitMinutes||p.visitMinutes),arrivalMinutes:elapsed+leg,openingStatus:status,source:p.source,groupMatches:p.groupMatches||[]}],p,next,walked+leg,score+p.score);
+    explore([...stops,{id:p.id,name:p.name,names:p.names,lat:p.lat,lon:p.lon,category:p.category,travel,legMinutes:leg,visitMinutes:visit,shortStop:visit<(p.idealVisitMinutes||p.visitMinutes),arrivalMinutes:elapsed+leg,openingStatus:status,source:p.source,groupMatches:p.groupMatches||[]}],p,next,walked+leg,score+p.score);
    }
   }
  };
@@ -181,7 +190,7 @@ export function planRoute(candidates,input){
 
 /** Preview a changed context without weakening any other user constraint. */
 export function backupPlans(raw,pois) {
- const base=recommend(raw,pois), budget=base.trace.effectiveBudget;
+ const base=recommend(raw,pois), budget=base.timing.grossBudget;
  return [
   {id:'shorter',changes:{budget:Math.max(15,budget-15)}},
   {id:'rain',changes:{weather:'rain'}},

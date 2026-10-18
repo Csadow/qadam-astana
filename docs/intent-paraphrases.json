@@ -1,0 +1,159 @@
+{
+  "checkedAt": "2026-10-18T19:08:40.775Z",
+  "appVersion": "4.0.0",
+  "method": "Twelve additional examples specified after feature implementation and before executing this audit. Authored by the implementation agent, not an independent or representative language benchmark. This script was not used to tune the parser.",
+  "passed": 12,
+  "total": 12,
+  "results": [
+    {
+      "query": "I have 2 hrs and 15 mins",
+      "expected": {
+        "budget": 135
+      },
+      "actual": {
+        "budget": 135
+      },
+      "pass": true
+    },
+    {
+      "query": "На прогулку 1 час и 20 минут",
+      "expected": {
+        "budget": 80
+      },
+      "actual": {
+        "budget": 80
+      },
+      "pass": true
+    },
+    {
+      "query": "1 сағат және 20 минут серуен",
+      "expected": {
+        "budget": 80
+      },
+      "actual": {
+        "budget": 80
+      },
+      "pass": true
+    },
+    {
+      "query": "75 minutes total, walking up to 8 minutes",
+      "expected": {
+        "budget": 75,
+        "maxWalk": 8
+      },
+      "actual": {
+        "budget": 75,
+        "maxWalk": 8
+      },
+      "pass": true
+    },
+    {
+      "query": "1,5 часа, пешком до 12 минут",
+      "expected": {
+        "budget": 90,
+        "maxWalk": 12
+      },
+      "actual": {
+        "budget": 90,
+        "maxWalk": 12
+      },
+      "pass": true
+    },
+    {
+      "query": "40 минут, жаяу 5 минут",
+      "expected": {
+        "budget": 40,
+        "maxWalk": 5
+      },
+      "actual": {
+        "budget": 40,
+        "maxWalk": 5
+      },
+      "pass": true
+    },
+    {
+      "query": "Do not exclude coffee",
+      "expected": {
+        "concepts": [
+          "coffee"
+        ],
+        "excluded": []
+      },
+      "actual": {
+        "concepts": [
+          "coffee"
+        ],
+        "excluded": []
+      },
+      "pass": true
+    },
+    {
+      "query": "Не хочу пропускать кофе",
+      "expected": {
+        "concepts": [
+          "coffee"
+        ],
+        "excluded": []
+      },
+      "actual": {
+        "concepts": [
+          "coffee"
+        ],
+        "excluded": []
+      },
+      "pass": true
+    },
+    {
+      "query": "A cafe with free Wi-Fi",
+      "expected": {
+        "free": false
+      },
+      "actual": {
+        "free": false
+      },
+      "pass": true
+    },
+    {
+      "query": "Музей керек емес, сәулет",
+      "expected": {
+        "excludedCategories": [
+          "museum"
+        ],
+        "concepts": [
+          "landmark"
+        ]
+      },
+      "actual": {
+        "excludedCategories": [
+          "museum"
+        ],
+        "concepts": [
+          "landmark"
+        ]
+      },
+      "pass": true
+    },
+    {
+      "query": "Out with a pram",
+      "expected": {
+        "stroller": true,
+        "accessible": false
+      },
+      "actual": {
+        "stroller": true,
+        "accessible": false
+      },
+      "pass": true
+    },
+    {
+      "query": "Вернуться к 16:20",
+      "expected": {
+        "returnByClock": "16:20"
+      },
+      "actual": {
+        "returnByClock": "16:20"
+      },
+      "pass": true
+    }
+  ]
+}

@@ -1,0 +1,213 @@
+{
+  "version": 1,
+  "journeys": [
+    {
+      "id": "expo-space-and-symbols",
+      "title": {
+        "en": "EXPO: Space and Symbols",
+        "ru": "EXPO: пространство и символы",
+        "kk": "EXPO: кеңістік пен нышандар"
+      },
+      "introduction": {
+        "en": "MEGA Silk Way's atriums reach 25 metres. Uly Dala Eli's 25 facets symbolize 25 years of Kazakhstan's independence.",
+        "ru": "Атриумы MEGA Silk Way достигают 25 метров в высоту. 25 граней монумента «Ұлы Дала Елі» символизируют 25 лет независимости Казахстана.",
+        "kk": "MEGA Silk Way атриумдарының биіктігі 25 метрге жетеді. «Ұлы Дала Елі» монументінің 25 қыры Қазақстан тәуелсіздігінің 25 жылын білдіреді."
+      },
+      "factIds": [
+        "mega-silk-way-atrium",
+        "independence-25-facets"
+      ],
+      "visitScope": "mixed-interior-exterior",
+      "stops": [
+        {
+          "poiId": "osm-way-499328514",
+          "factIds": [
+            "mega-silk-way-atrium"
+          ],
+          "observationQuestion": {
+            "en": "If the atrium is open to visitors, which detail makes its height most noticeable?",
+            "ru": "Если атриум открыт для посещения, какая деталь сильнее всего подчёркивает его высоту?",
+            "kk": "Атриум келушілерге ашық болса, оның биіктігін қай бөлшегі айқынырақ көрсетеді?"
+          },
+          "visitScope": "interior",
+          "condition": {
+            "en": "This observation requires entry to an open public atrium; the exterior alone does not show the cited interior height.",
+            "ru": "Для этого наблюдения нужно войти в открытый для посетителей атриум: снаружи указанную высоту интерьера не оценить.",
+            "kk": "Бұл бақылау үшін келушілерге ашық атриумға кіру қажет: ішкі кеңістіктің аталған биіктігін сырттан бағалау мүмкін емес."
+          }
+        },
+        {
+          "poiId": "osm-way-1460763574",
+          "factIds": [
+            "independence-25-facets"
+          ],
+          "observationQuestion": {
+            "en": "How many facets can you distinguish from your viewing point?",
+            "ru": "Сколько граней вы можете различить со своей точки обзора?",
+            "kk": "Өзіңіз тұрған жерден неше қырын ажырата аласыз?"
+          },
+          "visitScope": "exterior",
+          "condition": {
+            "en": "Observe from a publicly accessible point; all 25 facets need not be visible from one position.",
+            "ru": "Наблюдайте с общедоступной точки; все 25 граней не обязательно видны с одного места.",
+            "kk": "Көпшілікке қолжетімді жерден бақылаңыз; барлық 25 қыр бір нүктеден көрінбеуі мүмкін."
+          }
+        }
+      ],
+      "editorialCaveat": "The repeated number 25 is an observation prompt, not evidence of a shared architect, design programme, or historical relationship. No claims about the former Nur Alem museum are included.",
+      "sourceRefs": [
+        {
+          "factId": "mega-silk-way-atrium",
+          "url": "https://mega.kz/Tenant/MEGA-Silk-Way",
+          "scope": "Building architecture; height refers to internal atriums."
+        },
+        {
+          "factId": "independence-25-facets",
+          "url": "https://visitastana.kz/ru/about-city/what-to-see/monument-uly-dala-eli/",
+          "scope": "Architectural symbolism; no present access guarantee."
+        }
+      ],
+      "origin": "expo"
+    },
+    {
+      "id": "symbols-in-sculpture",
+      "title": {
+        "en": "Symbols in Sculpture",
+        "ru": "Символы в скульптуре",
+        "kk": "Мүсіндегі нышандар"
+      },
+      "introduction": {
+        "en": "Baiterek's Tree of Life links underground, earth and sky. In Lovers Park, a composition of sixteen horseshoes suggests four horses heading toward the four cardinal directions.",
+        "ru": "Древо жизни Байтерека объединяет подземный, земной и небесный миры. В Парке влюблённых композиция из шестнадцати подков изображает четырёх лошадей, направленных в четыре стороны света.",
+        "kk": "Бәйтеректің Өмір ағашы жерасты, жерүсті және аспан әлемдерін біріктіреді. Ғашықтар саябағындағы он алты тағадан құралған композиция дүниенің төрт бағытына бет алған төрт жылқыны бейнелейді."
+      },
+      "factIds": [
+        "baiterek-three-worlds",
+        "lovers-park-horseshoe-fountain"
+      ],
+      "visitScope": "exterior",
+      "stops": [
+        {
+          "poiId": "osm-way-230401645",
+          "factIds": [
+            "baiterek-three-worlds"
+          ],
+          "observationQuestion": {
+            "en": "Which exterior shapes remind you of the Tree of Life's trunk and crown?",
+            "ru": "Какие внешние формы напоминают вам ствол и крону Древа жизни?",
+            "kk": "Монументтің сыртқы пішіндерінің қайсысы Өмір ағашының діңі мен ұшар басын еске салады?"
+          },
+          "visitScope": "exterior",
+          "condition": {
+            "en": "This question is for an exterior view from an accessible public area; an ascent is a separate visit.",
+            "ru": "Вопрос рассчитан на осмотр снаружи из доступного общественного места; подъём — отдельное посещение.",
+            "kk": "Бұл сұрақ қолжетімді қоғамдық жерден сырттай қарауға арналған; монументке көтерілу — бөлек сапар."
+          }
+        },
+        {
+          "poiId": "osm-way-37884583",
+          "factIds": [
+            "lovers-park-horseshoe-fountain"
+          ],
+          "observationQuestion": {
+            "en": "Which outlines suggest a horse to you in the horseshoe composition?",
+            "ru": "Какие контуры напоминают вам лошадь в композиции из подков?",
+            "kk": "Тағалардан жасалған композицияда қай сызықтар сізге жылқының пішінін елестетеді?"
+          },
+          "visitScope": "exterior",
+          "condition": {
+            "en": "Use an open path to view the sculpture. The question does not depend on the fountain running.",
+            "ru": "Рассматривайте скульптуру с открытой дорожки. Для ответа не требуется работающий фонтан.",
+            "kk": "Мүсінді ашық жолдан қараңыз. Сұраққа жауап беру үшін субұрқақтың жұмыс істеп тұруы міндетті емес."
+          }
+        }
+      ],
+      "editorialCaveat": "This is a comparison of documented visual symbolism, not a claim that the works share an artist, origin or cultural meaning. A POI centroid is not a verified sculpture viewing point.",
+      "sourceRefs": [
+        {
+          "factId": "baiterek-three-worlds",
+          "url": "https://visitastana.kz/en/about-city/what-to-see/monument-astana-bayterek/",
+          "scope": "Tree of Life architectural symbolism; appropriate to discuss outside."
+        },
+        {
+          "factId": "lovers-park-horseshoe-fountain",
+          "url": "https://visitnursultan.kz/about-city/what-to-see/park-vlyublennykh/",
+          "scope": "Legacy official tourism account of sculpture history and symbolism; not current fountain status."
+        }
+      ],
+      "origin": "baiterek"
+    },
+    {
+      "id": "ancient-life-modern-city",
+      "title": {
+        "en": "Ancient Life, Modern City",
+        "ru": "Древняя жизнь и современный город",
+        "kk": "Ежелгі тіршілік және заманауи қала"
+      },
+      "introduction": {
+        "en": "The museum lists mammoth and Tyrannosaurus skeletons in its Paleontology Hall. The park lies between the Palace of Peace and Reconciliation and the presidential residence.",
+        "ru": "Музей указывает скелеты мамонта и тираннозавра в зале палеонтологии. Парк расположен между Дворцом мира и согласия и президентской резиденцией.",
+        "kk": "Музей Палеонтология залында мамонт пен тираннозавр қаңқалары бар екенін көрсетеді. Саябақ Бейбітшілік және келісім сарайы мен президент резиденциясының арасында орналасқан."
+      },
+      "factIds": [
+        "national-museum-paleontology",
+        "presidential-park-palace-setting"
+      ],
+      "visitScope": "mixed-interior-exterior",
+      "stops": [
+        {
+          "poiId": "osm-node-4894937300",
+          "factIds": [
+            "national-museum-paleontology"
+          ],
+          "observationQuestion": {
+            "en": "If the Paleontology Hall is open, what differences can you spot between the mammoth and Tyrannosaurus skeletons?",
+            "ru": "Если зал палеонтологии открыт, какие различия вы замечаете между скелетами мамонта и тираннозавра?",
+            "kk": "Палеонтология залы ашық болса, мамонт пен тираннозавр қаңқаларының қандай айырмашылықтарын байқайсыз?"
+          },
+          "visitScope": "interior",
+          "condition": {
+            "en": "Plan a museum visit with entry time, not an exterior stop. Regular hours are Tuesday–Sunday, 10:00–18:00; Monday is closed. Check admission and hall availability. Photos and video require special permission under the recorded rules.",
+            "ru": "Планируйте посещение музея со временем на вход, а не осмотр снаружи. Обычный график: вторник–воскресенье, 10:00–18:00; понедельник — выходной. Уточните условия входа и доступность зала. По сохранённым правилам фото и видео требуют специального разрешения.",
+            "kk": "Сырттай қарауды емес, кіруге уақыт бөлінген музей сапарын жоспарлаңыз. Қалыпты кесте: сейсенбі–жексенбі, 10:00–18:00; дүйсенбі — демалыс. Кіру шарттары мен залдың ашықтығын нақтылаңыз. Сақталған ережеге сай фото және бейне түсіруге арнайы рұқсат қажет."
+          },
+          "hoursSource": "https://nmrk.kz/ru/",
+          "rulesSource": "https://nmrk.kz/en/press/museum-rules/"
+        },
+        {
+          "poiId": "osm-way-112177946",
+          "factIds": [
+            "presidential-park-palace-setting"
+          ],
+          "observationQuestion": {
+            "en": "From an open path, which of the two landmarks in the park description can you see?",
+            "ru": "С открытой дорожки какое из двух зданий, названных в описании парка, вы можете увидеть?",
+            "kk": "Ашық жолдан саябақ сипаттамасында аталған екі ғимараттың қайсысын көре аласыз?"
+          },
+          "visitScope": "exterior",
+          "condition": {
+            "en": "Reconstruction is reported. Use only open public paths and respect barriers; the description does not guarantee views of either building or access to their grounds.",
+            "ru": "Сообщается о реконструкции. Используйте только открытые общественные дорожки и соблюдайте ограждения; описание не гарантирует вид на здания или доступ на их территорию.",
+            "kk": "Қайта жаңғырту жұмыстары туралы хабарланған. Тек ашық қоғамдық жолдармен жүріп, қоршауларды сақтаңыз; сипаттама ғимараттардың көрінуіне немесе олардың аумағына кіруге кепілдік бермейді."
+          },
+          "accessSource": "https://www.gov.kz/org/astana/press/news/details/1251104"
+        }
+      ],
+      "editorialCaveat": "The title juxtaposes an indoor natural-history display with an urban landscape. It does not assert a chronological narrative connecting the animals with Astana, that the animals coexisted, or that the museum's closed Astana Hall is visitable. Do not label this a complete 15–20-minute museum stop.",
+      "sourceRefs": [
+        {
+          "factId": "national-museum-paleontology",
+          "url": "https://nmrk.kz/en/structure/exhibition-activities/",
+          "scope": "Interior Paleontology Hall; exhibition inventory, not a live hall-access guarantee."
+        },
+        {
+          "factId": "presidential-park-palace-setting",
+          "url": "https://astana-piramida.kz/",
+          "scope": "Park by the Palace of Peace and Reconciliation; exclude the other same-named park, osm-way-243041606."
+        }
+      ],
+      "origin": "museum"
+    }
+  ],
+  "method": "Editorial themes based only on the existing evidence pack. Pairings do not assert shared historical origins, coordinated design, a continuous accessible route, present opening, or guaranteed visibility. Questions invite personal observation; they are not extra factual claims."
+}
