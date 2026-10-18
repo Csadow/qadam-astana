@@ -1,10 +1,170 @@
 {
-  "evaluatedAt": "2026-10-18T17:39:20.605Z",
+  "evaluatedAt": "2026-10-18T18:12:49.926Z",
   "datasetSize": 300,
-  "passed": 12,
-  "total": 12,
+  "passed": 17,
+  "total": 17,
   "method": "Deterministic scenario acceptance checks on the collected snapshot. Not a user study or LLM quality benchmark.",
   "scenarios": [
+    {
+      "id": "no-coffee-en",
+      "expect": "Park request overrides stale coffee interest; cafes excluded.",
+      "pass": true,
+      "checks": {
+        "budget": true,
+        "count": true,
+        "itineraryAgreement": true,
+        "sourceLinks": true,
+        "noClosed": true,
+        "specific": true
+      },
+      "resultCount": 1,
+      "names": [
+        "Бейбітшілік пен Келісім аллеясы"
+      ],
+      "routeMinutes": 50,
+      "budget": 90,
+      "uncertainties": [
+        {
+          "id": "osm-way-1456208624",
+          "unknowns": [
+            "hours"
+          ]
+        }
+      ],
+      "warnings": [
+        "estimates"
+      ]
+    },
+    {
+      "id": "no-coffee-ru",
+      "expect": "Park request overrides stale coffee interest; cafes excluded.",
+      "pass": true,
+      "checks": {
+        "budget": true,
+        "count": true,
+        "itineraryAgreement": true,
+        "sourceLinks": true,
+        "noClosed": true,
+        "specific": true
+      },
+      "resultCount": 1,
+      "names": [
+        "Бейбітшілік пен Келісім аллеясы"
+      ],
+      "routeMinutes": 50,
+      "budget": 90,
+      "uncertainties": [
+        {
+          "id": "osm-way-1456208624",
+          "unknowns": [
+            "hours"
+          ]
+        }
+      ],
+      "warnings": [
+        "estimates"
+      ]
+    },
+    {
+      "id": "no-coffee-kk",
+      "expect": "Park request overrides stale coffee interest; cafes excluded.",
+      "pass": true,
+      "checks": {
+        "budget": true,
+        "count": true,
+        "itineraryAgreement": true,
+        "sourceLinks": true,
+        "noClosed": true,
+        "specific": true
+      },
+      "resultCount": 1,
+      "names": [
+        "Бейбітшілік пен Келісім аллеясы"
+      ],
+      "routeMinutes": 50,
+      "budget": 90,
+      "uncertainties": [
+        {
+          "id": "osm-way-1456208624",
+          "unknowns": [
+            "hours"
+          ]
+        }
+      ],
+      "warnings": [
+        "estimates"
+      ]
+    },
+    {
+      "id": "indoor-only",
+      "expect": "No outdoor category in an indoor-only itinerary.",
+      "pass": true,
+      "checks": {
+        "budget": true,
+        "count": true,
+        "itineraryAgreement": true,
+        "sourceLinks": true,
+        "noClosed": true,
+        "specific": true
+      },
+      "resultCount": 3,
+      "names": [
+        "Лепим и варим",
+        "Хан Шатыр",
+        "Ozyurt"
+      ],
+      "routeMinutes": 90,
+      "budget": 90,
+      "uncertainties": [
+        {
+          "id": "osm-way-1449317691",
+          "unknowns": []
+        },
+        {
+          "id": "osm-way-460703779",
+          "unknowns": []
+        },
+        {
+          "id": "osm-way-1449317875",
+          "unknowns": [
+            "hours"
+          ]
+        }
+      ],
+      "warnings": [
+        "estimates"
+      ]
+    },
+    {
+      "id": "short-park-visit",
+      "expect": "A nearby park can fit as a labelled short visit within 15 minutes.",
+      "pass": true,
+      "checks": {
+        "budget": true,
+        "count": true,
+        "itineraryAgreement": true,
+        "sourceLinks": true,
+        "noClosed": true,
+        "specific": true
+      },
+      "resultCount": 1,
+      "names": [
+        "Жетісу саябағы"
+      ],
+      "routeMinutes": 10,
+      "budget": 15,
+      "uncertainties": [
+        {
+          "id": "osm-way-69232075",
+          "unknowns": [
+            "hours"
+          ]
+        }
+      ],
+      "warnings": [
+        "estimates"
+      ]
+    },
     {
       "id": "group-coverage",
       "expect": "All three chosen interests covered by a feasible shared route.",
@@ -12,6 +172,7 @@
       "checks": {
         "budget": true,
         "count": true,
+        "itineraryAgreement": true,
         "sourceLinks": true,
         "noClosed": true,
         "specific": true
@@ -53,6 +214,7 @@
       "checks": {
         "budget": true,
         "count": true,
+        "itineraryAgreement": true,
         "sourceLinks": true,
         "noClosed": true,
         "specific": true
@@ -73,6 +235,7 @@
       "checks": {
         "budget": true,
         "count": true,
+        "itineraryAgreement": true,
         "sourceLinks": true,
         "noClosed": true,
         "specific": true
@@ -102,6 +265,7 @@
       "checks": {
         "budget": true,
         "count": true,
+        "itineraryAgreement": true,
         "sourceLinks": true,
         "noClosed": true,
         "specific": true
@@ -131,15 +295,15 @@
       "checks": {
         "budget": true,
         "count": true,
+        "itineraryAgreement": true,
         "sourceLinks": true,
         "noClosed": true,
         "specific": true
       },
-      "resultCount": 3,
+      "resultCount": 2,
       "names": [
         "Лепим и варим",
-        "Бейбітшілік пен Келісім аллеясы",
-        "Тәуелсіздіктің 25 жылдығы"
+        "Бейбітшілік пен Келісім аллеясы"
       ],
       "routeMinutes": 51,
       "budget": 60,
@@ -150,12 +314,6 @@
         },
         {
           "id": "osm-way-1456208624",
-          "unknowns": [
-            "hours"
-          ]
-        },
-        {
-          "id": "osm-way-1460763574",
           "unknowns": [
             "hours"
           ]
@@ -172,35 +330,20 @@
       "checks": {
         "budget": true,
         "count": true,
+        "itineraryAgreement": true,
         "sourceLinks": true,
         "noClosed": true,
         "specific": true
       },
-      "resultCount": 3,
+      "resultCount": 1,
       "names": [
-        "Degirmen",
-        "CrepeCafe",
-        "Starbucks"
+        "Degirmen"
       ],
       "routeMinutes": 28,
       "budget": 60,
       "uncertainties": [
         {
           "id": "osm-node-10564988185",
-          "unknowns": [
-            "quiet",
-            "socket"
-          ]
-        },
-        {
-          "id": "osm-node-6408271985",
-          "unknowns": [
-            "quiet",
-            "socket"
-          ]
-        },
-        {
-          "id": "osm-node-9047331880",
           "unknowns": [
             "quiet",
             "socket"
@@ -218,6 +361,7 @@
       "checks": {
         "budget": true,
         "count": true,
+        "itineraryAgreement": true,
         "sourceLinks": true,
         "noClosed": true,
         "specific": true
@@ -254,6 +398,7 @@
       "checks": {
         "budget": true,
         "count": true,
+        "itineraryAgreement": true,
         "sourceLinks": true,
         "noClosed": true,
         "specific": true
@@ -294,6 +439,7 @@
       "checks": {
         "budget": true,
         "count": true,
+        "itineraryAgreement": true,
         "sourceLinks": true,
         "noClosed": true,
         "specific": true
@@ -314,6 +460,7 @@
       "checks": {
         "budget": true,
         "count": true,
+        "itineraryAgreement": true,
         "sourceLinks": true,
         "noClosed": true,
         "specific": true
@@ -352,6 +499,7 @@
       "checks": {
         "budget": true,
         "count": true,
+        "itineraryAgreement": true,
         "sourceLinks": true,
         "noClosed": true,
         "specific": true
@@ -395,6 +543,7 @@
       "checks": {
         "budget": true,
         "count": true,
+        "itineraryAgreement": true,
         "sourceLinks": true,
         "noClosed": true,
         "specific": true

@@ -4,6 +4,9 @@ import {recommend,PRESETS} from '../src/engine.js';
 const pois=attachEvidence(JSON.parse(await readFile(new URL('../data/pois.json',import.meta.url),'utf8')),JSON.parse(await readFile(new URL('../data/evidence.json',import.meta.url),'utf8')));
 const at=id=>PRESETS.find(p=>p.id===id);
 const cases=[
+ ...['No coffee, just a park','Не хочу кофе, только парк','Кофе керек емес, тек саябақ'].map((query,i)=>({id:`no-coffee-${['en','ru','kk'][i]}`,input:{origin:at('expo'),budget:90,query,interests:['coffee','nature']},expect:'Park request overrides stale coffee interest; cafes excluded.'})),
+ {id:'indoor-only',input:{origin:at('khan'),budget:90,query:'Only indoors'},expect:'No outdoor category in an indoor-only itinerary.'},
+ {id:'short-park-visit',input:{origin:pois.find(p=>p.id==='osm-way-69232075'),budget:15,interests:['nature'],maxWalk:1},expect:'A nearby park can fit as a labelled short visit within 15 minutes.'},
  {id:'group-coverage',input:{origin:at('expo'),budget:120,group:['coffee','nature','landmark']},expect:'All three chosen interests covered by a feasible shared route.'},
  {id:'monday-museum',input:{origin:at('museum'),budget:120,interests:['culture']},expect:'National Museum excluded on Monday using official hours.'},
  {id:'restricted-campus',input:{origin:at('expo'),budget:120,interests:['nature']},expect:'NU Park and Japanese Garden excluded due to campus access restrictions.'},
@@ -20,9 +23,13 @@ const cases=[
 const report=cases.map(c=>{
  const input={maxWalk:20,departure:'2026-10-19T14:00',returnToStart:true,...c.input};const r=recommend(input,pois);
  const checks={budget:r.route.totalMinutes<=r.trace.effectiveBudget,count:r.recommendations.length<=3,
+  itineraryAgreement:JSON.stringify(r.recommendations.map(p=>[p.id,p.visitMinutes]))===JSON.stringify(r.route.stops.map(p=>[p.id,p.visitMinutes])),
   sourceLinks:r.recommendations.every(p=>p.source.url.startsWith('https://www.openstreetmap.org/')),
   noClosed:r.recommendations.every(p=>p.openingStatus!=='closed'),
-  specific:c.id==='group-coverage'?r.group.length===3&&r.group.every(g=>g.covered):
+  specific:c.id.startsWith('no-coffee-')?r.recommendations.length>0&&r.recommendations.every(p=>['park','garden'].includes(p.category)):
+   c.id==='indoor-only'?r.recommendations.length>0&&r.recommendations.every(p=>['cafe','restaurant','museum','mall'].includes(p.category)):
+   c.id==='short-park-visit'?r.recommendations.some(p=>p.id==='osm-way-69232075'&&p.shortStop):
+   c.id==='group-coverage'?r.group.length===3&&r.group.every(g=>g.covered):
    c.id==='monday-museum'?!r.recommendations.some(p=>p.id==='osm-node-4894937300')&&r.trace.exclusions.closed>0:
    c.id==='restricted-campus'?r.trace.exclusions.restricted>=2&&r.route.stops.every(p=>!['osm-way-1467797207','osm-way-1470723968'].includes(p.id)):
    c.id==='baiterek-evidence'?r.recommendations.some(p=>p.id==='osm-way-230401645'&&p.evidence.length>0&&p.visitScope==='exterior'):

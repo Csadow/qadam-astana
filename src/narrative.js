@@ -6,6 +6,7 @@ export function generationContext(body) {
   interests:Array.isArray(c.interests)?[...new Set(c.interests.filter(i=>INTERESTS.includes(i)))].slice(0,5):[],
   group:Array.isArray(c.group)?c.group.filter(i=>INTERESTS.includes(i)).slice(0,5):[],
   mood:['curious','calm','playful'].includes(c.mood)?c.mood:'balanced',weather:['rain','cold'].includes(c.weather)?c.weather:'fair',
+  setting:['indoor','outdoor'].includes(c.setting)?c.setting:'any',excluded:Array.isArray(c.excluded)?c.excluded.filter(i=>INTERESTS.includes(i)).slice(0,5):[],
   budget:Number.isFinite(c.budget)?Math.min(240,Math.max(10,Math.round(c.budget))):60};
 }
 function prose(value,min,max) {
@@ -20,6 +21,9 @@ export function validateNarrative(value,pois,locale='en') {
  return value.suggestions.map(s=>{
   const p=pois.find(p=>p.id===s.id);
   if(!p||seen.has(s.id))throw new Error('Unknown or duplicate POI');seen.add(s.id);
+  const combined=[s.why,s.activity,s.mission].join(' ');
+  if(/accessible (?:route|path|walk)|(?:route|path) (?:is|are) accessible|доступн[а-я]* (?:маршрут|дорожк)|қолжетімді бағыт/iu.test(combined))throw new Error('Unverified route access claim');
+  if((p.operationalNotes||[]).some(n=>/photo|фото|permission|рұқсат/iu.test(JSON.stringify(n)))&&/photo|photograph|съ[её]м|фото|рұқсат/iu.test(combined))throw new Error('Operational photography rule belongs in source notes');
   if(p.visitScope==='exterior'&&/подним|подъ[её]м|аялы|алақан|go inside|go up|take the lift|ішке кір|көтеріл/i.test([s.why,s.activity,s.mission].join(' ')))throw new Error('Interior activity in an exterior stop');
   const available=new Set(evidenceFor(p,locale).map(f=>f.id));
   if(!Array.isArray(s.evidenceIds)||!s.evidenceIds.length||s.evidenceIds.length>3||new Set(s.evidenceIds).size!==s.evidenceIds.length||s.evidenceIds.some(id=>!available.has(id)))throw new Error('Unsupported citation');

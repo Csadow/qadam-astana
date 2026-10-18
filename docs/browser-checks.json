@@ -1,11 +1,15 @@
 {
   "checks": [
     {
-      "name": "Initial scenario shows 1\u20133 sourced recommendations with separate map labels",
+      "name": "Initial itinerary contains 1\u20133 recommendations",
       "pass": true
     },
     {
-      "name": "Narrative explanation, action and discovery mission render",
+      "name": "Cards, route controls and generation refer to the same stops",
+      "pass": true
+    },
+    {
+      "name": "Narrative explanation and action render",
       "pass": true
     },
     {
@@ -13,71 +17,135 @@
       "pass": true
     },
     {
-      "name": "Official facts and citations are visible separately",
+      "name": "Source facts stay separate and can be expanded",
       "pass": true
     },
     {
-      "name": "Controlled campus access affects recommendations",
+      "name": "Campus restrictions are explained",
       "pass": true
     },
     {
-      "name": "Socket and quietness uncertainty remains visible",
+      "name": "Demo time is fixed and visibly labelled",
       "pass": true
     },
     {
-      "name": "Coffee-only route avoids repeated cafe stops",
+      "name": "A kept stop is marked and its remove action is disabled",
       "pass": true
     },
     {
-      "name": "Russian controls and warnings work",
+      "name": "Replace changes one stop and preserves the other",
       "pass": true
     },
     {
-      "name": "Group controls show three people",
+      "name": "Replacement explains the removed and added stops",
       "pass": true
     },
     {
-      "name": "Shared route covers all three selected interests",
+      "name": "Undo restores the exact itinerary and keep state",
       "pass": true
     },
     {
-      "name": "Rain backup applies without changing walking limit or group",
+      "name": "Remove leaves the slot empty",
       "pass": true
     },
     {
-      "name": "Unmet group interests are shown after a compromise",
+      "name": "Kept outdoor stop cannot bypass rain constraints",
       "pass": true
     },
     {
-      "name": "Original plan can be restored",
+      "name": "Conflicting kept stop can be released",
       "pass": true
     },
     {
-      "name": "Shorter backup reduces the budget by 15 minutes",
+      "name": "Socket and quietness remain unverified",
       "pass": true
     },
     {
-      "name": "Monday excludes the officially closed National Museum",
+      "name": "Coffee route has one cafe stop",
       "pass": true
     },
     {
-      "name": "Tuesday museum exposes official exhibits and visitor restrictions",
+      "name": "Negation respected: No coffee, just a park",
       "pass": true
     },
     {
-      "name": "Export carries timing and first-party source links",
+      "name": "Negation respected: \u041d\u0435 \u0445\u043e\u0447\u0443 \u043a\u043e\u0444\u0435, \u0442\u043e\u043b\u044c\u043a\u043e \u043f\u0430\u0440\u043a",
       "pass": true
     },
     {
-      "name": "Privacy explanation is available",
+      "name": "Negation respected: \u041a\u043e\u0444\u0435 \u043a\u0435\u0440\u0435\u043a \u0435\u043c\u0435\u0441, \u0442\u0435\u043a \u0441\u0430\u044f\u0431\u0430\u049b",
       "pass": true
     },
     {
-      "name": "Kazakh upgrade controls are translated",
+      "name": "Indoor constraint is shown in interpretation",
       "pass": true
     },
     {
-      "name": "Impossible request retains an honest empty state",
+      "name": "Russian source uncertainty stays visible",
+      "pass": true
+    },
+    {
+      "name": "Three group preferences remain editable",
+      "pass": true
+    },
+    {
+      "name": "Shared route covers all three interests",
+      "pass": true
+    },
+    {
+      "name": "Rain backup retains group and walking limit",
+      "pass": true
+    },
+    {
+      "name": "Changing context clears undo entries from the previous plan",
+      "pass": true
+    },
+    {
+      "name": "Group compromise is visible",
+      "pass": true
+    },
+    {
+      "name": "Original weather and budget can be restored",
+      "pass": true
+    },
+    {
+      "name": "Shorter preview reduces the budget by 15 minutes",
+      "pass": true
+    },
+    {
+      "name": "Monday museum closure remains enforced",
+      "pass": true
+    },
+    {
+      "name": "Tuesday museum has source details and exact visitor restrictions",
+      "pass": true
+    },
+    {
+      "name": "Scenario selection preserves a custom departure time",
+      "pass": true
+    },
+    {
+      "name": "Export includes itinerary time and cited facts",
+      "pass": true
+    },
+    {
+      "name": "Now mode uses the actual Astana time",
+      "pass": true
+    },
+    {
+      "name": "Returning to Demo restores its fixed date",
+      "pass": true
+    },
+    {
+      "name": "Privacy information remains available",
+      "pass": true
+    },
+    {
+      "name": "Kazakh controls and itinerary editing are translated",
+      "pass": true
+    },
+    {
+      "name": "Mobile route starts within the first viewport",
       "pass": true
     },
     {
@@ -85,15 +153,31 @@
       "pass": true
     },
     {
-      "name": "Geolocation is opt-in and clearable",
+      "name": "Mobile map labels fit their container",
       "pass": true
     },
     {
-      "name": "Clearing location removes it",
+      "name": "Mobile preferences expand accessibly",
       "pass": true
     },
     {
-      "name": "Exact location and raw query never enter generation payloads",
+      "name": "Mobile submit collapses preferences and focuses the result",
+      "pass": true
+    },
+    {
+      "name": "Interpreted request can be edited",
+      "pass": true
+    },
+    {
+      "name": "Location is opt-in",
+      "pass": true
+    },
+    {
+      "name": "Location can be cleared",
+      "pass": true
+    },
+    {
+      "name": "Coordinates and raw query never enter generation payloads",
       "pass": true
     },
     {
@@ -101,7 +185,7 @@
       "pass": true
     },
     {
-      "name": "No persistent location or mission storage",
+      "name": "No persistent location or editing history",
       "pass": true
     },
     {
@@ -109,8 +193,15 @@
       "pass": true
     }
   ],
-  "passed": 27,
-  "total": 27,
+  "passed": 48,
+  "total": 48,
+  "metrics": {
+    "mobileRouteTop": 627,
+    "mobileViewport": {
+      "width": 390,
+      "height": 844
+    }
+  },
   "browser": "Installed Chromium via Playwright",
   "generation": "Controlled fixtures for UI checks; real provider checks in live-rag-evaluation.json",
   "externalRequests": [],

@@ -27,4 +27,4 @@ References: [OSM map API](https://wiki.openstreetmap.org/wiki/API_v0.6#Retrievin
 
 ## Separate first-party enrichment
 
-`evidence.json` holds 21 concise attributed facts across 11 existing POIs, source-check dates, scope restrictions and selected official-hours overrides. It does not mutate the raw snapshot. See `docs/EVIDENCE.md` for mapping and conflict decisions. Automated collection includes historic monuments, which recovers Baiterek from its actual OSM feature rather than matching a transport stop with the same name.
+`evidence.json` holds 25 concise attributed facts across 13 existing POIs, with 14 enriched records including access-only evidence, source-check dates, scope restrictions and selected official-hours overrides. It does not mutate the raw snapshot. See `docs/EVIDENCE.md` for mapping and conflict decisions. Automated collection includes historic monuments, which recovers Baiterek from its actual OSM feature rather than matching a transport stop with the same name.

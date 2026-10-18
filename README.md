@@ -2,7 +2,7 @@
 
 **ArcSolo · Build with AI · Track 1 / Smart City**
 
-An interactive Astana walking assistant that turns a short break into 1–3 source-backed recommendations and a route that fits the available time, including the walk back. Every place explains its match, visit estimate, suggested activity and data uncertainty.
+An interactive Astana walking assistant that turns a short break into one editable itinerary with 1–3 source-backed stops that fits the available time, including the walk back. Every place explains its match, visit estimate, suggested activity and data uncertainty.
 
 ![Qadam demo](presentation/assets/map.png)
 
@@ -27,9 +27,11 @@ The repository is initially **private**. Judges need repository access, a visibi
 3. **A day with the kids:** on Tuesday 20 October, explore a museum recommendation grounded in its actual paleontology exhibits. On Monday 19 October, the official schedule excludes it.
 4. **Coffee & a quiet corner:** cafés with sockets and quietness explicitly unverified.
 5. Change the discovery mood, try a small generated observation mission, or preview **15 minutes less**. Restore the original plan with one click.
-6. Set **15 minutes** near EXPO to see a clear empty state instead of a fabricated match.
+6. Write **“No coffee, just a park”**: the interpretation chips show the excluded category and the route contains no café. English, Russian and Kazakh negation cases are covered.
+7. **Keep** a stop, **replace** another, **remove** a stop without refilling its slot, and **undo**. Kept stops still obey opening hours, weather and time limits.
+8. Use **Demo**, **Now**, or a custom departure. Demo is explicitly fixed to Tuesday 20 October 2026, 14:00 Astana; Now reads the current clock.
 
-Preset scenarios explicitly simulate afternoon departure. All estimates use Astana UTC+5. EN/RU/KK interface, keyboard controls, opt-in geolocation, mobile layout and itinerary export are included.
+On mobile, the route appears first and the preference editor can be expanded. Demo scenarios explicitly simulate afternoon departure. All estimates use Astana UTC+5. EN/RU/KK interface, keyboard controls, opt-in geolocation, mobile layout and itinerary export are included.
 
 ## RAG, precisely
 
@@ -40,7 +42,9 @@ Browser: BM25 + multilingual concept retrieval
     ↓
 Hard constraints: access, walk, total time, hours, category, accessibility
     ↓
-1–3 recommendations + route balancing group interests and visit lengths
+One itinerary balancing group interests and visit lengths
+    ↓
+Same stops and visit durations in cards, map, generation and export
     ↓
 Optional server: retrieved POIs + limited context → Gemini structured generation
     ↓
@@ -51,7 +55,7 @@ Personalized explanation + activity + discovery mission; source facts shown sepa
 
 Retrieval is sparse and concept-based; there is no vector database. Gemini composes an explanation, a focused activity and a discovery mission from the retrieved facts and normalized context. It receives mood, group interests, planned visit lengths and limited preference flags. Citation IDs must belong to the selected POI; an exterior visit cannot cite interior-only exhibits. Invalid output, provider errors and timeouts fall back to labelled templates.
 
-Venue fields, routes and source facts are deterministic. Generated prose is separately labelled: citation and lexical checks do **not** establish that every sentence is supported. Three live scenario outputs are retained for review in [the RAG evaluation](docs/live-rag-evaluation.json).
+Venue fields, routes and source facts are deterministic. Generated prose is separately labelled: citation and lexical checks do **not** establish that every sentence is supported. Three live scenario outputs, including an observed museum fallback and successful recheck, are retained for review in [the RAG evaluation](docs/live-rag-evaluation.json).
 **Current verified mode:** retrieval plus live Gemini structured generation, verified locally and on the private hosted site on 18 October 2026. See [live integration evidence](docs/live-generation-check.json). The UI labels validated model responses as Gemini; missing keys, provider failures and invalid responses fall back to explicitly labelled templates. These smoke checks confirm connectivity and validated output, not model quality.
 
 For a new installation, copy `.env.example` to `.env`, set `GEMINI_API_KEY` locally, and restart the server. Keep the key out of chat, commits and frontend files. Then verify one real call:
@@ -66,7 +70,7 @@ The default model is configurable via `GEMINI_MODEL`. The example uses `gemini-3
 
 ## Data and privacy
 
-The automated snapshot contains **300 named POIs across five neighborhoods**, collected on 18 October 2026. **102** have opening hours, **26** have wheelchair tags. Short descriptions are labelled source-tag summaries. Each record preserves its OSM ID, source URL, original tags and collection timestamp. [Collection and licensing details](data/README.md). A separate evidence layer adds **21 cited facts across 11 places**, three official weekly-hours overrides and two campus-access exclusions. [Evidence decisions](docs/EVIDENCE.md).
+The automated snapshot contains **300 named POIs across five neighborhoods**, collected on 18 October 2026. **102** have opening hours, **26** have wheelchair tags. Short descriptions are labelled source-tag summaries. Each record preserves its OSM ID, source URL, original tags and collection timestamp. [Collection and licensing details](data/README.md). A separate evidence layer adds **25 cited facts across 13 places (14 places enriched including access-only records)**, three official weekly-hours overrides and two campus-access exclusions. [Evidence decisions](docs/EVIDENCE.md).
 
 ```sh
 python3 scripts/collect_pois.py --osm-api --map  # live alternate collection
@@ -85,7 +89,7 @@ node --test tests/*.test.mjs
 node scripts/evaluate.mjs
 ```
 
-**47 unit/API/Worker tests**, a **160-case constraint matrix**, **12/12 scenario checks**, and **27/27 browser checks** passed during development. These are engineering checks, not user-study results. Reports: [scenarios](docs/evaluation.json), [browser](docs/browser-checks.json).
+**57 unit/API/Worker tests**, a **160-case constraint matrix**, **100 route/card agreement combinations**, **17/17 scenario checks**, and **48/48 browser checks** passed during development. These are engineering checks, not user-study results. Reports: [scenarios](docs/evaluation.json), [browser](docs/browser-checks.json).
 
 Optional browser QA and presentation tools:
 
@@ -97,11 +101,13 @@ python3 -m venv .venv
 .venv/bin/python scripts/make_presentation.py
 ```
 
+A short [usability session guide](docs/USABILITY.md) is ready for 3–5 volunteers. No user-study results are claimed.
+
 ## Submission materials
 
 - [Project plan](docs/PLAN.md) — committed before implementation.
 - [Russian pitch PDF](presentation/Qadam_ArcSolo_pitch_RU.pdf) and [editable PowerPoint](presentation/Qadam_ArcSolo_pitch_RU.pptx).
-- [Russian speaker notes](presentation/SPEAKER_NOTES_RU.md) — 12 slides, target **6:50**, including a live demo.
+- [Russian speaker notes](presentation/SPEAKER_NOTES_RU.md) — 12 slides, target **6:15**, including a live demo.
 - [Captioned Russian demo video](presentation/Qadam_demo_RU.mp4), [subtitles](presentation/Qadam_demo_RU.srt), and [YouTube upload copy](presentation/YOUTUBE_UPLOAD.md).
 - [Test scenarios](docs/SCENARIOS.md), [English report PDF](docs/Qadam_Test_Scenarios_EN.pdf), [privacy](docs/PRIVACY.md), and [submission checklist](docs/SUBMISSION.md).
 

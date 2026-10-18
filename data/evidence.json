@@ -440,7 +440,7 @@
         {
           "id": "baiterek-97-metres",
           "text": {
-            "en": "The Ayaly Alaqan composition stands 97 metres high, marking Astana's capital-city milestone in 1997.",
+            "en": "The Ayaly Alaqan composition is located at a height of 97 metres, symbolizing Astana's capital-city milestone in 1997.",
             "ru": "Композиция «Аялы Алақан» находится на высоте 97 метров — в честь переноса столицы в Астану в 1997 году.",
             "kk": "«Аялы Алақан» композициясы 97 метр биіктікте орналасқан: бұл 1997 жылы Астананың елорда болғанын білдіреді."
           },
@@ -596,6 +596,115 @@
         "evidence": "Official page explicitly identifies dedication to 25 years of independence and creation in 2016. Other government-hosted official guides locate Uly Dala Eli at EXPO; existing OSM name and EXPO address match."
       },
       "researchNotes": "Do not enrich height: OSM records 46 m while several sources say 70 m. Do not infer 24/7 access, free admission, operating events, step-free access or today's route availability. Kazakhstan.travel attraction 437 has apparently wrong coordinates near NU, so retain OSM coordinates."
+    },
+    {
+      "id": "osm-way-69232075",
+      "themes": [
+        "culture"
+      ],
+      "facts": [
+        {
+          "id": "zhetysu-2018-renaming",
+          "text": {
+            "en": "Formerly Arai Park, Zhetysu was redesigned and renamed in 2018 by Almaty Region for the capital's twentieth anniversary.",
+            "ru": "Бывший парк «Арай» реконструировали и переименовали в «Жетысу» в 2018 году. Проект Алматинской области был посвящён двадцатилетию столицы.",
+            "kk": "Бұрынғы «Арай» саябағы 2018 жылы жаңартылып, «Жетісу» деп аталды. Алматы облысының бұл жобасы елорданың жиырма жылдығына арналды."
+          },
+          "url": "https://visitastana.kz/ru/about-city/what-to-see/park-zhetysu/",
+          "title": "Visit Astana — Парк «Жетысу»",
+          "checkedAt": "2026-10-18",
+          "publishedAt": null,
+          "scope": "Historical redevelopment of Zhetysu Park, identified by official name and Sarayshyk 13/1 address; does not describe the separate OSM polygon still named Arai.",
+          "visitScope": "exterior"
+        }
+      ],
+      "notes": [],
+      "entityMatch": {
+        "basis": "Official Zhetysu name and location on Sarayshyk match the OSM Zhetysu polygon. The official page explains its former Arai name.",
+        "excludedId": "osm-way-243041609",
+        "excludedReason": "A separate nearby OSM polygon is still named Arai. Do not duplicate the Zhetysu facts onto it."
+      }
+    },
+    {
+      "id": "osm-way-37884583",
+      "themes": [
+        "culture"
+      ],
+      "facts": [
+        {
+          "id": "lovers-park-my-happiness",
+          "text": {
+            "en": "Lovers Park was created in 2005. Its central sculpture, My Happiness, is a work by Kazakh artist Erbolat Tolepbay.",
+            "ru": "Парк влюблённых появился в 2005 году. Его центральная скульптура «Моё счастье» — работа казахстанского художника Ерболата Толепбая.",
+            "kk": "Ғашықтар саябағы 2005 жылы ашылды. Орталықтағы «Менің бақытым» мүсінін қазақстандық суретші Ерболат Төлепбай жасаған."
+          },
+          "url": "https://visitnursultan.kz/about-city/what-to-see/park-vlyublennykh/",
+          "title": "Visit Nur-Sultan — Парк Влюбленных (legacy city tourism page)",
+          "checkedAt": "2026-10-18",
+          "publishedAt": null,
+          "scope": "Historical park and public-art description on the legacy city tourism site. Source spelling of the sculpture name is «Бакытым менин»; translations use its supplied meaning, My Happiness.",
+          "visitScope": "exterior"
+        },
+        {
+          "id": "lovers-park-horseshoe-fountain",
+          "text": {
+            "en": "Gabriela von Habsburg's fountain composition opened here in 2006: sixteen horseshoes suggest four horses running toward the four cardinal directions.",
+            "ru": "Фонтанная композиция Габриэлы фон Габсбург появилась здесь в 2006 году: шестнадцать подков изображают четырёх лошадей, бегущих в четыре стороны света.",
+            "kk": "Габриэла фон Габсбургтің субұрқақ композициясы мұнда 2006 жылы ашылды: он алты таға дүниенің төрт бағытына жүгірген төрт жылқыны бейнелейді."
+          },
+          "url": "https://visitnursultan.kz/about-city/what-to-see/park-vlyublennykh/",
+          "title": "Visit Nur-Sultan — Парк Влюбленных (legacy city tourism page)",
+          "checkedAt": "2026-10-18",
+          "publishedAt": null,
+          "scope": "Historical installation and symbolism of the fountain sculpture. No claim that water is running or that the fountain operates during the selected visit.",
+          "visitScope": "exterior"
+        }
+      ],
+      "notes": [],
+      "entityMatch": {
+        "basis": "Exact named Lovers Park in Astana/Yesil district, with its distinctive central sculpture; OSM polygon has matching EN/RU/KK names.",
+        "sourceCaveat": "Legacy official tourism site retains a 2021 copyright footer. Use the stable historical/art facts only; no current access or facilities claims."
+      }
+    },
+    {
+      "id": "osm-node-6408271985",
+      "facts": [
+        {
+          "id": "crepecafe-french-creperie-concept",
+          "text": {
+            "en": "CrêpeCafé describes its concept as a modern crêperie centred on filled French pancakes.",
+            "ru": "CrêpeCafé описывает свою концепцию как современную креперию с французскими блинчиками с начинками.",
+            "kk": "CrêpeCafé өз тұжырымдамасын салмасы бар француз құймақтарына негізделген заманауи креперия деп сипаттайды."
+          },
+          "url": "https://fr.crepecafe.kz/",
+          "title": "CrêpeCafé — official franchise concept",
+          "checkedAt": "2026-10-18",
+          "publishedAt": null,
+          "scope": "Brand concept, applicable to the operator-listed Kunaeva 12/1 branch. Not a claim about current opening, stock, a particular dish, quietness, sockets, or seating.",
+          "supportingSources": [
+            {
+              "url": "https://crepecafe.kz/franshiza/",
+              "title": "CrêpeCafé — official branch selector",
+              "checkedAt": "2026-10-18",
+              "scope": "Explicit branch list includes Astana, Kunaeva 12/1."
+            },
+            {
+              "url": "https://crepecafe.kz/rus/vacancies",
+              "title": "CrêpeCafé — official vacancies",
+              "checkedAt": "2026-10-18",
+              "scope": "Names CrêpeCafé 1 at Kunaeva 12/1."
+            }
+          ]
+        }
+      ],
+      "notes": [],
+      "entityMatch": {
+        "basis": "OSM website crepecafe.kz and Instagram crepecafe_kz match the operator. Older indexed city guide names Kunaeva 12/1 with exact OSM phone +7 771 949 49 49. Current operator branch selector and vacancies independently list the same street address.",
+        "address": "Kunaeva 12/1, Astana",
+        "matchingPhone": "+77719494949",
+        "retrievalCaveat": "Operator content was verified through indexed primary-source search results; direct page opens sometimes return loading shells or timeout. The indexed older city PDF is supplementary historical entity-match evidence only, not the cited primary fact. The franchise-concept search result indicated an approximately 1.4-year-old crawl; checkedAt records research date, not source freshness or current operation.",
+        "operationNotVerified": true
+      }
     }
   ],
   "excludedFindings": [
@@ -655,6 +764,39 @@
       },
       "operationalStatus": "not_live_verified",
       "limitations": "Touch permission applies only to designated replicas; general museum rules prohibit touching ordinary exhibits. This does not establish a step-free walking route."
+    }
+  ],
+  "rejectedFindings": [
+    {
+      "candidate": "Use Visit Astana gastro-guide.pdf page 161 as current primary CrepeCafe source",
+      "urls": [
+        "https://visitastana.kz/public/file/gastro-guide.pdf",
+        "https://visitastana.kz/public/file/gastro-guide-en.pdf"
+      ],
+      "reason": "Search indexes show an older Crêpe Café entry with exact OSM phone, but both live downloaded PDFs were replaced and contain no CrepeCafe entry. The current Russian guide lists other businesses at the shared Kunaeva 12/1 building. Do not cite the replaced PDF as a currently retrievable CrepeCafe description or infer closure from absence."
+    },
+    {
+      "candidate": "CrepeCafe Khansky horsemeat/kazy/kurt crepe at this branch",
+      "url": "https://crepecafe.kz/rus",
+      "reason": "The operator menu is explicitly delivery-address-dependent. Chain menu content does not establish present dish availability at the exact mapped branch."
+    },
+    {
+      "candidate": "Rafe branch cuisine or hours for osm-node-4133854089 / osm-node-1843876259",
+      "url": "https://rafe.kz/contacts",
+      "reason": "Operator lists multiple nearby Kunaeva branches; OSM candidate nodes have insufficient branch-specific contact/address data. Do not choose a branch from proximity alone."
+    },
+    {
+      "candidate": "Zhetysu petroglyph replicas attributed to SK-Art",
+      "url": "https://sk-art.kz/f/katalog_2024.pdf",
+      "reason": "Promising first-party artist portfolio indexed with a Zhetysu/Tamgaly-Tas description, but the PDF could not be verified within the bounded research pass. No merged fact proposed."
+    },
+    {
+      "candidate": "Linear Park 2026 winter skating operation",
+      "reason": "Recent third-party announcement found without a verified primary source. No current-operation claim proposed."
+    },
+    {
+      "candidate": "Quiet atmosphere, sockets, child facilities, price bands or admission for these places",
+      "reason": "No explicit reliable branch-specific evidence gathered. Promotional cafe comfort language and chain franchise format options are not capability verification."
     }
   ]
 }

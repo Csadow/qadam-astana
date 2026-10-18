@@ -1,6 +1,6 @@
 # First-party evidence and source decisions
 
-The automated OSM snapshot supplies 300 named POIs. A separate, manually researched layer adds 21 concise attributed facts across 11 existing places. `src/evidence.js` merges it at runtime without changing the raw snapshot. Source pages were checked on 18 October 2026; this is not an on-site or real-time verification.
+The automated OSM snapshot supplies 300 named POIs. A separate, manually researched layer adds 25 concise attributed facts across 13 existing places; 14 places are enriched when the access-only record is included. `src/evidence.js` merges it at runtime without changing the raw snapshot. Primary sources were researched on 18 October 2026, using indexed results where direct retrieval failed; this is not an on-site or real-time verification.
 
 ## Mapping and scope
 
@@ -88,6 +88,26 @@ OSM ID: `osm-node-12520559591`. Facts: 2.
 OSM ID: `osm-way-1460763574`. Facts: 2.
 
 - [Visit Astana — Uly Dala Eli Monument](https://visitastana.kz/ru/about-city/what-to-see/monument-uly-dala-eli/)
+
+### Zhetysu Park
+
+OSM ID: `osm-way-69232075`. Facts: 1. The city tourism page supports its 2018 redesign and renaming, not present-day facilities or access.
+
+- [Visit Astana — Zhetysu Park](https://visitastana.kz/ru/about-city/what-to-see/park-zhetysu/)
+
+### Lovers Park
+
+OSM ID: `osm-way-37884583`. Facts: 2. Historical sculpture/fountain descriptions from the legacy city tourism site; no claim that the fountain runs today.
+
+- [Official city tourism — Lovers Park](https://visitnursultan.kz/about-city/what-to-see/park-vlyublennykh/)
+
+### CrêpeCafé — Kunaeva 12/1
+
+OSM ID: `osm-node-6408271985`. Facts: 1. The operator describes a French crêperie brand concept. Its branch selector and vacancies identify Kunaeva 12/1; the OSM website and phone support the entity match. Direct retrieval was unreliable, so indexed primary-source results were used. The concept result indicated an approximately 1.4-year-old crawl. The research date does not mean the page or branch is current. No present opening, menu stock, socket or quietness claim is made.
+
+- [CrêpeCafé — franchise concept](https://fr.crepecafe.kz/)
+- [CrêpeCafé — branch selector](https://crepecafe.kz/franshiza/)
+- [CrêpeCafé — vacancies and branch address](https://crepecafe.kz/rus/vacancies)
 
 ## Rights and reliability
 

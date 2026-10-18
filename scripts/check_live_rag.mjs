@@ -9,13 +9,18 @@ const cases=[
  {id:'curious-baiterek',input:{origin:PRESETS[1],interests:['landmark'],mood:'curious',budget:60},context:{mood:'curious',interests:['landmark'],budget:60}},
  {id:'mixed-group',input:{origin:PRESETS[0],group:['coffee','nature','landmark'],mood:'curious',budget:120},context:{group:['coffee','nature','landmark'],mood:'curious',budget:120}},
 ];
+const retryFailed=process.argv.includes('--retry-failed');
+const previous=retryFailed?await read('docs/live-rag-evaluation.json'):null;
 const results=[];
 for(const c of cases){
+ const prior=previous?.results.find(r=>r.id===c.id);
+ if(prior?.mode==='gemini-grounded'){results.push(prior);continue;}
  const plan=recommend({maxWalk:20,departure:'2026-10-20T14:00',...c.input},pois);
  const generated=await generateSuggestions({ids:plan.recommendations.map(p=>p.id),visits:plan.recommendations.map(p=>({id:p.id,minutes:plan.route.stops.find(s=>s.id===p.id)?.visitMinutes||p.visitMinutes})),locale:'ru',context:c.context},pois,process.env);
- results.push({id:c.id,mode:generated.mode,reason:generated.reason||null,places:plan.recommendations.map(p=>({id:p.id,name:p.name,evidenceCount:p.evidence.length})),suggestions:generated.suggestions});
+ const attempts=prior?[...(prior.attempts||[{mode:prior.mode,reason:prior.reason,checkedAt:previous.checkedAt}]),{mode:generated.mode,reason:generated.reason||null,checkedAt:new Date().toISOString()}]:[{mode:generated.mode,reason:generated.reason||null,checkedAt:new Date().toISOString()}];
+ results.push({id:c.id,mode:generated.mode,reason:generated.reason||null,attempts,places:plan.recommendations.map(p=>({id:p.id,name:p.name,evidenceCount:p.evidence.length})),suggestions:generated.suggestions});
  console.log(JSON.stringify({scenario:c.id,mode:generated.mode,count:generated.suggestions.length,reason:generated.reason||null}));
 }
-const report={checkedAt:new Date().toISOString(),model:process.env.GEMINI_MODEL||'gemini-3.5-flash-lite',method:'Three real provider requests with validated place/citation IDs. Outputs retained for human review. Not an independent factuality benchmark or user study.',results};
+const report={checkedAt:new Date().toISOString(),model:process.env.GEMINI_MODEL||'gemini-3.5-flash-lite',method:'Three live scenarios with validated place/citation IDs. Explicit --retry-failed requests retain prior fallback attempts. Outputs retained for human review. Not an independent factuality benchmark or user study.',results};
 await writeFile(new URL('docs/live-rag-evaluation.json',root),JSON.stringify(report,null,2)+'\n');
 if(results.some(r=>r.mode!=='gemini-grounded'))process.exitCode=1;
