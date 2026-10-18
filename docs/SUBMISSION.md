@@ -10,11 +10,11 @@ Deadline: **19 October 2026 inclusive**, as supplied by the participant. Confirm
 | RAG explanation | README, slide 6, `live-generation-check.json` | Live Gemini verified locally and on the hosted site |
 | Test cases and limitations | `docs/SCENARIOS.md`, evaluation reports | Ready |
 | Privacy and ethics | `docs/PRIVACY.md`, slide 8 | Ready |
-| Repository or prototype archive | GitHub plus prepared ZIP | Repository private; give judges access or submit ZIP |
+| Repository or prototype archive | GitHub plus prepared ZIP | Public repository; ZIP also available |
 | Presentation, 5–7 minutes | PDF, PPTX, Russian speaker notes | Ready; rehearsal target 6:15 |
 | YouTube demo link | MP4, SRT, upload copy | Video ready; upload still required |
 
-Repository: https://github.com/Csadow/qadam-astana
+Public repository: https://github.com/Csadow/qadam-astana
 
 Hosted demo: https://qadam-arcsolo-astana.candy-ball-8297.chatgpt.site
 
@@ -28,9 +28,9 @@ YouTube watch URL: **not uploaded**.
 
 1. Live Gemini is configured and verified. Before presenting, open the demo and confirm the Gemini badge appears after planning. A fresh local installation needs its own server-side key; use `node --env-file=.env scripts/check_gemini.mjs` to check it. If the provider is unavailable, explain the labelled template fallback.
 2. Upload `presentation/Qadam_demo_RU.mp4` to YouTube and insert the actual watch URL. Use the supplied Russian title/description and optional SRT. The video has captions and no voiceover; you may replace it with your own narrated recording.
-3. Give judges access to the private repository, explicitly choose to make it public, or submit the source ZIP. The brief allows an archive. The hosted demo is private too; use the local app/video unless audience settings are changed.
+3. Submit the public repository link or source ZIP. Public visibility and anonymous GitHub API access were verified on 18 October 2026. The hosted demo remains private; use the local app/video unless its audience settings are changed.
 4. Rehearse the 6:15 Russian pitch. Keep the MP4 and PDF locally as backups. Check the exact deadline, AI-assistance rules and submission form with the organizers; those details are absent from the provided brief.
-5. If possible, run the 3–5-person sessions in `docs/USABILITY.md`. Record actual observations; the pitch currently states that participant testing is pending.
+5. Participant testing is deferred. Use `docs/NEXT_STEPS.md` and the recorded intent audit to prioritize further engineering work; no user-study results are claimed.
 6. Submit the actual links/files. This project has not been submitted to an organizer automatically.
 
 ## Claims supported by evidence

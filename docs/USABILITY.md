@@ -1,6 +1,6 @@
 # Qadam — short usability session
 
-Status: **protocol prepared; no participant sessions recorded yet**. Run with 3–5 volunteers before the pitch if time permits. This is a small qualitative check, not proof of demand or statistical accuracy.
+Status: **deferred at the participant’s request; no sessions recorded**. This protocol is retained for a future opportunity. Current engineering priorities are in [NEXT_STEPS.md](NEXT_STEPS.md). This is a small qualitative check, not proof of demand or statistical accuracy.
 
 Allow about eight minutes per person. Use the local app or an authorized hosted session. Ask permission to note observations; no name, precise location, account details or recording is needed. Let participants stop at any time. Use P1–P5 as anonymous labels and an app preset as the origin. Do not silently coach them through the controls.
 

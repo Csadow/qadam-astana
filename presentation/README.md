@@ -14,4 +14,4 @@ Regenerate the deck with `.venv/bin/python scripts/make_presentation.py`. To rep
 
 The 135-second video records ten successful live Gemini responses and no browser errors. It demonstrates source-backed ideas, keep/replace/remove/undo, negative preferences, group coverage, reversible rain/time backups, museum schedule checks and small discovery missions. Source facts remain separate from generated advice: citation validation does not prove every sentence.
 
-Before the pitch, recheck live model connectivity and judge access. The hosted demo and GitHub repository remain private; the YouTube upload is still required.
+Before the pitch, recheck live model connectivity. The GitHub repository is public. The hosted demo remains private; use the local app/video for judges. The YouTube upload is still required. Participant testing is deferred; the pitch presents it as future work.

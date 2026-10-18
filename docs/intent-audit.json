@@ -1,0 +1,149 @@
+{
+  "checkedAt": "2026-10-18T18:46:48.747Z",
+  "appVersion": "3.0.0",
+  "method": "Ten deliberately selected edge cases with manually specified expected behavior, including synthetic category-isolation fixtures. A diagnostic baseline, not a random sample, independent evaluation, user study, or overall accuracy estimate. Failed cases are tracked work; this script does not gate the existing supported-scenario CI.",
+  "passed": 3,
+  "total": 10,
+  "results": [
+    {
+      "id": "mixed-duration-en",
+      "query": "I have 1 hour 30 minutes",
+      "expected": {
+        "budget": 90
+      },
+      "actual": {
+        "budget": 30
+      },
+      "pass": false
+    },
+    {
+      "id": "not-only",
+      "query": "Not only coffee but also a park",
+      "expected": {
+        "concepts": [
+          "coffee",
+          "nature"
+        ],
+        "excluded": []
+      },
+      "actual": {
+        "concepts": [
+          "coffee",
+          "nature"
+        ],
+        "excluded": []
+      },
+      "pass": true
+    },
+    {
+      "id": "specific-category-exclusion",
+      "query": "No museums, architecture please",
+      "expected": {
+        "museumExcluded": true,
+        "artworkRetained": true
+      },
+      "actual": {
+        "museumExcluded": true,
+        "artworkRetained": false
+      },
+      "pass": false
+    },
+    {
+      "id": "walking-cap",
+      "query": "90 minutes total, max 10 minutes walking",
+      "expected": {
+        "budget": 90,
+        "maxWalk": 10
+      },
+      "actual": {
+        "budget": 90,
+        "maxWalk": null
+      },
+      "pass": false
+    },
+    {
+      "id": "mixed-duration-ru",
+      "query": "Есть 1 час 30 минут",
+      "expected": {
+        "budget": 90
+      },
+      "actual": {
+        "budget": 30
+      },
+      "pass": false
+    },
+    {
+      "id": "duration-kk",
+      "query": "30 минут серуендеуге уақыт бар",
+      "expected": {
+        "budget": 30
+      },
+      "actual": {
+        "budget": 30
+      },
+      "pass": true
+    },
+    {
+      "id": "double-negation",
+      "query": "I do not want to skip coffee",
+      "expected": {
+        "concepts": [
+          "coffee"
+        ],
+        "excluded": []
+      },
+      "actual": {
+        "concepts": [],
+        "excluded": [
+          "coffee"
+        ]
+      },
+      "pass": false
+    },
+    {
+      "id": "free-wifi",
+      "query": "Coffee with free wifi",
+      "expected": {
+        "free": false
+      },
+      "actual": {
+        "free": true
+      },
+      "pass": false
+    },
+    {
+      "id": "stroller-context",
+      "query": "Walking with a stroller",
+      "expected": {
+        "concepts": [
+          "family"
+        ]
+      },
+      "actual": {
+        "concepts": []
+      },
+      "pass": false
+    },
+    {
+      "id": "basic-negation",
+      "query": "No coffee, just a park",
+      "expected": {
+        "concepts": [
+          "nature"
+        ],
+        "excluded": [
+          "coffee"
+        ]
+      },
+      "actual": {
+        "concepts": [
+          "nature"
+        ],
+        "excluded": [
+          "coffee"
+        ]
+      },
+      "pass": true
+    }
+  ]
+}

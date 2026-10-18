@@ -18,7 +18,7 @@ node --env-file-if-exists=.env server.mjs
 
 Open **http://127.0.0.1:8787**. The checked-in snapshot makes the local demo independent of public data services. Local serving binds only to loopback. To change the port, set `PORT` in `.env`.
 
-The repository is initially **private**. Judges need repository access, a visibility change, or the prepared source archive. The hosted Site is also owner-private; see [submission status](docs/SUBMISSION.md).
+The repository is **public**: judges can read or clone it without an invitation. The hosted Site remains owner-private; use the local app or recorded demo for review. See [submission status](docs/SUBMISSION.md).
 
 ## Try it
 
@@ -101,7 +101,7 @@ python3 -m venv .venv
 .venv/bin/python scripts/make_presentation.py
 ```
 
-A short [usability session guide](docs/USABILITY.md) is ready for 3–5 volunteers. No user-study results are claimed.
+Participant testing is deferred. The [next improvement plan](docs/NEXT_STEPS.md) prioritizes request interpretation, pedestrian paths and source-backed themed journeys. A targeted [intent audit](docs/intent-audit.json) records seven unresolved edge cases out of ten deliberately selected examples; it is not an overall accuracy estimate. The existing [usability guide](docs/USABILITY.md) remains available for later.
 
 ## Submission materials
 
