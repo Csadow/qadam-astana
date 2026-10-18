@@ -2,6 +2,8 @@
 
 ## Brief and product
 
+Team: **ArcSolo**. Deadline supplied by participant: **19 October 2026 inclusive**. Project documentation in English; pitch in Russian.
+
 Build with AI, Track 1 / Smart City: a location-aware, context-sensitive POI retrieval and generation assistant for Astana. The source brief is `FINAL Задачи_хакатона.docx.pdf`, pages 1–3. Track 2's MCP and GCP requirements do not apply.
 
 Target users: residents with a short break, parents planning an outing, and visitors exploring an unfamiliar neighborhood. The first release concentrates on EXPO walks, family activities, and coffee stops. No claim of verified sockets, quietness, accessibility, or opening status without source evidence.

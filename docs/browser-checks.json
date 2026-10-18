@@ -1,0 +1,77 @@
+{
+  "checks": [
+    {
+      "name": "Initial scenario shows 1\u20133 sourced recommendations",
+      "pass": true
+    },
+    {
+      "name": "Initial two-stop route fits 60 minutes",
+      "pass": true
+    },
+    {
+      "name": "Socket and quietness warnings visible",
+      "pass": true
+    },
+    {
+      "name": "Coffee itinerary avoids repetitive caf\u00e9 hopping",
+      "pass": true
+    },
+    {
+      "name": "Russian interface and evidence labels work",
+      "pass": true
+    },
+    {
+      "name": "Family scenario returns source-backed places",
+      "pass": true
+    },
+    {
+      "name": "Export includes source citations and timing",
+      "pass": true
+    },
+    {
+      "name": "Privacy explanation is accessible in dialog",
+      "pass": true
+    },
+    {
+      "name": "Kazakh interface works",
+      "pass": true
+    },
+    {
+      "name": "Impossible request has a clear empty state",
+      "pass": true
+    },
+    {
+      "name": "Mobile page has no horizontal overflow",
+      "pass": true
+    },
+    {
+      "name": "Geolocation is opt-in and clearable",
+      "pass": true
+    },
+    {
+      "name": "Clearing location removes it from the selector",
+      "pass": true
+    },
+    {
+      "name": "No exact coordinates or raw query are sent to generation",
+      "pass": true
+    },
+    {
+      "name": "No third-party requests during normal use",
+      "pass": true
+    },
+    {
+      "name": "No persistent browser storage",
+      "pass": true
+    },
+    {
+      "name": "No uncaught browser errors",
+      "pass": true
+    }
+  ],
+  "passed": 17,
+  "total": 17,
+  "browser": "Installed Chromium via Playwright",
+  "externalRequests": [],
+  "pageErrors": []
+}

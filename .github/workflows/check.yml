@@ -1,0 +1,19 @@
+name: Verify Qadam
+on:
+  push:
+  pull_request:
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node scripts/build.mjs
+      - run: node --test tests/*.test.mjs
+      - run: node scripts/evaluate.mjs
+      - name: Verify data provenance
+        run: python3 scripts/collect_pois.py --from-raw data/raw-osm.json
+      - name: Verify reproducible normalized data
+        run: git diff --exit-code -- data/pois.json data/metadata.json

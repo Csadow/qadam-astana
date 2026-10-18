@@ -1,0 +1,296 @@
+{
+  "evaluatedAt": "2026-10-18T16:18:18.420Z",
+  "datasetSize": 298,
+  "passed": 8,
+  "total": 8,
+  "method": "Deterministic scenario acceptance checks on the collected snapshot. Not a user study or LLM quality benchmark.",
+  "scenarios": [
+    {
+      "id": "expo-hour",
+      "expect": "1–3 nearby options; total route including return ≤60 minutes.",
+      "pass": true,
+      "checks": {
+        "budget": true,
+        "count": true,
+        "sourceLinks": true,
+        "noClosed": true,
+        "specific": true
+      },
+      "resultCount": 3,
+      "names": [
+        "Лепим и варим",
+        "NU Park",
+        "Japanese garden"
+      ],
+      "routeMinutes": 60,
+      "budget": 60,
+      "uncertainties": [
+        {
+          "id": "osm-node-12520559591",
+          "unknowns": []
+        },
+        {
+          "id": "osm-way-1467797207",
+          "unknowns": [
+            "hours"
+          ]
+        },
+        {
+          "id": "osm-way-1470723968",
+          "unknowns": [
+            "hours"
+          ]
+        }
+      ],
+      "warnings": [
+        "estimates"
+      ]
+    },
+    {
+      "id": "quiet-coffee",
+      "expect": "Cafés only; quietness and sockets explicitly unverified.",
+      "pass": true,
+      "checks": {
+        "budget": true,
+        "count": true,
+        "sourceLinks": true,
+        "noClosed": true,
+        "specific": true
+      },
+      "resultCount": 3,
+      "names": [
+        "Degirmen",
+        "CrepeCafe",
+        "Starbucks"
+      ],
+      "routeMinutes": 28,
+      "budget": 60,
+      "uncertainties": [
+        {
+          "id": "osm-node-10564988185",
+          "unknowns": [
+            "quiet",
+            "socket"
+          ]
+        },
+        {
+          "id": "osm-node-6408271985",
+          "unknowns": [
+            "quiet",
+            "socket"
+          ]
+        },
+        {
+          "id": "osm-node-9047331880",
+          "unknowns": [
+            "quiet",
+            "socket"
+          ]
+        }
+      ],
+      "warnings": [
+        "estimates"
+      ]
+    },
+    {
+      "id": "family-museum",
+      "expect": "Family candidate categories; no invented interactive exhibits.",
+      "pass": true,
+      "checks": {
+        "budget": true,
+        "count": true,
+        "sourceLinks": true,
+        "noClosed": true,
+        "specific": true
+      },
+      "resultCount": 2,
+      "names": [
+        "Қазақстан Республикасының Ұлттық Мұражайы",
+        "Президент саябағы"
+      ],
+      "routeMinutes": 104,
+      "budget": 120,
+      "uncertainties": [
+        {
+          "id": "osm-node-4894937300",
+          "unknowns": [
+            "hours",
+            "interactive"
+          ]
+        },
+        {
+          "id": "osm-way-112177946",
+          "unknowns": [
+            "hours"
+          ]
+        }
+      ],
+      "warnings": [
+        "estimates"
+      ]
+    },
+    {
+      "id": "rainy-khan",
+      "expect": "Indoor categories; weather labelled user-selected.",
+      "pass": true,
+      "checks": {
+        "budget": true,
+        "count": true,
+        "sourceLinks": true,
+        "noClosed": true,
+        "specific": true
+      },
+      "resultCount": 3,
+      "names": [
+        "Лепим и варим",
+        "Хан Шатыр",
+        "Ozyurt"
+      ],
+      "routeMinutes": 90,
+      "budget": 90,
+      "uncertainties": [
+        {
+          "id": "osm-way-1449317691",
+          "unknowns": []
+        },
+        {
+          "id": "osm-way-460703779",
+          "unknowns": [
+            "hours"
+          ]
+        },
+        {
+          "id": "osm-way-1449317875",
+          "unknowns": [
+            "hours"
+          ]
+        }
+      ],
+      "warnings": [
+        "estimates",
+        "weather_manual"
+      ]
+    },
+    {
+      "id": "too-little-time",
+      "expect": "No invented match when nothing fits.",
+      "pass": true,
+      "checks": {
+        "budget": true,
+        "count": true,
+        "sourceLinks": true,
+        "noClosed": true,
+        "specific": true
+      },
+      "resultCount": 0,
+      "names": [],
+      "routeMinutes": 0,
+      "budget": 10,
+      "uncertainties": [],
+      "warnings": [
+        "estimates"
+      ]
+    },
+    {
+      "id": "wheelchair",
+      "expect": "Only explicit wheelchair=yes; route access still unverified.",
+      "pass": true,
+      "checks": {
+        "budget": true,
+        "count": true,
+        "sourceLinks": true,
+        "noClosed": true,
+        "specific": true
+      },
+      "resultCount": 2,
+      "names": [
+        "Керуен",
+        "Избушка"
+      ],
+      "routeMinutes": 44,
+      "budget": 60,
+      "uncertainties": [
+        {
+          "id": "osm-way-108096984",
+          "unknowns": [
+            "hours",
+            "step_free_route"
+          ]
+        },
+        {
+          "id": "osm-node-2671060738",
+          "unknowns": [
+            "hours",
+            "step_free_route"
+          ]
+        }
+      ],
+      "warnings": [
+        "estimates"
+      ]
+    },
+    {
+      "id": "airport-night",
+      "expect": "Airport buffer and night safety warnings; no flight guarantee.",
+      "pass": true,
+      "checks": {
+        "budget": true,
+        "count": true,
+        "sourceLinks": true,
+        "noClosed": true,
+        "specific": true
+      },
+      "resultCount": 3,
+      "names": [
+        "Coco",
+        "завтрак бар",
+        "NU Park"
+      ],
+      "routeMinutes": 116,
+      "budget": 120,
+      "uncertainties": [
+        {
+          "id": "osm-node-13397061028",
+          "unknowns": []
+        },
+        {
+          "id": "osm-node-6408255389",
+          "unknowns": [
+            "hours"
+          ]
+        },
+        {
+          "id": "osm-way-1467797207",
+          "unknowns": [
+            "hours"
+          ]
+        }
+      ],
+      "warnings": [
+        "estimates",
+        "airport",
+        "night"
+      ]
+    },
+    {
+      "id": "outside-coverage",
+      "expect": "Empty result outside collected Astana areas.",
+      "pass": true,
+      "checks": {
+        "budget": true,
+        "count": true,
+        "sourceLinks": true,
+        "noClosed": true,
+        "specific": true
+      },
+      "resultCount": 0,
+      "names": [],
+      "routeMinutes": 0,
+      "budget": 60,
+      "uncertainties": [],
+      "warnings": [
+        "estimates"
+      ]
+    }
+  ]
+}

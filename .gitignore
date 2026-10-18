@@ -10,3 +10,4 @@ dist/
 artifacts/
 test-results/
 *.log
+data/cache-*.osm

@@ -1,0 +1,33 @@
+# ArcSolo · submission status
+
+Deadline: **19 October 2026 inclusive**, as supplied by the participant. Confirm the organizer's exact cutoff and submission form separately; the brief did not include them.
+
+| Required deliverable | Prepared artifact | Status |
+|---|---|---|
+| Product concept | `docs/PLAN.md`, pitch slides | Ready |
+| Interactive prototype | Local Node app; private hosted Site | Local tested; hosted status recorded below |
+| Automated POI collection | `scripts/collect_pois.py`, source snapshot, metadata | Collected and reproducible |
+| RAG explanation | README, slide 6 | Ready; live model needs a key |
+| Test cases and limitations | `docs/SCENARIOS.md`, evaluation reports | Ready |
+| Privacy and ethics | `docs/PRIVACY.md`, slide 7 | Ready |
+| Repository or prototype archive | GitHub plus prepared ZIP | Repository private; give judges access or submit ZIP |
+| Presentation, 5–7 minutes | PDF, PPTX, Russian speaker notes | Ready; rehearsal target 6:20 |
+| YouTube demo link | MP4, SRT, upload copy | Video ready; upload still required |
+
+Repository: https://github.com/Csadow/qadam-astana
+
+Hosted demo: publication in progress. This Site is owner-private and must not be treated as anonymously accessible to judges.
+
+YouTube watch URL: **not uploaded**.
+
+## Final actions before submitting
+
+1. Configure a server-side Gemini key if demonstrating live RAG; run `node --env-file=.env scripts/check_gemini.mjs`. Without a live verification, use the existing honest retrieval-mode wording. If the model is enabled, update slide 6 and the recording to match reality.
+2. Upload `presentation/Qadam_demo_RU.mp4` to YouTube and insert the actual watch URL. Use the supplied Russian title/description and optional SRT. The video has captions and no voiceover; you may replace it with your own narrated recording.
+3. Give judges access to the private repository, explicitly choose to make it public, or submit the source ZIP. The brief allows an archive. The hosted demo is private too; use the local app/video unless audience settings are changed.
+4. Rehearse the 6:20 Russian pitch. Keep the MP4 and PDF locally as backups. Check the exact deadline, AI-assistance rules and submission form with the organizers; those details are absent from the provided brief.
+5. Submit the actual links/files. This project has not been submitted to an organizer automatically.
+
+## Claims supported by evidence
+
+298 collected POIs, 102 opening-hour records, 26 accessibility tags; 32 code/API/Worker tests, 160 constraint combinations, 8 acceptance scenarios, and 17 browser checks. These are deterministic engineering checks, not traction, user satisfaction, or live-model quality measurements.
