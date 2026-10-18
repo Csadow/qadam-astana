@@ -18,7 +18,7 @@ Repository: https://github.com/Csadow/qadam-astana
 
 Hosted demo: https://qadam-arcsolo-astana.candy-ball-8297.chatgpt.site
 
-Private publication succeeded on 18 October 2026. This Site is owner-private and must not be treated as anonymously accessible to judges. The hosting platform confirmed successful deployment; a live hosted Gemini response was validated, and browser QA was performed on the same local application build. The API key is stored as a runtime secret and is excluded from the repository and submission archive.
+Private version 3 publication succeeded on 18 October 2026 (source commit `e580eabe04c64938d74befa15d9428ab88b5aac6`). This Site is owner-private and must not be treated as anonymously accessible to judges. The hosting platform confirmed successful deployment; a live hosted Gemini response was validated, and browser QA was performed on the same local application build. The API key is stored as a runtime secret and is excluded from the repository and submission archive.
 
 Submission ZIP: `Qadam_ArcSolo_submission.zip` in the participant's Downloads directory, generated from the final Git commit. It contains the source snapshot, app, tests, English documents, Russian slides and demo video. Secrets, local caches, development environments and Git metadata are excluded.
 
