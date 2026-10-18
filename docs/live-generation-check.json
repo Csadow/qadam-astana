@@ -1,16 +1,24 @@
 {
-  "checkedAt": "2026-10-18T16:53:58.342820+00:00",
+  "checkedAt": "2026-10-18T17:45:42.673759+00:00",
   "model": "gemini-3.5-flash-lite",
   "local": {
-    "mode": "gemini-grounded",
-    "validSuggestionCount": 1
+    "scenarios": 3,
+    "livePassed": 3
   },
   "hosted": {
     "url": "https://qadam-arcsolo-astana.candy-ball-8297.chatgpt.site",
     "mode": "gemini-grounded",
     "validSuggestionCount": 1,
+    "datasetSize": 300,
+    "enrichedPlaces": 11,
+    "validatedFields": [
+      "why",
+      "activity",
+      "mission",
+      "evidenceIds"
+    ],
     "envRevision": 1,
-    "deploymentId": "appgdep_6ad4f965a5348191b4e61a2f783e9f1d"
+    "deploymentId": "appgdep_6ad50569a654819185da69a05a2c065b"
   },
   "scope": "Live connectivity and validated structured output smoke checks, not a model-quality benchmark."
 }
