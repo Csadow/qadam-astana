@@ -7,7 +7,7 @@ Deadline: **19 October 2026 inclusive**, as supplied by the participant. Confirm
 | Product concept | `docs/PLAN.md`, pitch slides | Ready |
 | Interactive prototype | Local Node app; private hosted Site | Local tested; private deployment succeeded |
 | Automated POI collection | `scripts/collect_pois.py`, source snapshot, metadata | Collected and reproducible |
-| RAG explanation | README, slide 6 | Ready; live model needs a key |
+| RAG explanation | README, slide 6, `live-generation-check.json` | Live Gemini verified locally and on the hosted site |
 | Test cases and limitations | `docs/SCENARIOS.md`, evaluation reports | Ready |
 | Privacy and ethics | `docs/PRIVACY.md`, slide 7 | Ready |
 | Repository or prototype archive | GitHub plus prepared ZIP | Repository private; give judges access or submit ZIP |
@@ -18,7 +18,7 @@ Repository: https://github.com/Csadow/qadam-astana
 
 Hosted demo: https://qadam-arcsolo-astana.candy-ball-8297.chatgpt.site
 
-Private publication succeeded on 18 October 2026. This Site is owner-private and must not be treated as anonymously accessible to judges. The hosting platform confirmed successful deployment; browser QA was performed on the same local application build.
+Private publication succeeded on 18 October 2026. This Site is owner-private and must not be treated as anonymously accessible to judges. The hosting platform confirmed successful deployment; a live hosted Gemini response was validated, and browser QA was performed on the same local application build. The API key is stored as a runtime secret and is excluded from the repository and submission archive.
 
 Submission ZIP: `Qadam_ArcSolo_submission.zip` in the participant's Downloads directory, generated from the final Git commit. It contains the source snapshot, app, tests, English documents, Russian slides and demo video. Secrets, local caches, development environments and Git metadata are excluded.
 
@@ -26,7 +26,7 @@ YouTube watch URL: **not uploaded**.
 
 ## Final actions before submitting
 
-1. Configure a server-side Gemini key if demonstrating live RAG; run `node --env-file=.env scripts/check_gemini.mjs`. Without a live verification, use the existing honest retrieval-mode wording. If the model is enabled, update slide 6 and the recording to match reality.
+1. Live Gemini is configured and verified. Before presenting, open the demo and confirm the Gemini badge appears after planning. A fresh local installation needs its own server-side key; use `node --env-file=.env scripts/check_gemini.mjs` to check it. If the provider is unavailable, explain the labelled template fallback.
 2. Upload `presentation/Qadam_demo_RU.mp4` to YouTube and insert the actual watch URL. Use the supplied Russian title/description and optional SRT. The video has captions and no voiceover; you may replace it with your own narrated recording.
 3. Give judges access to the private repository, explicitly choose to make it public, or submit the source ZIP. The brief allows an archive. The hosted demo is private too; use the local app/video unless audience settings are changed.
 4. Rehearse the 6:20 Russian pitch. Keep the MP4 and PDF locally as backups. Check the exact deadline, AI-assistance rules and submission form with the organizers; those details are absent from the provided brief.

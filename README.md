@@ -48,9 +48,9 @@ Validate source IDs and allowed action IDs → localized activity suggestions
 
 Retrieval is sparse and concept-based; there is no vector database. Gemini's generation is deliberately constrained to choosing supported activity IDs. It cannot set factual venue fields or invent a new location. Unknown IDs, unsupported actions, malformed responses, errors and timeouts fall back to approved templates. The app separates sourced facts from suggested actions.
 
-**Current verified mode:** retrieval plus deterministic templates. Gemini integration is implemented and tested with mock responses; a live call requires a user-supplied key. The UI never labels template output as live AI generation.
+**Current verified mode:** retrieval plus live Gemini structured generation, verified locally and on the private hosted site on 18 October 2026. See [live integration evidence](docs/live-generation-check.json). The UI labels validated model responses as Gemini; missing keys, provider failures and invalid responses fall back to explicitly labelled templates. These smoke checks confirm connectivity and validated output, not model quality.
 
-To enable live generation, copy `.env.example` to `.env`, set `GEMINI_API_KEY` locally, and restart the server. Keep the key out of chat, commits and frontend files. Then verify one real call:
+For a new installation, copy `.env.example` to `.env`, set `GEMINI_API_KEY` locally, and restart the server. Keep the key out of chat, commits and frontend files. Then verify one real call:
 
 ```sh
 node --env-file=.env scripts/check_gemini.mjs

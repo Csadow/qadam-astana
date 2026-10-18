@@ -1,14 +1,25 @@
 """Record an actual Russian browser walkthrough with readable chapter captions."""
 from pathlib import Path
 import time,json
-from playwright.sync_api import sync_playwright
+from playwright.sync_api import sync_playwright, expect
+from datetime import datetime, timezone
 ROOT=Path(__file__).resolve().parents[1];OUT=ROOT/'presentation';TEMP=ROOT/'artifacts/video';TEMP.mkdir(parents=True,exist_ok=True)
 chapters=[]
 with sync_playwright() as p:
     browser=p.chromium.launch(executable_path='/usr/bin/chromium',headless=True,args=['--no-sandbox'])
     context=browser.new_context(viewport={'width':1440,'height':900},record_video_dir=str(TEMP),record_video_size={'width':1440,'height':900},reduced_motion='reduce')
-    page=context.new_page();start=time.monotonic()
+    page=context.new_page();start=time.monotonic();generation_checks=[];page_errors=[]
+    page.on('pageerror',lambda error:page_errors.append(str(error)))
+    def inspect_response(response):
+        if response.url.endswith('/api/generate'):
+            data=response.json()
+            generation_checks.append({'mode':data.get('mode'),'validSuggestionCount':len(data.get('suggestions',[]))})
+    page.on('response',inspect_response)
+    def ready(live=True):
+        expect(page.locator('#find-button')).to_be_enabled(timeout=20000)
+        if live: assert 'Gemini' in page.locator('#mode-badge').inner_text()
     page.goto('http://127.0.0.1:8787',wait_until='networkidle');page.select_option('#language','ru')
+    ready()
     page.evaluate('''() => {const el=document.createElement('div');el.id='demo-caption';Object.assign(el.style,{position:'fixed',bottom:'18px',left:'5%',width:'90%',padding:'17px 24px',background:'#203e36f5',color:'#fffefa',borderRadius:'12px',zIndex:'9999',font:'18px/1.6 Arial,sans-serif',boxShadow:'0 4px 30px #203e3640',pointerEvents:'none'});document.body.append(el);}''')
     def caption(title,body,seconds=8):
         chapters.append({'start':round(time.monotonic()-start,2),'title':title,'text':body})
@@ -21,20 +32,23 @@ with sync_playwright() as p:
     caption('02 / РЕАЛЬНЫЕ ВАРИАНТЫ','До трёх мест: почему подходят, сколько идти, что сделать. У каждого — ссылка на источник.',8)
     page.locator('#route-panel').scroll_into_view_if_needed()
     caption('03 / МАРШРУТ ВПИСЫВАЕТСЯ ВО ВРЕМЯ','60 минут: 25 на ходьбу и 35 на остановки. Возвращение к старту уже учтено.',8)
-    page.locator('[data-scenario=coffee]').click();page.wait_for_timeout(500);page.locator('#result-cards').scroll_into_view_if_needed()
+    page.locator('[data-scenario=coffee]').click();ready();page.locator('#result-cards').scroll_into_view_if_needed()
     caption('04 / ЧЕСТНЫЕ НЕИЗВЕСТНЫЕ','«Тихое кафе с розеткой»: кафе найдены, но розетки и тишина не подтверждены. Это видно в ответе.',9)
     page.locator('.source-details').first.locator('summary').click();page.locator('.place-card').first.scroll_into_view_if_needed()
     caption('05 / ДАННЫЕ МОЖНО ПРОВЕРИТЬ','Расписание, источник и дата сбора доступны в карточке. Дата сбора не означает проверку заведения.',8)
-    page.locator('[data-scenario=family]').click();page.wait_for_timeout(500);page.locator('#result-cards').scroll_into_view_if_needed()
+    page.locator('[data-scenario=family]').click();ready();page.locator('#result-cards').scroll_into_view_if_needed()
     caption('06 / ДРУГОЙ КОНТЕКСТ — ДРУГОЙ ПЛАН','С ребёнком: музей и парк. Неизвестные часы и неподтверждённые интерактивы отмечены явно.',8)
-    page.locator('[data-scenario=expo]').click();page.locator('#budget').fill('15');page.locator('#find-button').click();page.wait_for_timeout(500);page.locator('.empty-state').scroll_into_view_if_needed()
+    page.locator('[data-scenario=expo]').click();ready();page.locator('#budget').fill('15');page.locator('#find-button').click();ready(live=False);page.locator('.empty-state').scroll_into_view_if_needed()
     caption('07 / НЕТ ПОДХОДЯЩИХ МЕСТ — НЕТ ВЫДУМКИ','При 15 минутах система показывает пустой результат и предлагает изменить ограничения.',8)
-    page.locator('[data-scenario=expo]').click();page.wait_for_timeout(500);page.locator('.evidence-panel summary').click();page.locator('.evidence-panel').scroll_into_view_if_needed()
-    caption('08 / ПОНЯТНЫЙ RAG','298 POI → поиск BM25 и понятия → ограничения → идеи. Без ключа Gemini режим честно помечен как поисковое демо.',9)
+    page.locator('[data-scenario=expo]').click();ready();page.locator('.evidence-panel summary').click();page.locator('.evidence-panel').scroll_into_view_if_needed()
+    caption('08 / ЖИВОЙ GEMINI + ПРОВЕРКА','298 POI → поиск и ограничения → Gemini выбирает разрешённые идеи → код проверяет ID. Факты берём из источников.',9)
+    page.screenshot(path=str(TEMP/'live-gemini.png'),full_page=True)
     page.locator('#about-button').click()
     caption('09 / ПРИВАТНОСТЬ','Планирование в браузере. Точные координаты и исходный запрос не уходят в Gemini. Истории геолокации нет.',8)
     page.keyboard.press('Escape');page.evaluate('window.scrollTo(0,0)')
     caption('QADAM / ARCSOLO','Код, автоматизированный сбор, тесты и презентация: github.com/Csadow/qadam-astana',7)
+    assert generation_checks and all(c['mode']=='gemini-grounded' for c in generation_checks)
+    assert not page_errors
     video=page.video;context.close();video.save_as(str(TEMP/'qadam-demo-raw.webm'));browser.close()
 end=time.monotonic()-start
 def stamp(seconds):
@@ -45,4 +59,5 @@ for i,c in enumerate(chapters):
     srt.extend([str(i+1),f'{stamp(c["start"])} --> {stamp(finish)}',c['title'],c['text'],''])
 (OUT/'Qadam_demo_RU.srt').write_text('\n'.join(srt),encoding='utf-8')
 (TEMP/'chapters.json').write_text(json.dumps(chapters,ensure_ascii=False,indent=2),encoding='utf-8')
+(ROOT/'docs/demo-generation-check.json').write_text(json.dumps({'checkedAt':datetime.now(timezone.utc).isoformat(),'generationResponses':generation_checks,'pageErrors':page_errors,'durationSeconds':round(end,2)},indent=2)+'\n')
 print(f'Recorded {end:.1f} seconds. Raw video: {TEMP / "qadam-demo-raw.webm"}')

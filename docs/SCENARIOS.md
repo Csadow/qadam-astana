@@ -26,7 +26,7 @@ Run `node scripts/evaluate.mjs` to generate [evaluation.json](evaluation.json). 
 
 ## Limitations to say out loud
 
-- The current demo runs in retrieval/template mode without a server-side Gemini key. The model adapter is tested using mock responses; a live Gemini call has not been verified unless a later status document explicitly says otherwise.
+- Live Gemini structured generation was verified locally and on the private hosted site on 18 October 2026; see `live-generation-check.json`. This verifies connectivity and valid output, not broad model quality. The adapter also has mock tests for invalid responses and falls back to explicitly labelled templates when unavailable.
 - Generation is deliberately narrow: Gemini chooses an approved activity ID for each retrieved POI. It does not write unrestricted factual prose or extract arbitrary constraints. The app renders localized suggestions. This is constrained retrieval-augmented generation, not a general city chatbot.
 - OSM data is incomplete and can be stale. Descriptions are transparent tag summaries. Complex hours (holidays, seasonal rules, appointments) are unknown.
 - Walking estimates use a 1.3 detour factor on straight-line distance at 75 m/min, or 55 m/min in gentle mode. No crossings, barriers, entrances, crowds, weather delays, queues or ticket availability are modeled.
