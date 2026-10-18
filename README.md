@@ -97,7 +97,7 @@ python3 -m venv .venv
 - [Russian pitch PDF](presentation/Qadam_ArcSolo_pitch_RU.pdf) and [editable PowerPoint](presentation/Qadam_ArcSolo_pitch_RU.pptx).
 - [Russian speaker notes](presentation/SPEAKER_NOTES_RU.md) — 11 slides, target **6:20**, including a live demo.
 - [Captioned Russian demo video](presentation/Qadam_demo_RU.mp4), [subtitles](presentation/Qadam_demo_RU.srt), and [YouTube upload copy](presentation/YOUTUBE_UPLOAD.md).
-- [Test scenarios](docs/SCENARIOS.md), [privacy](docs/PRIVACY.md), and [submission checklist](docs/SUBMISSION.md).
+- [Test scenarios](docs/SCENARIOS.md), [English report PDF](docs/Qadam_Test_Scenarios_EN.pdf), [privacy](docs/PRIVACY.md), and [submission checklist](docs/SUBMISSION.md).
 
 ## Structure and deployment
 

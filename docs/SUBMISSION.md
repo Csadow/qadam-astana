@@ -5,7 +5,7 @@ Deadline: **19 October 2026 inclusive**, as supplied by the participant. Confirm
 | Required deliverable | Prepared artifact | Status |
 |---|---|---|
 | Product concept | `docs/PLAN.md`, pitch slides | Ready |
-| Interactive prototype | Local Node app; private hosted Site | Local tested; hosted status recorded below |
+| Interactive prototype | Local Node app; private hosted Site | Local tested; private deployment succeeded |
 | Automated POI collection | `scripts/collect_pois.py`, source snapshot, metadata | Collected and reproducible |
 | RAG explanation | README, slide 6 | Ready; live model needs a key |
 | Test cases and limitations | `docs/SCENARIOS.md`, evaluation reports | Ready |
@@ -16,7 +16,11 @@ Deadline: **19 October 2026 inclusive**, as supplied by the participant. Confirm
 
 Repository: https://github.com/Csadow/qadam-astana
 
-Hosted demo: publication in progress. This Site is owner-private and must not be treated as anonymously accessible to judges.
+Hosted demo: https://qadam-arcsolo-astana.candy-ball-8297.chatgpt.site
+
+Private publication succeeded on 18 October 2026. This Site is owner-private and must not be treated as anonymously accessible to judges. The hosting platform confirmed successful deployment; browser QA was performed on the same local application build.
+
+Submission ZIP: `Qadam_ArcSolo_submission.zip` in the participant's Downloads directory, generated from the final Git commit. It contains the source snapshot, app, tests, English documents, Russian slides and demo video. Secrets, local caches, development environments and Git metadata are excluded.
 
 YouTube watch URL: **not uploaded**.
 
