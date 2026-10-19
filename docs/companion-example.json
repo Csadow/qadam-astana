@@ -1,0 +1,191 @@
+{
+  "note": "Deterministic rehearsal on the collected snapshot; not a real walk or live availability report.",
+  "snapshots": [
+    {
+      "event": "start",
+      "mode": "rehearsal",
+      "clock": "2026-10-20T14:00",
+      "originalReturnBy": "2026-10-20T15:00",
+      "currentPoint": {
+        "lat": 51.0893,
+        "lon": 71.4076
+      },
+      "originalReturnPoint": {
+        "lat": 51.0893,
+        "lon": 71.4076
+      },
+      "remaining": 60,
+      "reserve": 5,
+      "estimatedReturn": "2026-10-20T14:53",
+      "stops": [
+        {
+          "id": "osm-node-12520559591",
+          "name": "Лепим и варим"
+        },
+        {
+          "id": "osm-way-1456208624",
+          "name": "Бейбітшілік пен Келісім аллеясы"
+        }
+      ],
+      "changes": {
+        "removed": [],
+        "added": [],
+        "retained": [
+          "osm-node-12520559591",
+          "osm-way-1456208624"
+        ]
+      },
+      "completed": [],
+      "unavailable": [],
+      "lateMinutes": 0,
+      "reserveShortfall": 0
+    },
+    {
+      "event": "unavailable",
+      "mode": "rehearsal",
+      "clock": "2026-10-20T14:01",
+      "originalReturnBy": "2026-10-20T15:00",
+      "currentPoint": {
+        "lat": 51.0891569,
+        "lon": 71.4078454
+      },
+      "originalReturnPoint": {
+        "lat": 51.0893,
+        "lon": 71.4076
+      },
+      "remaining": 59,
+      "reserve": 5,
+      "estimatedReturn": "2026-10-20T14:55",
+      "stops": [
+        {
+          "id": "osm-node-13173517356",
+          "name": "Gasteria"
+        },
+        {
+          "id": "osm-way-1456208624",
+          "name": "Бейбітшілік пен Келісім аллеясы"
+        }
+      ],
+      "changes": {
+        "removed": [],
+        "added": [
+          "osm-node-13173517356"
+        ],
+        "retained": [
+          "osm-way-1456208624"
+        ]
+      },
+      "completed": [],
+      "unavailable": [
+        "osm-node-12520559591"
+      ],
+      "lateMinutes": 0,
+      "reserveShortfall": 0
+    },
+    {
+      "event": "delay",
+      "mode": "rehearsal",
+      "clock": "2026-10-20T14:16",
+      "originalReturnBy": "2026-10-20T15:00",
+      "currentPoint": {
+        "lat": 51.0891569,
+        "lon": 71.4078454
+      },
+      "originalReturnPoint": {
+        "lat": 51.0893,
+        "lon": 71.4076
+      },
+      "remaining": 44,
+      "reserve": 5,
+      "estimatedReturn": "2026-10-20T14:41",
+      "stops": [
+        {
+          "id": "osm-node-13173517356",
+          "name": "Gasteria"
+        }
+      ],
+      "changes": {
+        "removed": [
+          "osm-way-1456208624"
+        ],
+        "added": [],
+        "retained": [
+          "osm-node-13173517356"
+        ]
+      },
+      "completed": [],
+      "unavailable": [
+        "osm-node-12520559591"
+      ],
+      "lateMinutes": 0,
+      "reserveShortfall": 0
+    },
+    {
+      "event": "weather",
+      "mode": "rehearsal",
+      "clock": "2026-10-20T14:16",
+      "originalReturnBy": "2026-10-20T15:00",
+      "currentPoint": {
+        "lat": 51.0891569,
+        "lon": 71.4078454
+      },
+      "originalReturnPoint": {
+        "lat": 51.0893,
+        "lon": 71.4076
+      },
+      "remaining": 44,
+      "reserve": 5,
+      "estimatedReturn": "2026-10-20T14:41",
+      "stops": [
+        {
+          "id": "osm-node-13173517356",
+          "name": "Gasteria"
+        }
+      ],
+      "changes": {
+        "removed": [],
+        "added": [],
+        "retained": [
+          "osm-node-13173517356"
+        ]
+      },
+      "completed": [],
+      "unavailable": [
+        "osm-node-12520559591"
+      ],
+      "lateMinutes": 0,
+      "reserveShortfall": 0
+    },
+    {
+      "event": "return",
+      "mode": "rehearsal",
+      "clock": "2026-10-20T14:16",
+      "originalReturnBy": "2026-10-20T15:00",
+      "currentPoint": {
+        "lat": 51.0891569,
+        "lon": 71.4078454
+      },
+      "originalReturnPoint": {
+        "lat": 51.0893,
+        "lon": 71.4076
+      },
+      "remaining": 44,
+      "reserve": 5,
+      "estimatedReturn": "2026-10-20T14:17",
+      "stops": [],
+      "changes": {
+        "removed": [
+          "osm-node-13173517356"
+        ],
+        "added": [],
+        "retained": []
+      },
+      "completed": [],
+      "unavailable": [
+        "osm-node-12520559591"
+      ],
+      "lateMinutes": 0,
+      "reserveShortfall": 0
+    }
+  ]
+}

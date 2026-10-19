@@ -9,7 +9,7 @@ Acceptance cases use **19 October 2026, 14:00 Astana (UTC+5)** unless stated oth
 | Short visit | Start at Zhetysu Park; 15 minutes | Offer a labelled short park pause when its minimum visit and return fit. |
 | Edit route | Keep, replace, remove, undo | Preserve the other stops; never refill a removed slot; undo restores the previous itinerary. |
 | EXPO break | 60 minutes; nature/coffee; return included | Two itinerary stops; a café and public alley route estimates 53 minutes, including 33 walking and 20 visiting. Shorter stops are labelled. |
-| Story walks | Three themes; Tuesday; 120 minutes; 30-minute walking cap | Exact source-backed chapters; EXPO 88, sculpture 95, museum/park 104 minutes. Partial stories do not show the full introduction. |
+| Story walks | Three themes; Tuesday; 120 minutes; 30-minute walking cap | Exact source-backed chapters; EXPO 88, sculpture 96, museum/park 104 minutes. Partial stories do not show the full introduction. |
 | Return deadline | Back by 15:00; reserve 10 minutes | Return forced, effective budget reduced to 50 minutes for a 14:00 departure; reserve ends by the deadline. |
 | Recovery | Too little time or closed museum chapter | Recompute time-only alternatives; retain access, walking, weather, kept stops and deadline. |
 | Compound duration | “1 hour 30 minutes, max 10 minutes walking” | 90 minutes total and a separate 10-minute walking cap. |
@@ -27,10 +27,17 @@ Acceptance cases use **19 October 2026, 14:00 Astana (UTC+5)** unless stated oth
 | Airport at night | EXPO; 120 minutes; 23:00; flight context | Transfer/check-in and night warnings; no flight guarantee. |
 | Outside coverage | Almaty coordinates | No Astana recommendation represented as nearby. |
 
-`node scripts/evaluate.mjs` records **25/25 deterministic acceptance cases**. Browser checks cover the interactive backup cases and record **73/73** checks. **86 code/API/Worker tests** plus **6 graph-collector tests** include a **160-combination constraint matrix** plus **100 route/card agreement combinations**. These are engineering checks, not a user study. Reports: [acceptance](evaluation.json), [browser](browser-checks.json), [real Gemini outputs](live-rag-evaluation.json).
+`node scripts/evaluate.mjs` records **25/25 deterministic acceptance cases**. Browser checks cover the interactive backup cases and record **73/73** planner checks and **25/25** companion checks. **103 code/API/Worker tests** plus **6 graph-collector tests** include a **160-combination constraint matrix** plus **100 route/card agreement combinations**. These are engineering checks, not a user study. Reports: [acceptance](evaluation.json), [browser](browser-checks.json), [real Gemini outputs](live-rag-evaluation.json).
+
+## Adaptive companion acceptance
+
+The 17 companion/return-target code tests and 25 browser checks cover: fixed return destination, absolute deadline and reserve conservation; completed and unavailable stop exclusion; rechecking hours; rainfall; group coverage across finished and future stops; return-only, overdue and disconnected states; actual versus simulated elapsed time; undo; EN/RU/KK; reload; mobile/keyboard controls; and generation payload privacy. See `tests/companion.test.mjs` and `companion-browser-checks.json`.
+
+For the judge demonstration, start EXPO with a five-minute reserve. Choose **Try a rehearsal → Unavailable on arrival → Lose 15 minutes → Rain started → Return now**. Compare the unchanged return deadline, revised point and route, and remaining time. These are manually reported/simulated events, not detected closures or weather.
 
 ## What is implemented
 
+- An adaptive walk companion with manual point confirmation, fixed original return deadline, actual-clock and rehearsal modes, and a return-only fallback.
 - Three cited themed journeys, computed time-only recovery, and return-by deadlines with reserved buffer.
 - A reproducible EXPO pedestrian graph, directional shortest paths, obstacle-aware endpoint connections and explicit uncertainty.
 - Automated OSM collection, including historic monuments, with raw provenance and reproducible normalization.
@@ -47,13 +54,14 @@ Acceptance cases use **19 October 2026, 14:00 Astana (UTC+5)** unless stated oth
 ## Limitations to say out loud
 
 - Generated prose is not automatically proven true. Place/citation membership, output bounds, exterior scopes and common unsupported claims are checked, but semantic errors can remain. Source facts are displayed separately.
-- Three real Russian-language generation scenarios are retained for human review. This is not a statistically meaningful model-quality benchmark or user study. Mock responses are used for repeatable browser checks.
+- Six live generation scenarios in EN/RU/KK are retained for human review. This is not a statistically meaningful model-quality benchmark or user study. Mock responses are used for repeatable browser checks.
 - OSM coverage is limited to five neighborhoods. Primary-source enrichment is manually researched and separately attributed; it is not a live source crawl on every request.
 - Published schedules can be overridden by holidays or exceptional closures. Source-check dates are not on-site verification dates. Complex or seasonal hours remain unknown unless explicitly supported for the relevant scope.
 - Five collected areas use connected OSM pedestrian geometry. Unknown endpoint connections and areas outside that graph remain estimated as straight-line distance × 1.3. Speeds are 75 m/min, or 55 in gentle mode. Missing connections between snapped components are rejected. Mapped entrances and exterior viewpoints are not on-site verified; sightlines, crossings, queues, closures and step-free access are not guaranteed.
 - Return deadlines reserve time inside the budget; they do not guarantee punctual arrival. Recovery checks 15-minute increases up to 120 extra minutes and selected later departures, not every possible alternative. Story pairings are editorial and do not imply a shared historical origin.
 - Short route pauses are planning choices, not promises about food preparation or admission. Full-meal and indoor-attraction visits may need additional time.
 - Group coverage means matching selected categories, not equal enjoyment or a validated preference model.
+- The companion updates actual time on user actions, not continuously or in the background. The selected POI is an approximate confirmed point, not a GPS fix. Rehearsal simulates planned durations. It supports round trips only, and sessions disappear on reload. Unavailability reports affect only this session; they do not update shared venue facts.
 - Weather is manual. Ratings, live events, prices, sockets and quietness have no live integration.
 - Natural-language parsing recognizes a limited multilingual vocabulary, common negation patterns and durations. It is heuristic, not general language understanding. Use the structured controls for reliable constraints.
 - Native-speaker review of Kazakh and real participant feedback are still needed.
@@ -67,7 +75,8 @@ Acceptance cases use **19 October 2026, 14:00 Astana (UTC+5)** unless stated oth
 5. Change Monday to Tuesday near the museum; show source facts and exact visitor notes.
 6. Choose the EXPO story with 120 minutes and a 30-minute walking cap. Show source-linked chapters, then reduce time and apply a checked recovery option.
 7. Return to EXPO, set a 15:00 deadline and a five-minute reserve; show the timeline and mapped paths.
-8. Show the mobile layout and privacy boundary. Keep the video ready if live generation is unavailable.
+8. Start the companion rehearsal; report an unavailable café, lose 15 minutes and add rain. Show that the original return deadline stays fixed; use Return now.
+9. Show the mobile layout and privacy boundary. Keep the video ready if live generation is unavailable.
 
 Lead with a useful decision the user can make, then show the evidence behind it.
 

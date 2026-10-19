@@ -6,11 +6,11 @@ An interactive Astana walking assistant that turns a short break into one editab
 
 ## Watch the demo
 
-[![Animated preview of Qadam: planning a walk, group preferences and source-backed stories. Click to open the full demo.](presentation/assets/demo-preview.gif)](https://github.com/Csadow/qadam-astana/blob/main/presentation/Qadam_demo_RU.mp4)
+[![Animated preview of Qadam: an unavailable café, lost time and an adaptive return plan. Click to open the full demo.](presentation/assets/demo-preview.gif)](https://github.com/Csadow/qadam-astana/blob/main/presentation/Qadam_demo_RU.mp4)
 
-**[▶ Full demo — 3:54, Russian captions](https://github.com/Csadow/qadam-astana/blob/main/presentation/Qadam_demo_RU.mp4)** · [Download MP4](https://github.com/Csadow/qadam-astana/raw/refs/heads/main/presentation/Qadam_demo_RU.mp4) · [Try the public planner](https://qadam-arcsolo-astana.candy-ball-8297.chatgpt.site)
+**[▶ Full demo — 4:25, Russian captions](https://github.com/Csadow/qadam-astana/blob/main/presentation/Qadam_demo_RU.mp4)** · [Download MP4](https://github.com/Csadow/qadam-astana/raw/refs/heads/main/presentation/Qadam_demo_RU.mp4) · [Try the public planner](https://qadam-arcsolo-astana.candy-ball-8297.chatgpt.site)
 
-The recording demonstrates live Gemini, itinerary editing, group preferences, source-backed stories and time constraints. It includes one labelled template fallback. The public planner runs without paid generation.
+The recording demonstrates live Gemini, itinerary editing, group preferences, source-backed stories, time constraints and the new adaptive companion (from 3:18). It includes one labelled template fallback. The public planner runs without paid generation.
 
 ## Run in one command
 
@@ -25,6 +25,14 @@ node --env-file-if-exists=.env server.mjs
 Open **http://127.0.0.1:8787**. The checked-in snapshot makes the local demo independent of public data services. Local serving binds only to loopback. To change the port, set `PORT` in `.env`.
 
 The repository is **public**: judges can read or clone it without an invitation. The [public judge preview](https://qadam-arcsolo-astana.candy-ball-8297.chatgpt.site) runs the planner, maps and sources without paid generation. Live Gemini is available in the local app with a server-side key and demonstrated in the recorded walkthrough. See [submission status](docs/SUBMISSION.md).
+
+## Signature feature: Walk with me
+
+**“The café is unavailable, and we have lost 15 minutes. What can we still do?”**
+
+Start an EXPO plan with a five-minute reserve, then choose **Try a rehearsal** under the route. Report **Unavailable on arrival**, **Lose 15 minutes**, and **Rain started**. The remaining walk is recomputed from the manually confirmed place. The **original return point, absolute deadline and reserve stay fixed**. Finished/unavailable stops are excluded, and changes are visible. If no visit fits, Qadam shows a return estimate; an unreachable deadline or missing route is disclosed.
+
+Rehearsal uses explicitly simulated time and supports undo. An actual walk requires **Now** mode and uses the device clock on each action; planned travel/visit durations are not double-counted. Confirm a stop only when you are there. There is no background GPS, automatic weather detection, turn-by-turn navigation, or persistent walk history. This feature works in the public preview without paid generation.
 
 ## Try it
 
@@ -104,7 +112,7 @@ python3 tests/collector_test.py
 python3 scripts/collect_walk_graph.py --from-source data/walking-source.json
 ```
 
-**86 unit/API/Worker tests** plus **6 graph-collector tests**, a **160-case constraint matrix**, **100 route/card agreement combinations**, **25/25 scenario checks**, and **73/73 browser checks** passed during development. These are engineering checks, not user-study results. Reports: [scenarios](docs/evaluation.json), [browser](docs/browser-checks.json).
+**103 unit/API/Worker tests** plus **6 graph-collector tests**, a **160-case constraint matrix**, **100 route/card agreement combinations**, **25/25 scenario checks**, and **98/98 browser checks** passed during development. These are engineering checks, not user-study results. Reports: [scenarios](docs/evaluation.json), [planner browser](docs/browser-checks.json), [companion browser](docs/companion-browser-checks.json).
 
 Optional browser QA and presentation tools:
 

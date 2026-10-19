@@ -3,7 +3,7 @@ import {CONCEPTS,parseIntent} from './intent.js';
 import {distanceM,walkMinutes} from './geo.js';
 export {distanceM,walkMinutes} from './geo.js';
 export {parseIntent} from './intent.js';
-export const VERSION = '5.0.0';
+export const VERSION = '6.0.0';
 export const PRESETS = [
   {id:'expo',name:'EXPO / MEGA Silk Way',lat:51.0893,lon:71.4076},
   {id:'baiterek',name:'Baiterek',lat:51.1282,lon:71.4304},
@@ -63,6 +63,8 @@ export function validateInput(input) {
  if(!input||typeof input!=='object') throw new Error('Invalid request.');
  const lat=Number(input.origin?.lat),lon=Number(input.origin?.lon);
  if(!Number.isFinite(lat)||!Number.isFinite(lon)||Math.abs(lat)>90||Math.abs(lon)>180)throw new Error('Choose a valid starting location.');
+ const returnOrigin={lat:Number(input.returnOrigin?.lat??lat),lon:Number(input.returnOrigin?.lon??lon)};
+ if(!Number.isFinite(returnOrigin.lat)||!Number.isFinite(returnOrigin.lon)||Math.abs(returnOrigin.lat)>90||Math.abs(returnOrigin.lon)>180)throw new Error('Choose a valid return location.');
  const budget=Number(input.budget??60),maxWalk=Number(input.maxWalk??20);
  if(!Number.isFinite(budget)||budget<10||budget>240||!Number.isFinite(maxWalk)||maxWalk<1||maxWalk>60)throw new Error('Time budget must be 10–240 minutes and walking limit 1–60 minutes.');
  const query=String(input.query||'').slice(0,600);
@@ -81,7 +83,7 @@ export function validateInput(input) {
  const deadline=returnBy?parseDeparture(returnBy):null,deadlineMinutes=deadline?Math.floor((deadline-departure)/60000):null;
  const requestedBudget=Math.min(budget,intent.budget??budget),grossBudget=Math.max(0,Math.min(requestedBudget,deadlineMinutes??Infinity));
  return {timingBlocked,group:[...group],mood:mode,pinnedIds,preferredIds,maxStops,journeyIds:boundedIds(input.journeyIds,3),excludedIds:boundedIds(input.excludedIds,50),origin:{lat,lon},budget:Math.max(0,grossBudget-bufferMinutes),requestedBudget,grossBudget,bufferMinutes,deadline,deadlineMinutes,routing:input.routing,maxWalk:Math.min(maxWalk,intent.maxWalk??maxWalk),query,intent,
-  setting:['indoor','outdoor'].includes(input.setting)?input.setting:intent.setting,
+  returnOrigin,setting:['indoor','outdoor'].includes(input.setting)?input.setting:intent.setting,
   departure,locale:['en','ru','kk'].includes(input.locale)?input.locale:'en',
   weather:['rain','cold'].includes(input.weather)?input.weather:'fair',pace:input.pace==='gentle'?'gentle':'normal',
   accessible:input.accessible===true||intent.accessible,verifiedHours:input.verifiedHours===true,returnToStart:!!deadline||input.returnToStart!==false};
@@ -104,7 +106,7 @@ export function recommend(raw,pois) {
   if(input.journeyIds.length&&!input.journeyIds.includes(p.id)){exclusions.journey++;return;}
   if(p.accessRestricted||['private','no'].includes(p.tags?.access)){exclusions.restricted++;return;}
   if(input.excludedIds.includes(p.id)){exclusions.skipped++;return;}
-  const outward=travelLeg(input,origin,p),backward=input.returnToStart?travelLeg(input,p,origin):{minutes:0};
+  const outward=travelLeg(input,origin,p),backward=input.returnToStart?travelLeg(input,p,input.returnOrigin):{minutes:0};
   const walk=outward.minutes,idealVisit=VISITS[p.category]||20,shortVisit=Math.min(idealVisit,SHORT_VISITS[p.category]||idealVisit);
   let visit=idealVisit;
   if(!Number.isFinite(walk)||!Number.isFinite(backward.minutes)){exclusions.path++;return;}
@@ -165,13 +167,13 @@ export function recommend(raw,pois) {
  const timing={departure:astanaNow(input.departure),plannedEnd:astanaNow(plannedEnd),reservedEnd:astanaNow(reservedEnd),returnBy:input.deadline?astanaNow(input.deadline):null,bufferMinutes:input.bufferMinutes,grossBudget:input.grossBudget,requestedBudget:input.requestedBudget,slackMinutes:input.budget-route.totalMinutes};
  return {recommendations:selected,route,timing,warnings,conflicts,intent:{...intent,setting:input.setting,maxWalk:input.maxWalk},group:coverage,mood:input.mood,trace:{datasetSize:pois.length,candidates:candidates.length,exclusions,
   concepts:desired,effectiveBudget:input.budget,retrieval:'BM25 + multilingual concepts + hard constraints'},
-  mode:'retrieval-template',locale:input.locale,departure:astanaNow(input.departure),returnToStart:input.returnToStart};
+  mode:'retrieval-template',locale:input.locale,departure:astanaNow(input.departure),returnOrigin:input.returnOrigin,returnToStart:input.returnToStart};
 }
 export function planRoute(candidates,input){
  input={pinnedIds:[],preferredIds:[],maxStops:3,...input};
  let best={stops:[],totalMinutes:0,walkMinutes:0,visitMinutes:0,returnMinutes:0,legs:[],score:0};
  const explore=(stops,last,elapsed,walked,score)=>{
-  const backLeg=input.returnToStart?travelLeg(input,last,input.origin):null,back=backLeg?.minutes||0;
+  const backLeg=input.returnToStart?travelLeg(input,last,input.returnOrigin||input.origin):null,back=backLeg?.minutes||0;
   if(stops.length&&input.pinnedIds.every(id=>stops.some(p=>p.id===id))&&elapsed+back<=input.budget&&back<=input.maxWalk){
    const covered=new Set(stops.flatMap(p=>p.groupMatches||[])).size;
    const retained=stops.filter(p=>input.preferredIds.includes(p.id)).length;

@@ -1,3 +1,5 @@
+import {startWalk,updateWalk,replanWalk} from '/src/companion.js';
+import {companionHTML,companionText} from '/companion.js';
 import {PRESETS,recommend,backupPlans,astanaNow,parseIntent,openingStatus,walkMinutes,editPlan} from '/src/engine.js';
 import {actionText} from '/src/actions.js';
 import {attachEvidence,evidenceFor} from '/src/evidence.js';
@@ -16,6 +18,7 @@ let lastInput=null,backupOptions=[],originalPlan=null,generationPending=false;
 const generationCache=new Map(),completedMissions=new Set();
 let editState={pinnedIds:[],excludedIds:[],preferredIds:[],maxStops:3},editHistory=[],editFeedback='',generationController;
 let timingConfirmedFor=null;
+let companionSession=null,companionHistory=[],beforeCompanion=null;
 let routing=null,journeys=[],recovery={options:[]},recoveryOriginal=null;
 const clockTime=value=>value?.slice(11,16)||"";
 const DEMO_TIME='2026-10-20T14:00';
@@ -49,10 +52,11 @@ function input(){
 function notify(text,error=false){$('#status').textContent=text;$('#status').classList.toggle('error',error);}
 function modeBadge(){const badge=$('#mode-badge');badge.textContent=t(generationPending?'thinking':generation.mode==='gemini-grounded'?'geminiMode':'templateMode');badge.classList.toggle('generation-pending',generationPending);}
 async function plan({prepared,context:given,scroll=false}={}){
+ if(companionSession&&!prepared)return;
  if(!prepared){editHistory=[];editFeedback='';}
  if(!datasetReady)return;generationController?.abort();generationController=new AbortController();const controller=generationController,current=++runId;$('#find-button').disabled=true;notify(t('loading'));
  try{
-  const context=given||input();lastInput=context;result=prepared||recommend(context,pois);backupOptions=backupPlans(context,pois);recovery=recoveryOptions(context,pois,result);generation={};generationPending=false;zoom=1;render();if(scroll){$('#planner').classList.add('compact');$('#planner-toggle').setAttribute('aria-expanded','false');$('#results-title').focus({preventScroll:true});$('.discovery').scrollIntoView({behavior:'smooth',block:'start'});}
+  const context=given||input();lastInput=context;result=prepared||recommend(context,pois);backupOptions=companionSession?[]:backupPlans(context,pois);recovery=companionSession?{options:[]}:recoveryOptions(context,pois,result);generation={};generationPending=false;zoom=1;render();if(scroll){$('#planner').classList.add('compact');$('#planner-toggle').setAttribute('aria-expanded','false');$('#results-title').focus({preventScroll:true});$('.discovery').scrollIntoView({behavior:'smooth',block:'start'});}
   if(result.recommendations.length){
    const intent=parseIntent(context.query,context.interests);
    const payload={ids:result.recommendations.map(p=>p.id),visits:result.recommendations.map(p=>({id:p.id,minutes:result.route.stops.find(s=>s.id===p.id)?.visitMinutes||p.visitMinutes})),locale,context:{family:intent.concepts.includes('family')||context.group.includes('family'),quiet:intent.quiet,socket:intent.socket,interests:result.trace.concepts,group:context.group,mood:context.mood,weather:context.weather,setting:result.intent.setting,excluded:result.intent.excluded,budget:result.trace.effectiveBudget}};
@@ -73,7 +77,7 @@ function factsHTML(p,suggestion){
 }
 function render(){
  modeBadge();$('#results-title').textContent=result.group.length?t('groupResult'):result.trace.effectiveBudget===60?t('yourNextHour'):t('newResults');
- const notes=[generation.reason==='public_preview'?t('publicPreviewNotice'):'',t($('#time-mode').value==='demo'?'demoNotice':$('#time-mode').value==='now'?'liveNotice':'customNotice'),originalPlan?t('changedPlan'):'',...result.warnings.filter(x=>x!=='estimates').map(t)].filter(Boolean);notify(notes.join(' '));
+ const notes=[generation.reason==='public_preview'?t('publicPreviewNotice'):'',companionSession?companionText(locale,companionSession.mode==='live'?'actual':'rehearsal'):t($('#time-mode').value==='demo'?'demoNotice':$('#time-mode').value==='now'?'liveNotice':'customNotice'),originalPlan?t('changedPlan'):'',...result.warnings.filter(x=>x!=='estimates').map(t)].filter(Boolean);notify(notes.join(' '));
  $('#result-cards').innerHTML=result.recommendations.length?result.recommendations.map((p,i)=>{
   const suggestion=generation.suggestions?.find(s=>s.id===p.id),defaultAction=parseIntent(lastInput.query).socket&&p.category==='cafe'?'ask_socket':undefined;
   return `<article class="place-card" id="card-${esc(p.id)}">
@@ -94,7 +98,7 @@ function render(){
  const r=result.route;
  $('#route-panel').innerHTML=r.stops.length?`<div class="route-heading"><h3>${t('routeTitle')}</h3><span>≈ ${r.totalMinutes} / ${result.trace.effectiveBudget} ${t('min')}</span></div><ol class="route-timeline">${r.stops.map((p,i)=>`<li><strong>${i+1}. ${esc(name(p))}</strong><span>${p.legMinutes} ${t('min')} ${t('walk')} + ${p.visitMinutes} ${t('min')} ${t('visit')}${p.shortStop?' · '+t('shortStop'):''}</span>${result.group.length?`<span class="route-member-note">${p.groupMatches.map(i=>t('member')+' '+(i+1)).join(' · ')}</span>`:''}<div class="stop-controls">${['keep','replace','remove'].map(action=>`<button type="button" data-edit="${action}" data-stop="${esc(p.id)}" ${action==='keep'?`aria-pressed="${editState.pinnedIds.includes(p.id)}"`:''} ${action!=='keep'&&editState.pinnedIds.includes(p.id)?'disabled':''} aria-label="${esc(t(action==='keep'&&editState.pinnedIds.includes(p.id)?'keptStop':action+'Stop')+' · '+name(p))}">${t(action==='keep'&&editState.pinnedIds.includes(p.id)?'keptStop':action+'Stop')}</button>`).join('')}</div></li>`).join('')}</ol><div class="route-footer"><span>${r.walkMinutes} ${t('min')} ${t('walk')} · ${r.visitMinutes} ${t('min')} ${t('visit')}<br>${result.returnToStart?r.returnMinutes+' '+t('min')+' '+t('routeBack'):t('routeOneWay')} · ${t('routeEstimate')}</span><button id="export-walk">${t('export')}</button></div>`:'';
  $('#export-walk')?.addEventListener('click',exportWalk);$$('[data-edit]').forEach(button=>button.addEventListener('click',()=>changeStop(button.dataset.edit,button.dataset.stop)));renderExtras();
- $('#trace').innerHTML=`<div class="trace-grid"><div><strong>${result.trace.datasetSize}</strong><span>${t('loaded')}</span></div><div><strong>${result.trace.candidates}</strong><span>${t('eligible')}</span></div><div><strong>${result.trace.effectiveBudget}</strong><span>${t('budgetLabel')}</span></div></div><p>${t('traceText')}</p><p>${t(generation.mode==='gemini-grounded'?'geminiExplain':'templateExplain')}</p><p>${t('estimateNote')}</p><p>${t('sourceDate')}: ${esc(metadata.collectedAt?.slice(0,10)||'')} · OpenStreetMap / ODbL · ${esc(result.trace.retrieval)}</p><p>${t('excluded')}: ${Object.entries(result.trace.exclusions).filter(([,v])=>v).map(([k,v])=>`${esc(k)} ${v}`).join(' · ')}</p>`;drawMap();
+ $('#trace').innerHTML=`<div class="trace-grid"><div><strong>${result.trace.datasetSize}</strong><span>${t('loaded')}</span></div><div><strong>${result.trace.candidates}</strong><span>${t('eligible')}</span></div><div><strong>${result.trace.effectiveBudget}</strong><span>${t('budgetLabel')}</span></div></div><p>${t('traceText')}</p><p>${t(generation.mode==='gemini-grounded'?'geminiExplain':'templateExplain')}</p><p>${t('estimateNote')}</p><p>${t('sourceDate')}: ${esc(metadata.collectedAt?.slice(0,10)||'')} · OpenStreetMap / ODbL · ${esc(result.trace.retrieval)}</p><p>${t('excluded')}: ${Object.entries(result.trace.exclusions).filter(([,v])=>v).map(([k,v])=>`${esc(k)} ${v}`).join(' · ')}</p>`;drawMap();renderCompanion();
 }
 function renderExtras(){
  renderExpansion();
@@ -151,7 +155,7 @@ function drawMap(){
  if(!result)return;
  const all=[...result.recommendations];for(const p of result.route.stops)if(!all.some(q=>p.id===q.id))all.push(p);
  const routeCoordinates=result.route.legs.flatMap(l=>[...l.points,...l.connectors.flat()]).map(([lon,lat])=>({lon,lat}));
- const points=[origin,...all,...routeCoordinates], cos=Math.cos(origin.lat*Math.PI/180),width=900,height=420;
+ const points=[origin,...(companionSession?[companionSession.base.returnOrigin]:[]),...all,...routeCoordinates], cos=Math.cos(origin.lat*Math.PI/180),width=900,height=420;
  const xs=points.map(p=>(p.lon-origin.lon)*cos*111320),ys=points.map(p=>(p.lat-origin.lat)*111320);
  let spanX=Math.max(1700,Math.max(...xs)-Math.min(...xs)+900),spanY=Math.max(1300,Math.max(...ys)-Math.min(...ys)+800);
  const scale=Math.min(width/spanX,height/spanY)*zoom,cx=(Math.max(...xs)+Math.min(...xs))/2,cy=(Math.max(...ys)+Math.min(...ys))/2;
@@ -163,6 +167,8 @@ function drawMap(){
  const roadLines=roads.map(f=>`<path d="${pathFor(f.points)}" stroke="#fffef5" stroke-width="${['primary','secondary'].includes(f.kind)?6:2}"/>`).join('');
  const routePath=result.route.legs.map(l=>`<path class="route-line ${l.mode}" d="${pathFor(l.points)}" fill="none" stroke="${l.mode==='mapped'?'#365e40':'#a17739'}" stroke-width="${l.mode==='mapped'?4:2}" ${l.mode==='mapped'?'':'stroke-dasharray="5 6"'}/>${l.connectors.map(c=>`<path class="route-connector" d="${pathFor(c)}" fill="none" stroke="#a17739" stroke-width="2" stroke-dasharray="3 4"/>`).join('')}`).join('');
  const [ox,oy]=project(origin.lon,origin.lat);
+ const home=companionSession?.base.returnOrigin,[hx,hy]=home?project(home.lon,home.lat):[0,0];
+ const homeMarker=home?`<g class="return-marker"><rect x="${hx-11}" y="${hy-11}" width="22" height="22" rx="3" fill="#d6ed92" stroke="#203e36" stroke-width="2"/><text x="${hx}" y="${hy-20}" text-anchor="middle" fill="#203e36" font-size="14">${esc(companionText(locale,'start'))}</text></g>`:'';
  // Separate nearby labels while a leader line preserves the actual geographic position.
  const placed=[],leaders=[];
  const markers=all.map(p=>{
@@ -176,15 +182,53 @@ function drawMap(){
   const leader=x!==px||y!==py?`<path d="M${px.toFixed(1)},${py.toFixed(1)}L${x.toFixed(1)},${y.toFixed(1)}" stroke="#345a46" stroke-width="1"/><circle cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="3" fill="#345a46"/>`:'';
   leaders.push(leader);
   return `<g class="map-marker" tabindex="0" role="button" data-poi="${esc(p.id)}" aria-label="${esc(name(p))}" transform="translate(${x.toFixed(1)},${y.toFixed(1)})"><circle r="17" fill="#254b3e" stroke="#fffefa" stroke-width="3"/><text y="5" text-anchor="middle" font-family="Arial" font-size="13" fill="#fffefa">${i>=0?i+1:'R'}</text><rect x="-80" y="23" width="160" height="22" rx="6" fill="#fffefae8"/><text y="38" text-anchor="middle" fill="#294936" font-family="Arial" font-size="11">${esc(name(p).length>24?name(p).slice(0,23)+'…':name(p))}</text></g>`;}).join('');
- $('#map').innerHTML=`<svg viewBox="0 0 ${width} ${height}" preserveAspectRatio="xMidYMid meet" aria-label="${esc(t('neighborhood'))}"><rect width="900" height="420" fill="#edf0e4"/>${area}<g fill="none" stroke-linecap="round" stroke-linejoin="round">${roadBorders}${roadLines}</g>${routePath}${leaders.join('')}<circle cx="${ox}" cy="${oy}" r="23" fill="#fffefa80"/><circle cx="${ox}" cy="${oy}" r="9" fill="#fffefa" stroke="#345a46" stroke-width="3"/>${markers}</svg>`;
+ $('#map').innerHTML=`<svg viewBox="0 0 ${width} ${height}" preserveAspectRatio="xMidYMid meet" aria-label="${esc(t('neighborhood'))}"><rect width="900" height="420" fill="#edf0e4"/>${area}<g fill="none" stroke-linecap="round" stroke-linejoin="round">${roadBorders}${roadLines}</g>${routePath}${leaders.join('')}<circle cx="${ox}" cy="${oy}" r="23" fill="#fffefa80"/><circle cx="${ox}" cy="${oy}" r="9" fill="#fffefa" stroke="#345a46" stroke-width="3"/>${markers}${homeMarker}</svg>`;
  $$('.map-marker').forEach(el=>{const highlight=()=>{$$('.place-card').forEach(c=>c.classList.remove('highlight'));const card=document.getElementById('card-'+el.dataset.poi);card?.classList.add('highlight');card?.scrollIntoView({behavior:'smooth',block:'nearest'});};el.addEventListener('click',highlight);el.addEventListener('keydown',e=>{if(['Enter',' '].includes(e.key)){e.preventDefault();highlight();}});});
 }
 function exportWalk(){
  const r=result.route,story=journeyStory(journeys.find(j=>j.id===$('#journey').value),pois,result,locale),tm=result.timing;
- const content=[t('exportTitle'),'ArcSolo · Build with AI',`${result.departure} · UTC+5`,`${r.totalMinutes} ${t('min')} · ${result.returnToStart?t('routeBack'):t('routeOneWay')}`,`${t('plannedFinish')}: ${tm.plannedEnd}`,`${t('reserveUntil')}: ${tm.reservedEnd} · ${tm.bufferMinutes} ${t('minReserve')}`,tm.returnBy?`${t('deadlineChip')}: ${tm.returnBy}`:'',story?`${story.title} · ${story.chapters.length}/${story.total}`:'','',...r.stops.flatMap((stop,i)=>{const p=pois.find(p=>p.id===stop.id),s=generation.suggestions?.find(s=>s.id===p.id),chapter=story?.chapters.find(c=>c.id===p.id);return [`${i+1}. ${name(p)}`,`${stop.legMinutes} ${t('min')} ${t('walk')} + ${stop.visitMinutes} ${t('min')} ${t('visit')}`,t(stop.travel.mode==='mapped'?'routingMapped':'routingEstimated'),p.source.url,t(stop.openingStatus==='open'?'openHours':'unknownHours'),chapter?.question||'',chapter?.condition||'',s?.why||'',s?.activity||actionText(p,locale),...evidenceFor(p,locale).slice(1).flatMap(f=>[f.text,f.url]),...(p.operationalNotes||[]).map(localized),''];}),t('routingNote'),t('estimateNote'),t('aboutLimits')].join('\n');
+ const content=[...(companionSession?[$('#companion-panel').innerText,'']:[]),t('exportTitle'),'ArcSolo · Build with AI',`${result.departure} · UTC+5`,`${r.totalMinutes} ${t('min')} · ${result.returnToStart?t('routeBack'):t('routeOneWay')}`,`${t('plannedFinish')}: ${tm.plannedEnd}`,`${t('reserveUntil')}: ${tm.reservedEnd} · ${tm.bufferMinutes} ${t('minReserve')}`,tm.returnBy?`${t('deadlineChip')}: ${tm.returnBy}`:'',story?`${story.title} · ${story.chapters.length}/${story.total}`:'','',...r.stops.flatMap((stop,i)=>{const p=pois.find(p=>p.id===stop.id),s=generation.suggestions?.find(s=>s.id===p.id),chapter=story?.chapters.find(c=>c.id===p.id);return [`${i+1}. ${name(p)}`,`${stop.legMinutes} ${t('min')} ${t('walk')} + ${stop.visitMinutes} ${t('min')} ${t('visit')}`,t(stop.travel.mode==='mapped'?'routingMapped':'routingEstimated'),p.source.url,t(stop.openingStatus==='open'?'openHours':'unknownHours'),chapter?.question||'',chapter?.condition||'',s?.why||'',s?.activity||actionText(p,locale),...evidenceFor(p,locale).slice(1).flatMap(f=>[f.text,f.url]),...(p.operationalNotes||[]).map(localized),''];}),t('routingNote'),t('estimateNote'),t('aboutLimits')].join('\n');
  const url=URL.createObjectURL(new Blob([content],{type:'text/plain;charset=utf-8'})),a=document.createElement('a');a.href=url;a.download='qadam-walk.txt';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
 }
+function renderCompanion(){
+ const active=!!companionSession;
+ $('#companion-panel').innerHTML=companionHTML({session:companionSession,locale,canStart:result.returnToStart&&result.route.stops.length>0,canLive:$('#time-mode').value==='now',canUndo:companionHistory.length>0,pois});
+ $('.map-legend [data-i18n=youAreHere]').textContent=active?companionText(locale,'current'):t('youAreHere');
+ $('#plan-form').inert=active;$('#plan-form').classList.toggle('companion-locked',active);$$('.scenario').forEach(b=>b.disabled=active);
+ for(const selector of ['#backup-panel','#edit-summary','#recovery-panel','#story-panel','#group-summary','#edit-request'])if(active)$(selector).hidden=true;
+ for(const selector of ['.stop-controls'])$$(selector).forEach(el=>el.hidden=active);
+ $('#result-cards').hidden=active&&!result.route.stops.length;
+ if(active&&!result.route.stops.length)$('#route-panel').innerHTML='';
+}
+function showCompanion(){
+ origin=companionSession.position;
+ plan({prepared:companionSession.result,context:companionSession.input});
+ $('#companion-title')?.focus({preventScroll:true});
+}
+$('#companion-panel').addEventListener('click',e=>{
+ const button=e.target.closest('[data-companion]');if(!button)return;
+ const action=button.dataset.companion;
+ try{
+  if(['rehearsal','live'].includes(action)){
+   beforeCompanion={result,generation,lastInput,origin};companionHistory=[];
+   companionSession=startWalk(lastInput,pois,{mode:action});
+  }else if(action==='exit'){
+   generationController?.abort();++runId;companionSession=null;companionHistory=[];
+   ({result,generation,lastInput,origin}=beforeCompanion);beforeCompanion=null;generationPending=false;if(lastInput.locale!==locale)generation={};
+   for(const selector of ['#backup-panel','#edit-summary','#group-summary','#edit-request'])$(selector).hidden=false;
+   backupOptions=backupPlans(lastInput,pois);recovery=recoveryOptions(lastInput,pois,result);render();$('#find-button').disabled=false;$('#companion-panel [data-companion=rehearsal]')?.focus({preventScroll:true});return;
+  }else if(action==='undo'){
+   if(companionSession.mode!=='rehearsal'||!companionHistory.length)return;
+   companionSession=companionHistory.pop();
+  }else{
+   const event=['complete','unavailable'].includes(action)?{type:action,id:companionSession.result.route.stops[0]?.id}:action==='delay'?{type:'delay',minutes:15}:['rain','fair'].includes(action)?{type:'weather',weather:action}:{type:action};
+   const next=updateWalk(companionSession,event,pois);if(companionSession.mode==='rehearsal'){companionHistory.push(companionSession);if(companionHistory.length>20)companionHistory.shift();}companionSession=next;
+  }
+  showCompanion();
+ }catch{notify(companionText(locale,'error'),true);}
+});
 function scenario(id){
+ if(companionSession)return;
  const presets={expo:{location:'expo',interests:['nature','coffee'],budget:60,weather:'fair',query:{en:'Discover something unusual near EXPO',ru:'Необычная прогулка возле EXPO',kk:'EXPO маңында қызықты серуен'}},coffee:{location:'baiterek',interests:['coffee'],budget:60,weather:'fair',query:{en:'A quiet coffee stop with a socket',ru:'Хочу тихое кафе с розеткой',kk:'Розеткасы бар тыныш кафе'}},family:{location:'museum',interests:['family'],budget:120,weather:'fair',query:{en:'Explore with a child',ru:'Прогулка с ребёнком',kk:'Баламен серуендеу'}},rain:{location:'khan',interests:[],budget:90,weather:'rain',query:{en:'An indoor break from the rain',ru:'Укрыться от дождя и отдохнуть',kk:'Жаңбырдан паналап демалу'}}};
  originalPlan=null;recoveryOriginal=null;$('#journey').value='';completedMissions.clear();resetEdits();
  const isGroup=id==='group';$('#preferences').open=isGroup;$('.group-options').open=isGroup;const p=presets[isGroup?'expo':id];$('#group-enabled').checked=isGroup;$('#group-size').value='3';groupFields();$('#mood').value=isGroup?'curious':id==='family'?'playful':'balanced';
@@ -204,7 +248,7 @@ $('#departure').addEventListener('change',()=>{simulated=false;$('#time-mode').v
 $('#time-mode').addEventListener('change',()=>{const mode=$('#time-mode').value;simulated=mode==='demo';if(mode==='custom'){$('#preferences').open=true;$('.more-options').open=true;$('#departure').focus();return;}$('#departure').value=mode==='demo'?DEMO_TIME:astanaNow();editFeedback='';plan();});
 $$('[data-interest]').forEach(b=>b.addEventListener('click',()=>b.setAttribute('aria-pressed',String(b.getAttribute('aria-pressed')!=='true'))));
 $$('.scenario').forEach(b=>b.addEventListener('click',()=>scenario(b.dataset.scenario)));
-$('#language').addEventListener('change',()=>{locale=$('#language').value;generation={};translate();plan();});
+$('#language').addEventListener('change',()=>{locale=$('#language').value;generation={};translate();if(companionSession){companionSession=replanWalk({...companionSession,base:{...companionSession.base,locale}},pois);showCompanion();}else plan();});
 $('#zoom-in').addEventListener('click',()=>{zoom=Math.min(zoom*1.35,4);drawMap();});$('#zoom-out').addEventListener('click',()=>{zoom=Math.max(zoom/1.35,.4);drawMap();});$('#map-reset').addEventListener('click',()=>{zoom=1;drawMap();});
 $('#about-button').addEventListener('click',()=>$('#about-dialog').showModal());$('#close-dialog').addEventListener('click',()=>$('#about-dialog').close());
 $('#locate').addEventListener('click',()=>{

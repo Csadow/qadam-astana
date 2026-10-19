@@ -1,6 +1,6 @@
 # YouTube submission preparation
 
-The required video has been recorded from the actual app. `Qadam_demo_RU.mp4` is an approximately 234-second silent walkthrough with burned-in Russian chapter captions. `Qadam_demo_RU.srt` is a separate subtitle track. The recording uses live Gemini responses; `docs/demo-generation-check.json` records 17 successful generation responses, 1 labelled fallbacks and no browser errors.
+The required video has been recorded from the actual app. `Qadam_demo_RU.mp4` is an approximately 265-second silent walkthrough with burned-in Russian chapter captions. `Qadam_demo_RU.srt` is a separate subtitle track. The recording uses live Gemini responses; `docs/demo-generation-check.json` records 20 successful generation responses, 1 labelled fallback and no browser errors.
 
 An upload-capable YouTube connection was not available in this workspace. The video has **not** been uploaded. Upload it to your channel, choose an audience/visibility appropriate to the organizers (usually unlisted), and put the resulting watch URL into `docs/SUBMISSION.md` and the submission form. Verify that it plays from a browser that is not signed into your account. Do not claim a submitted YouTube link until this is done.
 
@@ -14,7 +14,7 @@ Qadam — прототип команды ArcSolo для трека 1 Smart City
 
 Помогаем выбрать 1–3 места рядом и составить короткую прогулку с учётом времени, интересов и контекста. У каждой рекомендации есть источник и объяснение. Недостающие сведения о розетках, тишине, часах и доступности не придумываются.
 
-В демо: пешеходные пути в пяти районах, истории по первоисточникам, варианты при нехватке времени, возвращение к 15:00 с запасом, составная и словесная длительность запроса, уточнение неясного времени, закрепление и замена остановок, удаление и отмена, запрос «не хочу кофе, только парк», маленькая миссия открытия, маршрут для компании с разными интересами, план Б на случай дождя и нехватки времени, проверка расписания музея, источники и приватность.
+В демо: «Идём вместе» — адаптация после недоступного кафе, потери 15 минут и дождя с сохранением исходного срока и точки возвращения; пешеходные пути в пяти районах, истории по первоисточникам, варианты при нехватке времени, возвращение к 15:00 с запасом, составная и словесная длительность запроса, уточнение неясного времени, закрепление и замена остановок, удаление и отмена, запрос «не хочу кофе, только парк», маленькая миссия открытия, маршрут для компании с разными интересами, план Б на случай дождя и нехватки времени, проверка расписания музея, источники и приватность.
 
 300 POI автоматически собраны из OpenStreetMap в пяти районах Астаны. Отдельно добавлен 32 факта о 18 местах (19 записей с обогащением) из официальных источников. Снимок от 18.10.2026. © OpenStreetMap contributors, ODbL.
 

@@ -13,3 +13,9 @@ Local serving is loopback-only. API responses are no-store; bodies are limited t
 Future monetization must not bypass relevance or feasibility filters. Sponsored results must be clearly labelled. Location histories are not part of the business model.
 
 The public judge preview sets `QADAM_PUBLIC_DEMO=true`, returns a labelled retrieval/template response before any provider request, and has no hosted Gemini key. Live generation remains opt-in in a local installation with its own server-side key. Neither public-demo status nor provider keys can be changed through request bodies.
+
+## Adaptive companion
+
+Confirmed stop positions, finished/unavailable place IDs, the original return point, fixed deadline, manual weather reports and up to 20 rehearsal undo states remain in page memory. No location watcher or background timer is started. Ending the companion clears its session and restores the original plan; reloading clears walk progress. Actual time is refreshed on user actions and rounded up to the next minute. Rehearsal advances explicitly simulated travel/visit/delay time and can undo it; actual mode cannot rewind time.
+
+The generation boundary is unchanged: only the selected remaining public places and existing normalized context are sent. Session history, event types, current/return coordinates, exact clock and deadline are not sent. Selected place IDs can still reveal a coarse area of interest. An unavailable-place report excludes that place only from this walk and is not published as a source fact. Routes, deadlines and reserve are estimates, not arrival guarantees. If no further visit fits, only the return is shown; missing connectivity, lateness or a walking-cap conflict is disclosed.

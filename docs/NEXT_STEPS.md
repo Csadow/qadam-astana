@@ -45,3 +45,9 @@ Technical source references used for the graph profile: [OSM foot](https://wiki.
 Version 5 also fixes incoming-leg times on recommendation cards, adds seven facts for five more POIs (32 facts across 18 places; 19 enriched records), suppresses a conflicting museum schedule, and labels category-only recommendations. The public judge preview runs the planner without paid generation. Live local narrative checks cover six cases in EN/RU/KK; reviewed defects and prior outputs are retained in the narrative review files.
 
 Explicit ranges such as 30–60 minutes use the lower bound, with a visible explanation. Indefinite or conflicting time cues require clarification or explicit control confirmation.
+
+## Version 6: adaptive companion completed
+
+The participant selected “Walk with me” as the signature feature. Current and return origins are separate; the absolute return deadline and reserve remain fixed across unavailable stops, finished visits, delays and weather reports. Completed/unavailable places are excluded. Return-only, overdue, reserve-shortfall, walking-cap and disconnected states are explicit. Rehearsal has simulated time and undo; actual mode reads the device clock on each action. Preferences remain fixed while the session is active. Session progress is local and clears on reload.
+
+17 added code tests and 25 added browser checks pass, for 103 code/API/Worker tests and 98 browser checks total. Existing 25 acceptance scenarios also pass. These checks do not establish real walking accuracy or user demand. The distinguishing demo is adapting a short city walk around the same return commitment; no claim of worldwide product novelty is made.

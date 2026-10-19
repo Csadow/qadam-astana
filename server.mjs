@@ -19,7 +19,7 @@ const server=http.createServer(async(req,res)=>{
   let relative=pathname==='/'?'public/index.html':pathname.startsWith('/data/')||pathname.startsWith('/src/')?pathname.slice(1):'public'+pathname;
   // Only ship required public datasets and modules; never serve raw files or credentials.
   if(relative.startsWith('data/')&&!['data/pois.json','data/map.json','data/metadata.json','data/evidence.json','data/walking-graph.json','data/journeys.json'].includes(relative))throw new Error('Not found');
-  if(relative.startsWith('src/')&&!['src/engine.js','src/intent.js','src/time-intent.js','src/geo.js','src/routing.js','src/recovery.js','src/journeys.js','src/actions.js','src/evidence.js'].includes(relative))throw new Error('Not found');
+  if(relative.startsWith('src/')&&!['src/engine.js','src/companion.js','src/intent.js','src/time-intent.js','src/geo.js','src/routing.js','src/recovery.js','src/journeys.js','src/actions.js','src/evidence.js'].includes(relative))throw new Error('Not found');
   const file=path.resolve(root,relative);if(!file.startsWith(root+path.sep)||relative.includes('..'))throw new Error('Not found');
   const content=await readFile(file);res.writeHead(200,{...securityHeaders,'Content-Type':types[path.extname(file)]||'application/octet-stream','Cache-Control':'no-cache'});res.end(req.method==='HEAD'?undefined:content);
  }catch{res.writeHead(404,securityHeaders);res.end('Not found');}

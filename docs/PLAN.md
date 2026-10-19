@@ -51,3 +51,7 @@ Free consumer discovery; paid municipal, hotel, and event integrations after a p
 ## Implemented upgrade
 
 The original delivery plan above remains as the planning record. The completed second pass is described in [UPGRADE_PLAN.md](UPGRADE_PLAN.md): rich cited generation, separate primary-source evidence, group coverage, reversible backup plans and small discovery missions. The original action-ID-only generation has been replaced; current behavior and limitations are in the README and SCENARIOS.md.
+
+## Version 6 signature feature — adaptive companion
+
+Selected by the participant: support a walk after it starts. Separate current position from the original return destination in the pure planner. Freeze an absolute return deadline and reserve; apply manually reported unavailable stops, completed visits and weather only to the unfinished route. Recheck opening hours and all original constraints. Offer a return-only estimate and disclose deadline/reserve/connectivity failures. Provide explicit rehearsal mode for judges and action-based device-clock mode for an actual walk. Keep state ephemeral, local and undoable only in rehearsal. Validate with targeted state-transition tests and real browser checks, then update the public preview, Russian pitch, recorded demo and submission archive.

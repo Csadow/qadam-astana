@@ -3,7 +3,7 @@ import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const read=p=>readFile(path.join(root,p),'utf8');
-const files=['public/index.html','public/app.js','public/i18n.js','public/upgrades.js','public/refinement.js','public/styles.css','public/favicon.svg','src/engine.js','src/intent.js','src/time-intent.js','src/geo.js','src/routing.js','src/recovery.js','src/journeys.js','public/expansion.js','src/actions.js','src/evidence.js','data/evidence.json','data/walking-graph.json','data/journeys.json','data/pois.json','data/map.json','data/metadata.json'];
+const files=['public/index.html','public/app.js','public/companion.js','public/i18n.js','public/upgrades.js','public/refinement.js','public/styles.css','public/favicon.svg','src/engine.js','src/companion.js','src/intent.js','src/time-intent.js','src/geo.js','src/routing.js','src/recovery.js','src/journeys.js','public/expansion.js','src/actions.js','src/evidence.js','data/evidence.json','data/walking-graph.json','data/journeys.json','data/pois.json','data/map.json','data/metadata.json'];
 const assets={};for(const file of files)assets[file.startsWith('public/')?'/'+file.slice(7):'/'+file]=await read(file);
 assets['/']=assets['/index.html'];
 const modules=await Promise.all(['src/actions.js','src/evidence.js','src/narrative.js','src/generate.js','src/http.js'].map(read));
