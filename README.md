@@ -4,7 +4,13 @@
 
 An interactive Astana walking assistant that turns a short break into one editable itinerary with 1–3 source-backed stops that fits the available time, including the walk back. Every place explains its match, visit estimate, suggested activity and data uncertainty.
 
-![Qadam demo](presentation/assets/map.png)
+## Watch the demo
+
+[![Animated preview of Qadam: planning a walk, group preferences and source-backed stories. Click to open the full demo.](presentation/assets/demo-preview.gif)](https://github.com/Csadow/qadam-astana/blob/main/presentation/Qadam_demo_RU.mp4)
+
+**[▶ Full demo — 3:54, Russian captions](https://github.com/Csadow/qadam-astana/blob/main/presentation/Qadam_demo_RU.mp4)** · [Download MP4](https://github.com/Csadow/qadam-astana/raw/refs/heads/main/presentation/Qadam_demo_RU.mp4) · [Try the public planner](https://qadam-arcsolo-astana.candy-ball-8297.chatgpt.site)
+
+The recording demonstrates live Gemini, itinerary editing, group preferences, source-backed stories and time constraints. It includes one labelled template fallback. The public planner runs without paid generation.
 
 ## Run in one command
 
@@ -63,13 +69,13 @@ Personalized explanation + activity + discovery mission; source facts shown sepa
 Retrieval is sparse and concept-based; there is no vector database. Gemini composes an explanation, a focused activity and a discovery mission from the retrieved facts and normalized context. It receives mood, group interests, planned visit lengths and limited preference flags. Citation IDs must belong to the selected POI, rich facts must be cited when available, and duplicate missions are rejected; an exterior visit cannot cite interior-only exhibits. Invalid output, provider errors and timeouts fall back to labelled templates.
 
 Venue fields, routes and source facts are deterministic. Generated prose is separately labelled: citation and lexical checks do **not** establish that every sentence is supported. Six live scenario outputs are retained for review in [the current RAG evaluation](docs/live-rag-evaluation.json). The earlier museum fallback and successful recheck remain in [the v3 report](docs/live-rag-v3.json).
-**Current verified mode:** retrieval plus live Gemini structured generation, verified locally and on the private hosted site on 19 October 2026 (Astana). See [live integration evidence](docs/live-generation-check.json). The UI labels validated model responses as Gemini; missing keys, provider failures and invalid responses fall back to explicitly labelled templates. These smoke checks confirm connectivity and validated output, not model quality.
+**Current verified modes:** the local app and recorded demo use retrieval plus live Gemini structured generation; the public judge preview uses retrieval and templates without paid generation. See [live integration evidence](docs/live-generation-check.json). The UI labels validated model responses as Gemini; missing keys, provider failures and invalid responses fall back to explicitly labelled templates. These smoke checks confirm connectivity and validated output, not model quality.
 
 For a new installation, copy `.env.example` to `.env`, set `GEMINI_API_KEY` locally, and restart the server. Keep the key out of chat, commits and frontend files. Then verify one real call:
 
 ```sh
 node --env-file=.env scripts/check_gemini.mjs
-# Three richer live scenarios (uses your provider quota):
+# Six richer live scenarios (uses your provider quota):
 node --env-file=.env scripts/check_live_rag.mjs
 ```
 
