@@ -1,10 +1,10 @@
 {
-  "checkedAt": "2026-10-19T11:13:40.820599+00:00",
+  "checkedAt": "2026-10-19T11:38:00.072765+00:00",
   "url": "https://qadam-arcsolo-astana.candy-ball-8297.chatgpt.site",
   "anonymous": true,
   "freshBrowserContext": true,
   "authHeadersSupplied": false,
-  "appVersion": "6.0.0",
+  "appVersion": "6.1.0",
   "checks": [
     "HTTP 200 without sign-in",
     "Public mode visibly labelled",
@@ -14,7 +14,7 @@
     "Range lower bound disclosed",
     "Ambiguous time clears route and asks",
     "Secrets/raw graph source inaccessible",
-    "Version 6 source and companion available",
+    "Version 6.1 source and first-screen companion available",
     "Rehearsal delay preserves original return deadline"
   ],
   "pageErrors": []

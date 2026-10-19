@@ -22,7 +22,7 @@ Public repository: https://github.com/Csadow/qadam-astana
 
 Hosted demo: https://qadam-arcsolo-astana.candy-ball-8297.chatgpt.site
 
-Version 6 public judge preview is deployed, including the adaptive companion. Its planner, maps and sources work without a Gemini key; paid generation stays in the local app and recorded demo. Hosted integration checks confirmed 300 POIs, 32 cited facts, 22,868 graph nodes, 25,831 edges and the protected retrieval/template mode. The API key is excluded from the repository and submission archive.
+Version 6.1 public judge preview is deployed, including the first-screen companion rehearsal and recorded-demo links. Its planner, maps and sources work without a Gemini key; paid generation stays in the local app and recorded demo. Hosted integration checks confirmed 300 POIs, 32 cited facts, 22,868 graph nodes, 25,831 edges and the protected retrieval/template mode. The API key is excluded from the repository and submission archive.
 
 Submission ZIP: `Qadam_ArcSolo_submission.zip` in the participant's Downloads directory, generated from the final Git commit. It contains the source snapshot, app, tests, English documents, Russian slides and demo video. Secrets, local caches, development environments and Git metadata are excluded.
 
@@ -54,3 +54,11 @@ Published application source: `98949b94e1a1b368d24d3e8ed50cd32a7e1d2ca9`. Saved 
 Anonymous public access and the paid-generation block passed again. All 25 companion browser checks also passed against the actual hosted site without mocked generation or authentication, including actual/rehearsal modes, fixed deadlines, unavailable stops, language changes, return-only state, reload privacy and mobile keyboard interaction. See `companion-hosted-checks.json` and `public-preview-check.json`. These repeat the same companion cases on the hosted site; they are not 25 additional distinct test cases. Documentation/evidence commits can follow the published application commit.
 
 The version 6 recording was 4:25, with the companion sequence at 3:18. Version 6.1 moves that scenario to the opening of the recording and makes its rehearsal available on the first screen. The README preview, 12-slide PDF/PPTX, 6:15 speaker notes and English scenario PDF are refreshed with the release. The ZIP is generated from the final repository commit and includes these materials. YouTube upload and final organizer submission remain unperformed at the participant's request.
+
+## Version 6.1 publication
+
+Published application source: `d221b7c4f36ca391dc58e2b7946e0e669ac2c24d`. Saved version: `appgprj_6ad4ed7db9ac819191e00a95077d434d~appgver_4a5a4838085c8191b1fddd324f696613`. Deployment: `appgdep_6ad600eaa2e48191bd344ebb99aa6878`; environment revision 2; public audience preserved. [Source verification](https://github.com/Csadow/qadam-astana/actions/runs/39246009265).
+
+All 33 companion checks passed against the actual public site without mocked generation or authentication. They cover the opening-screen entry, preservation of one-way and unresolved plans, resume without resetting the clock, keyboard focus and EN/RU/KK mobile controls, alongside the existing walk cases. Anonymous public mode, version 6.1 and the paid-generation block were verified again. See `companion-hosted-checks.json` and `public-preview-check.json`. These hosted runs repeat the same 33 companion cases; they do not add to the 106 distinct browser checks.
+
+The refreshed Russian video is **5:53**; the companion starts at **0:14**. Its recording session returned 19 validated live Gemini responses and 3 labelled template fallbacks, with no browser errors. Initial setup time is trimmed; raw/trimmed timings are retained in `demo-generation-check.json`. The updated README GIF contains three actual companion excerpts. The 12-slide Russian PDF/PPTX, 6:15 speaker notes and English scenario PDF are prepared. Neither the organizer form nor YouTube has received a submission. The form requires Google sign-in; prepared copy is in `SUBMISSION_COPY.md`.
