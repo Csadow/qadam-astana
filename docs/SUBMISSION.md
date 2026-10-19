@@ -5,9 +5,9 @@ Deadline: **19 October 2026 inclusive**, as supplied by the participant. Confirm
 | Required deliverable | Prepared artifact | Status |
 |---|---|---|
 | Product concept | `docs/PLAN.md`, pitch slides | Ready |
-| Interactive prototype | Local Node app; public judge preview | Local tested; public preview prepared |
+| Interactive prototype | Local Node app; public judge preview | Local tested; public deployment succeeded |
 | Automated POI collection | `scripts/collect_pois.py`, source snapshot, metadata | Collected and reproducible |
-| RAG explanation | README, slide 6, `live-generation-check.json` | Live Gemini verified locally and on the hosted site |
+| RAG explanation | README, slide 6, `live-generation-check.json` | Live Gemini verified locally; public hosted planner verified |
 | Test cases and limitations | `docs/SCENARIOS.md`, evaluation reports | Ready |
 | Privacy and ethics | `docs/PRIVACY.md`, slide 8 | Ready |
 | Repository or prototype archive | GitHub plus prepared ZIP | Public repository; ZIP also available |
@@ -18,7 +18,7 @@ Public repository: https://github.com/Csadow/qadam-astana
 
 Hosted demo: https://qadam-arcsolo-astana.candy-ball-8297.chatgpt.site
 
-Version 5 public judge preview is prepared. Its planner, maps and sources work without a Gemini key; paid generation stays in the local app and recorded demo. Publication verification is recorded below after deployment. The API key is excluded from the repository and submission archive.
+Version 5 public judge preview is deployed. Its planner, maps and sources work without a Gemini key; paid generation stays in the local app and recorded demo. Hosted integration checks confirmed 300 POIs, 32 cited facts, 22,868 graph nodes, 25,831 edges and the protected retrieval/template mode. The API key is excluded from the repository and submission archive.
 
 Submission ZIP: `Qadam_ArcSolo_submission.zip` in the participant's Downloads directory, generated from the final Git commit. It contains the source snapshot, app, tests, English documents, Russian slides and demo video. Secrets, local caches, development environments and Git metadata are excluded.
 
@@ -38,3 +38,7 @@ YouTube watch URL: **not uploaded**.
 300 collected POIs; 32 first-party facts across 18 places (19 enriched records including access-only evidence), 102 opening-hour records, 26 accessibility tags; 86 code/API/Worker tests and 6 graph-collector tests, 160 constraint combinations, 100 route/card agreement combinations, 25 acceptance scenarios, and 73 browser checks. These are deterministic engineering checks, not traction, user satisfaction, or live-model quality measurements.
 
 Deployment and final source verification are recorded below. The evidence commit may follow the deployed application commit.
+
+## Version 5 publication
+
+Published source: `6e076479463c8e720f819ffcafc1f819cbdb4f02`. Deployment: `appgdep_6ad5e30b8574819182ca5f60ce82a6df`; environment revision 2; public access revision 2. Application source verification passed on [GitHub Actions](https://github.com/Csadow/qadam-astana/actions/runs/39230586227). Anonymous access was verified in a fresh browser with no authentication headers and no page errors. See `live-generation-check.json` for hosted integration, `public-preview-check.json` for anonymous access, and `narrative-review-v5.json` for model review findings and retained failed attempts. The 234-second recording contains 17 live model responses and one labelled fallback.
