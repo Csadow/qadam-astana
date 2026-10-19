@@ -1,6 +1,6 @@
 {
-  "checkedAt": "2026-10-18T19:08:40.775Z",
-  "appVersion": "4.0.0",
+  "checkedAt": "2026-10-19T09:24:26.113Z",
+  "appVersion": "5.0.0",
   "method": "Twelve additional examples specified after feature implementation and before executing this audit. Authored by the implementation agent, not an independent or representative language benchmark. This script was not used to tune the parser.",
   "passed": 12,
   "total": 12,

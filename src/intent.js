@@ -1,4 +1,5 @@
 /** Small, auditable EN/RU/KK intent parser. No query or location leaves the browser. */
+import {parseTimeIntent} from './time-intent.js';
 export const CONCEPTS={
  coffee:{re:/coffee|café|cafe|кофе|кофей|кафе/iu,categories:['cafe']},
  culture:{re:/museum|culture|art\b|музе|культур|өнер/iu,categories:['museum','gallery','arts_centre','artwork','attraction']},
@@ -30,17 +31,11 @@ export function parseIntent(query='',interests=[]){
  for(const key of excluded)concepts.delete(key);
  const indoor=mentions(query,/indoor|inside|в помещени|внутри|үй-жай|ғимарат іш/iu),outdoor=mentions(query,/outdoor|outside|на улице|на свежем воздухе|далада|ашық ауа/iu);
  const wantsIndoor=indoor.some(m=>!m.negated)||outdoor.some(m=>m.negated),wantsOutdoor=outdoor.some(m=>!m.negated)||indoor.some(m=>m.negated);
- const walk=query.match(/(?:within|no more than|maximum|max|не дальше|не более|максимум|до)\s*(\d{1,2})\s*(?:minutes?|mins?|минут[ауы]?|мин)\s*(?:on foot|walk(?:ing)?|пешком)/iu)||query.match(/(?:walk(?:ing)?|пешком)\s*(?:for|within|up to|не более|до)?\s*(\d{1,2})\s*(?:minutes?|mins?|минут[ауы]?|мин)/iu)||query.match(/жаяу\s*(\d{1,2})\s*минут/iu);
- const durationText=walk?query.replace(walk[0],''):query;
- const range=[...durationText.matchAll(/(\d{1,3})\s*(?:-|–|to)\s*(\d{1,3})\s*(?:min|мин)/giu)];
- const minute=durationText.match(/(\d{1,3})\s*(?:minutes?|mins?|минут[ауы]?|мин)(?=$|[\s,.!?])/iu),hour=durationText.match(/(\d+(?:[.,]\d+)?)\s*(?:hours?|hrs?|час[аов]*|сағат)/iu);
- const compound=durationText.match(/(\d+)\s*(?:hours?|hrs?|час[аов]*|сағат)\s*(?:and|и|және)?\s*(\d{1,2})\s*(?:minutes?|mins?|минут[ауы]?|мин)/iu);
- const budget=range.length?Number(range.at(-1)[2]):compound?Number(compound[1])*60+Number(compound[2]):hour?Math.round(Number(hour[1].replace(',','.'))*60):minute?Number(minute[1]):undefined;
+ const timing=parseTimeIntent(query);
  const stroller=/stroller|pram|детск[а-я]*\s+коляск|бала\s*арб/iu.test(query);
  if(stroller&&!excluded.includes('family'))concepts.add('family');
  const priceText=query.replace(/(?:free|бесплатн[а-я]*|тегін)\s*(?:wi[ -]?fi|wifi|вай[ -]?фай)/giu,'');
- const returnBy=query.match(/(?:back by|return by|вернуться (?:к|до)|обратно к|қайту)\s*(\d{1,2}:\d{2})/iu);
- return {concepts:[...concepts],excluded,excludedCategories,only,budget,budgetPhrase:range.at(-1)?.[0]||compound?.[0]||hour?.[0]||minute?.[0],maxWalk:walk?Number(walk[1]):undefined,returnByClock:returnBy?.[1],setting:wantsIndoor&&!wantsOutdoor?'indoor':wantsOutdoor&&!wantsIndoor?'outdoor':'any',settingConflict:wantsIndoor&&wantsOutdoor,
+ return {concepts:[...concepts],excluded,excludedCategories,only,...timing,setting:wantsIndoor&&!wantsOutdoor?'indoor':wantsOutdoor&&!wantsIndoor?'outdoor':'any',settingConflict:wantsIndoor&&wantsOutdoor,
  quiet:/quiet|тиш|тих|тыныш/iu.test(query),socket:/socket|outlet|розет|қуат/iu.test(query),stroller,accessible:/wheelchair|step.free|инвалидн[а-я]*\s+(?:коляск|кресл)|мүгедек/iu.test(query)||(!stroller&&/коляск|кресл|арбамен/iu.test(query)),
  free:/\bfree\b|бесплат|тегін/iu.test(priceText),airport:/flight|airport|вылет|аэропорт|ұшақ|әуежай/iu.test(query),night:/night|ноч|түн/iu.test(query)};
 }

@@ -7,7 +7,7 @@ export const securityHeaders={
 export const json=(value,status=200)=>new Response(JSON.stringify(value),{status,headers:{...securityHeaders,'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store'}});
 export async function api(request,pois,env={}){
  const url=new URL(request.url);
- if(url.pathname==='/api/health')return json({ok:true,poiCount:pois.length,generation:env.GEMINI_API_KEY?'configured':'retrieval-template'});
+ if(url.pathname==='/api/health')return json({ok:true,poiCount:pois.length,generation:env.QADAM_PUBLIC_DEMO==='true'?'public-preview':env.GEMINI_API_KEY?'configured':'retrieval-template'});
  if(url.pathname!=='/api/generate')return json({error:'Not found'},404);
  if(request.method!=='POST')return json({error:'Method not allowed'},405);
  const origin=request.headers.get('origin');if(origin&&origin!==url.origin)return json({error:'Origin not allowed'},403);

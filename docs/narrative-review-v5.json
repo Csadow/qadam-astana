@@ -1,0 +1,39 @@
+{
+  "checkedAt": "2026-10-19",
+  "reviewer": "Implementation agent; not independent or a user study",
+  "scope": "Compare retained live outputs with their retrieved evidence and stated context. Citation membership is not semantic entailment.",
+  "samplesReviewed": [
+    "live-rag-v5-first-pass.json",
+    "live-rag-v5-second-pass.json",
+    "live-rag-evaluation.json"
+  ],
+  "findings": [
+    {
+      "sample": "first-pass/river-bridge-ru",
+      "issue": "An exact duration was spelled out in Russian, bypassing the digit-only lexical check.",
+      "change": "Reject common EN/RU/KK spelled-out durations in generated prose; instruct the model to leave timing to the itinerary. Regression tests cover all three languages."
+    },
+    {
+      "sample": "first-pass/family-paleontology/park",
+      "issue": "Generic tree-counting mission despite a distinctive sourced architectural setting.",
+      "change": "Added source-specific editorial observation questions to five existing facts, in addition to seven new questions. The final park mission refers to the Palace of Peace and Reconciliation."
+    },
+    {
+      "sample": "second-pass/mixed-group/monument",
+      "issue": "Generated viewing-platform instruction implied a facility absent from retrieved facts.",
+      "change": "Reject a viewing-platform/observation-deck mention without a matching retrieved fact; distinguish an ordinary public viewpoint from a built facility."
+    }
+  ],
+  "remaining": [
+    "Generic category-only missions remain for unenriched places, now labelled visibly.",
+    "Some reasons still use generic praise or infer a preference from broad interests; the model is not a complete semantic verifier.",
+    "Six final cases do not establish general factuality or language quality. Native-speaker and participant review remain future work."
+  ],
+  "finalRun": {
+    "cases": 6,
+    "successfulFinalResponses": 6,
+    "providerAttempts": 7,
+    "labelledFallbackAttempts": 1,
+    "retryPolicy": "One explicit retry of the failed bridge case; prior fallback retained in current report."
+  }
+}

@@ -29,6 +29,50 @@
       "pass": true
     },
     {
+      "name": "Card walking minutes equal the actual incoming route leg",
+      "pass": true
+    },
+    {
+      "name": "Cards disclose local-fact versus category-only evidence",
+      "pass": true
+    },
+    {
+      "name": "Visible time interpretation: I have half an hour",
+      "pass": true
+    },
+    {
+      "name": "Visible time interpretation: \u0423 \u043c\u0435\u043d\u044f \u043f\u043e\u043b\u0447\u0430\u0441\u0430",
+      "pass": true
+    },
+    {
+      "name": "Visible time interpretation: \u0431\u0456\u0440 \u0436\u0430\u0440\u044b\u043c \u0441\u0430\u0493\u0430\u0442",
+      "pass": true
+    },
+    {
+      "name": "Visible time interpretation: 1h30m",
+      "pass": true
+    },
+    {
+      "name": "Ambiguous time removes old cards and blocks generation",
+      "pass": true
+    },
+    {
+      "name": "Confirmation reveals all time settings",
+      "pass": true
+    },
+    {
+      "name": "Explicit confirmation restores the plan with a visible override",
+      "pass": true
+    },
+    {
+      "name": "Editing the request invalidates time confirmation",
+      "pass": true
+    },
+    {
+      "name": "Kazakh return deadline is visible",
+      "pass": true
+    },
+    {
       "name": "A kept stop is marked and its remove action is disabled",
       "pass": true
     },
@@ -249,8 +293,8 @@
       "pass": true
     }
   ],
-  "passed": 62,
-  "total": 62,
+  "passed": 73,
+  "total": 73,
   "metrics": {
     "mobileRouteTop": 627,
     "mobileViewport": {

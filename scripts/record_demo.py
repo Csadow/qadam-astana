@@ -61,6 +61,11 @@ with sync_playwright() as p:
  caption('13 / УЧИТЫВАЕМ ОТРИЦАНИЕ','«Не хочу кофе, только парк»: интерпретация запроса видна, кафе исключены. Карточки и карта показывают тот же маршрут.',8)
  page.locator('#query').fill('1 час 30 минут, пешком до 10 минут');page.locator('#budget').fill('120');page.locator('#find-button').click();ready();page.locator('#intent-summary').scroll_into_view_if_needed()
  caption('14 / ТОЧНЕЕ ПОНИМАЕМ ВРЕМЯ','«1 час 30 минут» — это 90 минут. Ограничение «пешком до 10 минут» применяется отдельно к каждому переходу.',7)
+ page.locator('#query').fill('У меня полчаса');page.locator('#find-button').click();ready();page.locator('#intent-summary').scroll_into_view_if_needed()
+ caption('14А / ПОЛЧАСА — ЗНАЧИТ 30 МИНУТ','Словесная длительность применяется к всему плану. Карточки показывают время от предыдущей остановки, как и маршрут.',6)
+ page.locator('#query').fill('Пару часов');page.locator('#find-button').click();ready();page.locator('#recovery-panel').scroll_into_view_if_needed()
+ caption('14Б / НЕ ГАДАЕМ О НЕЯСНОМ ВРЕМЕНИ','Если время не удалось распознать, старый маршрут убирается. Можно уточнить запрос или явно подтвердить настройки времени.',7)
+ page.locator('#query').fill('');page.locator('#find-button').click();ready()
  page.locator('#preferences').evaluate('(e)=>e.open=true');page.select_option('#max-walk','30');page.select_option('#journey','expo-space-and-symbols');ready();page.locator('#story-panel').scroll_into_view_if_needed();page.locator('.story-chapters details').first.evaluate('(e)=>e.open=true');capture('#story-panel','story.png')
  caption('15 / ИСТОРИЯ МЕЖДУ ОСТАНОВКАМИ','Три истории по первоисточникам. Здесь — атриумы MEGA и грани монумента. У каждой главы есть вопрос, источник и условия посещения.',9)
  page.locator('#budget').fill('30');page.locator('#find-button').click();ready();page.locator('#recovery-panel').scroll_into_view_if_needed();capture('#recovery-panel','recovery.png')
@@ -70,9 +75,9 @@ with sync_playwright() as p:
  page.locator('#leave-story').click();ready();scenario('expo');page.locator('.deadline-options').evaluate('(e)=>e.open=true');page.select_option('#buffer','5');page.locator('#deadline-enabled').check();page.locator('#return-by').fill('2026-10-20T15:00');page.locator('#find-button').click();ready();page.locator('.timing-details').evaluate('(e)=>e.open=true');page.locator('#timing-panel').scroll_into_view_if_needed();capture('#timing-panel','timing.png')
  caption('18 / ВЕРНУТЬСЯ К 15:00 С ЗАПАСОМ','Возвращение включено. Пять минут оставлены на задержки. Расписание показывает оценку окончания и остаток времени; точное прибытие не гарантируется.',8)
  page.locator('#map-details').evaluate('(e)=>e.open=true');page.locator('.map-card').scroll_into_view_if_needed()
- caption('19 / КАРТА ПОКАЗЫВАЕТ ТОЧНОСТЬ','В EXPO — связные пути по OSM. Сплошная линия идёт по карте, пунктир обозначает примерные соединения. Входы и текущие перекрытия требуют проверки.',8)
+ caption('19 / КАРТА ПОКАЗЫВАЕТ ТОЧНОСТЬ','В пяти районах собраны пути OSM с пробелами. Сплошная линия идёт по карте, пунктир обозначает примерные соединения. Входы и текущие перекрытия требуют проверки.',8)
  page.evaluate('window.scrollTo(0,0)')
- caption('QADAM / ARCSOLO','300 POI · 25 дополнительных фактов · 75 тестов · 25 сценариев · 62 проверки браузера. При ошибке модели — явно обозначенный шаблон.',7)
+ caption('QADAM / ARCSOLO','300 POI · 32 дополнительных факта · 86 тестов · 25 сценариев · 73 проверки браузера. При ошибке модели — явно обозначенный шаблон.',7)
  assert any(c['mode']=='gemini-grounded' for c in checks);assert not errors
  video=page.video;context.close();video.save_as(str(TEMP/'qadam-demo-raw.webm'));browser.close()
 wall_end=time.monotonic()-start

@@ -1,6 +1,6 @@
 {
   "name": "qadam-astana",
-  "version": "4.0.0",
+  "version": "5.0.0",
   "private": true,
   "type": "module",
   "description": "ArcSolo's evidence-first Astana walking assistant",

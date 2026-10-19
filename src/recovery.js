@@ -1,6 +1,7 @@
 import {recommend,parseIntent,astanaNow,parseDeparture} from './engine.js';
 /** Each alternative changes one named constraint and is tested by the same planner. */
 export function recoveryOptions(raw,pois,current=recommend(raw,pois)){
+ if(current.warnings.includes('timing_confirmation'))return {reason:'timing',options:[]};
  const target=Math.min(raw.journeyIds?.length||1,raw.maxStops??3);
  if(current.route.stops.length>=target||raw.maxStops===0)return {reason:null,options:[]};
  const reason=current.warnings.includes('deadline_passed')?'deadline':current.warnings.includes('buffer_exhausted')?'buffer':current.conflicts.length?'kept':current.intent.settingConflict?'setting':current.trace.candidates?'combination':'constraints';

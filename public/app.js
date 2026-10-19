@@ -15,6 +15,7 @@ let locale='en',pois=[],geometry=[],metadata={},result=null,origin=PRESETS[0],cu
 let lastInput=null,backupOptions=[],originalPlan=null,generationPending=false;
 const generationCache=new Map(),completedMissions=new Set();
 let editState={pinnedIds:[],excludedIds:[],preferredIds:[],maxStops:3},editHistory=[],editFeedback='',generationController;
+let timingConfirmedFor=null;
 let routing=null,journeys=[],recovery={options:[]},recoveryOriginal=null;
 const clockTime=value=>value?.slice(11,16)||"";
 const DEMO_TIME='2026-10-20T14:00';
@@ -39,7 +40,7 @@ function translate(){
 function input(){
  origin=customLocation&&$('#location').value==='custom'?customLocation:PRESETS.find(p=>p.id===$('#location').value)||PRESETS[0];
  if($('#time-mode').value==='now')$('#departure').value=astanaNow();
- return {...editState,routing,journeyIds:journeys.find(j=>j.id===$('#journey').value)?.stops.map(s=>s.poiId)||[],bufferMinutes:Number($('#buffer').value),returnBy:$('#deadline-enabled').checked?$('#return-by').value:null,origin,budget:Number($('#budget').value),maxWalk:Number($('#max-walk').value),query:$('#query').value,
+ return {...editState,routing,timingOverride:timingConfirmedFor!==null&&timingConfirmedFor===$('#query').value,journeyIds:journeys.find(j=>j.id===$('#journey').value)?.stops.map(s=>s.poiId)||[],bufferMinutes:Number($('#buffer').value),returnBy:$('#deadline-enabled').checked?$('#return-by').value:null,origin,budget:Number($('#budget').value),maxWalk:Number($('#max-walk').value),query:$('#query').value,
   interests:$$('[data-interest][aria-pressed=true]').map(b=>b.dataset.interest),weather:$('#weather').value,setting:$('#setting').value,
   group:$('#group-enabled').checked?$$('[data-member]').map(el=>el.value):[],mood:$('#mood').value,
   departure:$('#departure').value,locale,accessible:$('#accessible').checked,verifiedHours:$('#verified-hours').checked,
@@ -68,25 +69,27 @@ async function plan({prepared,context:given,scroll=false}={}){
 function factsHTML(p,suggestion){
  const all=evidenceFor(p,locale).slice(1),chosen=all.filter(f=>suggestion?.evidenceIds?.includes(f.id));
  const facts=(chosen.length?chosen:all).slice(0,2);
- return facts.length?`<details class="source-facts"><summary>${t('sourceMore')} · ${facts.length}</summary>${facts.map(f=>`<p>${esc(f.text)}</p><a href="${esc(safeUrl(f.url))}" target="_blank" rel="noreferrer">${esc(f.title)} ↗ · ${t('sourceChecked')} ${esc(f.checkedAt)}</a>`).join('')}</details>`:'';
+ return facts.length?`<details class="source-facts"><summary>${t('sourceMore')} · ${facts.length}</summary>${facts.map(f=>`<p>${esc(f.text)}</p>${f.observationQuestion?'<p class="story-question">'+esc(localized(f.observationQuestion))+'</p>':''}<a href="${esc(safeUrl(f.url))}" target="_blank" rel="noreferrer">${esc(f.title)} ↗ · ${t('sourceChecked')} ${esc(f.checkedAt)}</a>`).join('')}</details>`:'';
 }
 function render(){
  modeBadge();$('#results-title').textContent=result.group.length?t('groupResult'):result.trace.effectiveBudget===60?t('yourNextHour'):t('newResults');
- const notes=[t($('#time-mode').value==='demo'?'demoNotice':$('#time-mode').value==='now'?'liveNotice':'customNotice'),originalPlan?t('changedPlan'):'',...result.warnings.filter(x=>x!=='estimates').map(t)].filter(Boolean);notify(notes.join(' '));
+ const notes=[generation.reason==='public_preview'?t('publicPreviewNotice'):'',t($('#time-mode').value==='demo'?'demoNotice':$('#time-mode').value==='now'?'liveNotice':'customNotice'),originalPlan?t('changedPlan'):'',...result.warnings.filter(x=>x!=='estimates').map(t)].filter(Boolean);notify(notes.join(' '));
  $('#result-cards').innerHTML=result.recommendations.length?result.recommendations.map((p,i)=>{
   const suggestion=generation.suggestions?.find(s=>s.id===p.id),defaultAction=parseIntent(lastInput.query).socket&&p.category==='cafe'?'ask_socket':undefined;
   return `<article class="place-card" id="card-${esc(p.id)}">
-   <div class="place-top"><span class="place-number">${i+1}</span><div class="place-title"><h3>${esc(name(p))}</h3><span class="category">${esc(t('categories')[p.category]||p.category)} · ≈${p.distanceM} m ${p.match==='partial'?'· '+esc(t('partial')):''}</span></div><span class="place-time">${p.walkMinutes} ${t('min')} ${t('walk')}</span></div>
+   <div class="place-top"><span class="place-number">${i+1}</span><div class="place-title"><h3>${esc(name(p))}</h3><span class="category">${esc(t('categories')[p.category]||p.category)} · ≈${p.travel.distanceM} m · ${t(i?'fromPrevious':'fromStart')} ${p.match==='partial'?'· '+esc(t('partial')):''}</span></div><span class="place-time">${p.legMinutes} ${t('min')} ${t('walk')}</span></div>
    <div class="place-body"><p class="why">≈${p.visitMinutes} ${t('min')} ${t('visit')}${p.shortStop?' · '+t('shortStop'):''} · ${p.reasons.map(t).map(esc).join(' · ')}</p>
    ${suggestion?.why?`<div class="model-why"><span class="idea-label">${t('modelWhy')}</span>${esc(suggestion.why)}</div>`:''}
    <div class="action-idea"><span class="idea-label">${t(suggestion?.activity?'aiIdea':'idea')}</span>${esc(suggestion?.activity||actionText(p,locale,suggestion?.actionId||defaultAction))}</div>
    ${suggestion?.mission?`<details class="micro-mission"><summary>✳ ${t('missionMore')}</summary><p>${esc(suggestion.mission)}</p><button class="mission-toggle" data-mission="${esc(p.id)}" aria-pressed="${completedMissions.has(p.id)}">${completedMissions.has(p.id)?'✓ '+t('missionDone'):t('missionTry')}</button></details>`:''}
+   <p class="uncertainty">${t(p.travel.mode==='mapped'?'routingMixed':p.travel.reason==='outside_graph'?'outsideCoverage':'unverifiedConnection')}</p>
+   <p class="evidence-level">${t(evidenceFor(p,locale).length>1?'localEvidence':'categoryEvidence')}</p>
    ${p.uncertainties.filter(u=>u!=='hours').map(u=>`<p class="uncertainty">${esc(t('unc_'+u))}</p>`).join('')}
    ${(p.operationalNotes||[]).map(n=>`<p class="source-note">${esc(localized(n))}${n.url?` <a href="${esc(safeUrl(n.url))}" target="_blank" rel="noreferrer">${t('sourceWarning')} ↗</a>`:''}</p>`).join('')}
    <div class="place-bottom"><span class="hours-label ${p.openingStatus==='open'?'open':''}">${t(p.openingStatus==='open'?'openHours':'unknownHours')}</span><a class="source-link" href="${sourceUrl(p)}" target="_blank" rel="noreferrer">${t('source')}</a></div>
    ${factsHTML(p,suggestion)}
    <details class="source-details"><summary>${t('facts')}</summary><dl><dt>${t('collected')}</dt><dd>${esc(p.source.collectedAt.slice(0,10))}</dd><dt>${t('hours')}</dt><dd>${esc(p.hours||t('unknown'))}${p.hoursSource?` · <a href="${esc(safeUrl(p.hoursSource.url))}" target="_blank" rel="noreferrer">${esc(p.hoursSource.title)} ↗</a>`:''}</dd><dt>${t('access')}</dt><dd>${esc(p.wheelchair)}</dd><dt>${t('description')}</dt><dd>${esc(p.description||t('noDescription'))}${p.descriptionOrigin==='summary_of_osm_tags'?' <small>(OSM tag summary)</small>':''}</dd></dl></details></div></article>`;
- }).join(''):`<div class="empty-state"><h3>${t('noResults')}</h3><p>${t(editState.maxStops===0?'noRouteAfterEdit':'noResultsText')}</p></div>`;
+ }).join(''):`<div class="empty-state"><h3>${t('noResults')}</h3><p>${t(result.warnings.includes('timing_confirmation')?'recovery_timing':editState.maxStops===0?'noRouteAfterEdit':'noResultsText')}</p></div>`;
  $$('[data-mission]').forEach(button=>button.addEventListener('click',()=>{const id=button.dataset.mission;if(completedMissions.has(id))completedMissions.delete(id);else completedMissions.add(id);button.setAttribute('aria-pressed',String(completedMissions.has(id)));button.textContent=completedMissions.has(id)?'✓ '+t('missionDone'):t('missionTry');}));
  const r=result.route;
  $('#route-panel').innerHTML=r.stops.length?`<div class="route-heading"><h3>${t('routeTitle')}</h3><span>≈ ${r.totalMinutes} / ${result.trace.effectiveBudget} ${t('min')}</span></div><ol class="route-timeline">${r.stops.map((p,i)=>`<li><strong>${i+1}. ${esc(name(p))}</strong><span>${p.legMinutes} ${t('min')} ${t('walk')} + ${p.visitMinutes} ${t('min')} ${t('visit')}${p.shortStop?' · '+t('shortStop'):''}</span>${result.group.length?`<span class="route-member-note">${p.groupMatches.map(i=>t('member')+' '+(i+1)).join(' · ')}</span>`:''}<div class="stop-controls">${['keep','replace','remove'].map(action=>`<button type="button" data-edit="${action}" data-stop="${esc(p.id)}" ${action==='keep'?`aria-pressed="${editState.pinnedIds.includes(p.id)}"`:''} ${action!=='keep'&&editState.pinnedIds.includes(p.id)?'disabled':''} aria-label="${esc(t(action==='keep'&&editState.pinnedIds.includes(p.id)?'keptStop':action+'Stop')+' · '+name(p))}">${t(action==='keep'&&editState.pinnedIds.includes(p.id)?'keptStop':action+'Stop')}</button>`).join('')}</div></li>`).join('')}</ol><div class="route-footer"><span>${r.walkMinutes} ${t('min')} ${t('walk')} · ${r.visitMinutes} ${t('min')} ${t('visit')}<br>${result.returnToStart?r.returnMinutes+' '+t('min')+' '+t('routeBack'):t('routeOneWay')} · ${t('routeEstimate')}</span><button id="export-walk">${t('export')}</button></div>`:'';
@@ -123,7 +126,8 @@ function renderExpansion(){
  $('#story-panel').innerHTML=story?`<div class="story-header"><span class="eyebrow small">${t('sourceStory')}</span><h3>${esc(story.title)}</h3><span class="story-count">${story.chapters.length} / ${story.total} ${t('storyPart')}</span></div><p>${esc(story.introduction||t('storyPartial'))}</p><div class="story-chapters">${story.chapters.map((c,i)=>`<article><span class="chapter-number">0${i+1}</span><h4>${esc(c.name)}</h4><p class="story-question">${esc(c.question)}</p><details><summary>${t('storySources')}</summary>${c.facts.map(f=>`<p>${esc(f.text)} <a href="${esc(safeUrl(f.url))}" target="_blank" rel="noreferrer">${esc(f.title)} ↗</a></p>`).join('')}<p>${esc(c.condition)}</p></details></article>`).join('')}</div><button id="leave-story">${t('storyCustom')}</button>`:'';
  $('#leave-story')?.addEventListener('click',()=>{$('#journey').value='';editState.maxStops=3;recoveryOriginal=null;plan();});
  $('#recovery-panel').hidden=!recovery.reason&&!recoveryOriginal;
- $('#recovery-panel').innerHTML=`${recovery.reason?`<h3>${t('recoveryTitle')}</h3><p>${t('recovery_'+recovery.reason)}</p>${result.intent.stroller?'<p>'+t('strollerNote')+'</p>':''}<div class="recovery-options">${recovery.options.map((o,i)=>`<article><strong>${t(o.id==='more-time'?'moreTime':'laterDeparture')}</strong><p>${o.changes.departure?esc(o.changes.departure.replace('T',' ')):o.changes.budget+' '+t('min')}</p><p>≈ ${o.result.route.totalMinutes} ${t('min')} · ${o.result.route.stops.map(name).map(esc).join(' → ')}</p><button data-recovery="${i}">${t('applyAlternative')}</button></article>`).join('')}</div>${recovery.options.length?'':'<p>'+t('noAlternative')+'</p>'}`:''}${recoveryOriginal?`<button id="restore-recovery">↶ ${t('restoreAlternative')}</button>`:''}`;
+ $('#recovery-panel').innerHTML=`${recovery.reason?`<h3>${t('recoveryTitle')}</h3><p>${t('recovery_'+recovery.reason)}</p>${result.intent.stroller?'<p>'+t('strollerNote')+'</p>':''}<div class="recovery-options">${recovery.options.map((o,i)=>`<article><strong>${t(o.id==='more-time'?'moreTime':'laterDeparture')}</strong><p>${o.changes.departure?esc(o.changes.departure.replace('T',' ')):o.changes.budget+' '+t('min')}</p><p>≈ ${o.result.route.totalMinutes} ${t('min')} · ${o.result.route.stops.map(name).map(esc).join(' → ')}</p><button data-recovery="${i}">${t('applyAlternative')}</button></article>`).join('')}</div>${recovery.reason==='timing'?'<button id="confirm-timing">'+t('reviewTiming')+'</button>':recovery.options.length?'':'<p>'+t('noAlternative')+'</p>'}`:''}${recoveryOriginal?`<button id="restore-recovery">↶ ${t('restoreAlternative')}</button>`:''}`;
+ $('#confirm-timing')?.addEventListener('click',()=>{openPlanner();$('#preferences').open=true;$('.more-options').open=true;$('#timing-confirmation').hidden=false;$('#budget').focus();$('#planner').scrollIntoView({behavior:'smooth',block:'start'});});
  $$('[data-recovery]').forEach(b=>b.addEventListener('click',()=>{
   const o=recovery.options[Number(b.dataset.recovery)];recoveryOriginal||={budget:lastInput.budget,query:lastInput.query,departure:lastInput.departure,timeMode:$('#time-mode').value};editHistory=[];
   if(o.changes.budget)$('#budget').value=String(o.changes.budget);if(o.changes.query!==undefined)$('#query').value=o.changes.query;
@@ -193,6 +197,8 @@ function scenario(id){
 }
 $('#location').innerHTML=PRESETS.map(p=>`<option value="${p.id}">${p.name}</option>`).join('');$('#departure').value=astanaNow();
 $('#plan-form').addEventListener('submit',e=>{e.preventDefault();editHistory=[];editFeedback='';recoveryOriginal=null;plan({scroll:matchMedia('(max-width:760px)').matches});});
+$('#query').addEventListener('input',()=>{timingConfirmedFor=null;$('#timing-confirmation').hidden=true;});
+$('#use-timing-controls').addEventListener('click',()=>{timingConfirmedFor=$('#query').value;$('#timing-confirmation').hidden=true;plan();});
 $('#budget').addEventListener('input',()=>$('#budget-value').textContent=`${$('#budget').value} ${t('min')}`);
 $('#departure').addEventListener('change',()=>{simulated=false;$('#time-mode').value='custom';});
 $('#time-mode').addEventListener('change',()=>{const mode=$('#time-mode').value;simulated=mode==='demo';if(mode==='custom'){$('#preferences').open=true;$('.more-options').open=true;$('#departure').focus();return;}$('#departure').value=mode==='demo'?DEMO_TIME:astanaNow();editFeedback='';plan();});

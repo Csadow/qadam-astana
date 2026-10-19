@@ -3,7 +3,7 @@ import {CONCEPTS,parseIntent} from './intent.js';
 import {distanceM,walkMinutes} from './geo.js';
 export {distanceM,walkMinutes} from './geo.js';
 export {parseIntent} from './intent.js';
-export const VERSION = '4.0.0';
+export const VERSION = '5.0.0';
 export const PRESETS = [
   {id:'expo',name:'EXPO / MEGA Silk Way',lat:51.0893,lon:71.4076},
   {id:'baiterek',name:'Baiterek',lat:51.1282,lon:71.4304},
@@ -67,6 +67,8 @@ export function validateInput(input) {
  if(!Number.isFinite(budget)||budget<10||budget>240||!Number.isFinite(maxWalk)||maxWalk<1||maxWalk>60)throw new Error('Time budget must be 10–240 minutes and walking limit 1–60 minutes.');
  const query=String(input.query||'').slice(0,600);
  const intent=parseIntent(query,Array.isArray(input.interests)?input.interests:[]);
+ const timingBlocked=intent.timeIssues.length>0&&input.timingOverride!==true;
+ if(input.timingOverride===true){intent.budget=undefined;intent.maxWalk=undefined;intent.returnByClock=undefined;}
  const group=Array.isArray(input.group)?input.group:[];
  if(group.length>5||group.some(x=>!CONCEPTS[x]&&x!=='any'))throw new Error('Choose up to five supported group interests.');
  const boundedIds=(value,max)=>Array.isArray(value)?[...new Set(value.filter(x=>typeof x==='string'))].slice(0,max):[];
@@ -78,7 +80,7 @@ export function validateInput(input) {
  const clock=intent.returnByClock?.padStart(5,'0'),returnBy=input.returnBy||(clock?astanaNow(departure).slice(0,10)+'T'+clock:null);
  const deadline=returnBy?parseDeparture(returnBy):null,deadlineMinutes=deadline?Math.floor((deadline-departure)/60000):null;
  const requestedBudget=Math.min(budget,intent.budget??budget),grossBudget=Math.max(0,Math.min(requestedBudget,deadlineMinutes??Infinity));
- return {group:[...group],mood:mode,pinnedIds,preferredIds,maxStops,journeyIds:boundedIds(input.journeyIds,3),excludedIds:boundedIds(input.excludedIds,50),origin:{lat,lon},budget:Math.max(0,grossBudget-bufferMinutes),requestedBudget,grossBudget,bufferMinutes,deadline,deadlineMinutes,routing:input.routing,maxWalk:Math.min(maxWalk,intent.maxWalk??maxWalk),query,intent,
+ return {timingBlocked,group:[...group],mood:mode,pinnedIds,preferredIds,maxStops,journeyIds:boundedIds(input.journeyIds,3),excludedIds:boundedIds(input.excludedIds,50),origin:{lat,lon},budget:Math.max(0,grossBudget-bufferMinutes),requestedBudget,grossBudget,bufferMinutes,deadline,deadlineMinutes,routing:input.routing,maxWalk:Math.min(maxWalk,intent.maxWalk??maxWalk),query,intent,
   setting:['indoor','outdoor'].includes(input.setting)?input.setting:intent.setting,
   departure,locale:['en','ru','kk'].includes(input.locale)?input.locale:'en',
   weather:['rain','cold'].includes(input.weather)?input.weather:'fair',pace:input.pace==='gentle'?'gentle':'normal',
@@ -98,6 +100,7 @@ export function recommend(raw,pois) {
  const candidates=[];
  const desired=input.group.length?[...new Set(input.group.filter(x=>x!=='any'))]:intent.concepts;
  pois.forEach((p,index)=>{
+  if(input.timingBlocked)return;
   if(input.journeyIds.length&&!input.journeyIds.includes(p.id)){exclusions.journey++;return;}
   if(p.accessRestricted||['private','no'].includes(p.tags?.access)){exclusions.restricted++;return;}
   if(input.excludedIds.includes(p.id)){exclusions.skipped++;return;}
@@ -147,6 +150,9 @@ export function recommend(raw,pois) {
  const conflicts=input.pinnedIds.filter(id=>!route.stops.some(p=>p.id===id)).map(id=>({id,reason:candidates.some(p=>p.id===id)?'combination':'constraint'}));
  const coverage=input.group.map((interest,index)=>({index,interest,covered:route.stops.some(p=>p.groupMatches.includes(index))}));
  const warnings=['estimates'];
+ if(intent.budgetRange&&raw.timingOverride!==true)warnings.push('timing_range_lower');
+ if(input.timingBlocked)warnings.push('timing_confirmation');
+ if(raw.timingOverride===true)warnings.push('timing_controls_used');
  if(intent.airport) warnings.push('airport');
  if(intent.night||input.departure.getUTCHours()+5>=22||(input.departure.getUTCHours()+5)%24<6) warnings.push('night');
  if(input.weather!=='fair')warnings.push('weather_manual');

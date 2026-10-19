@@ -27,14 +27,14 @@ Acceptance cases use **19 October 2026, 14:00 Astana (UTC+5)** unless stated oth
 | Airport at night | EXPO; 120 minutes; 23:00; flight context | Transfer/check-in and night warnings; no flight guarantee. |
 | Outside coverage | Almaty coordinates | No Astana recommendation represented as nearby. |
 
-`node scripts/evaluate.mjs` records **25/25 deterministic acceptance cases**. Browser checks cover the interactive backup cases and record **62/62** checks. **75 code/API/Worker tests** plus **6 graph-collector tests** include a **160-combination constraint matrix** plus **100 route/card agreement combinations**. These are engineering checks, not a user study. Reports: [acceptance](evaluation.json), [browser](browser-checks.json), [real Gemini outputs](live-rag-evaluation.json).
+`node scripts/evaluate.mjs` records **25/25 deterministic acceptance cases**. Browser checks cover the interactive backup cases and record **73/73** checks. **86 code/API/Worker tests** plus **6 graph-collector tests** include a **160-combination constraint matrix** plus **100 route/card agreement combinations**. These are engineering checks, not a user study. Reports: [acceptance](evaluation.json), [browser](browser-checks.json), [real Gemini outputs](live-rag-evaluation.json).
 
 ## What is implemented
 
 - Three cited themed journeys, computed time-only recovery, and return-by deadlines with reserved buffer.
 - A reproducible EXPO pedestrian graph, directional shortest paths, obstacle-aware endpoint connections and explicit uncertainty.
 - Automated OSM collection, including historic monuments, with raw provenance and reproducible normalization.
-- Separate primary-source evidence: 25 facts across 13 POIs, with 14 enriched records including access-only evidence, operational caveats and selected hours overrides.
+- Separate primary-source evidence: 32 facts across 18 POIs, with 19 enriched records including access-only evidence, operational caveats and selected hours overrides.
 - BM25 and multilingual concepts, negative preferences, indoor/outdoor constraints and restricted-access exclusions. A free-entry request stays explicitly unverified without price evidence.
 - One itinerary shared by cards, map, model input and export. Kept stops cannot bypass hard constraints; failed replacements preserve the existing route.
 - Mobile route-first layout, expandable preferences, and explicit Demo/Now/custom time modes.
@@ -50,7 +50,7 @@ Acceptance cases use **19 October 2026, 14:00 Astana (UTC+5)** unless stated oth
 - Three real Russian-language generation scenarios are retained for human review. This is not a statistically meaningful model-quality benchmark or user study. Mock responses are used for repeatable browser checks.
 - OSM coverage is limited to five neighborhoods. Primary-source enrichment is manually researched and separately attributed; it is not a live source crawl on every request.
 - Published schedules can be overridden by holidays or exceptional closures. Source-check dates are not on-site verification dates. Complex or seasonal hours remain unknown unless explicitly supported for the relevant scope.
-- EXPO uses connected OSM pedestrian geometry. Unknown endpoint connections and areas outside that graph remain estimated as straight-line distance × 1.3. Speeds are 75 m/min, or 55 in gentle mode. Missing connections between snapped components are rejected. Mapped entrances and exterior viewpoints are not on-site verified; sightlines, crossings, queues, closures and step-free access are not guaranteed.
+- Five collected areas use connected OSM pedestrian geometry. Unknown endpoint connections and areas outside that graph remain estimated as straight-line distance × 1.3. Speeds are 75 m/min, or 55 in gentle mode. Missing connections between snapped components are rejected. Mapped entrances and exterior viewpoints are not on-site verified; sightlines, crossings, queues, closures and step-free access are not guaranteed.
 - Return deadlines reserve time inside the budget; they do not guarantee punctual arrival. Recovery checks 15-minute increases up to 120 extra minutes and selected later departures, not every possible alternative. Story pairings are editorial and do not imply a shared historical origin.
 - Short route pauses are planning choices, not promises about food preparation or admission. Full-meal and indoor-attraction visits may need additional time.
 - Group coverage means matching selected categories, not equal enjoyment or a validated preference model.
@@ -70,3 +70,9 @@ Acceptance cases use **19 October 2026, 14:00 Astana (UTC+5)** unless stated oth
 8. Show the mobile layout and privacy boundary. Keep the video ready if live generation is unavailable.
 
 Lead with a useful decision the user can make, then show the evidence behind it.
+
+## Version 5 hardening
+
+Word durations, compact 1h30m and Kazakh clock-before-return phrases are tested. Detected unsupported or ambiguous time cues remove the old route and require a rewritten request or explicit time-control confirmation; this is a bounded grammar, not full natural-language understanding. Cards use the incoming route leg, not distance from the origin. First-party evidence is distinguished from category-only suggestions. Military museum hours remain unknown because official listings conflict. Expanded paths retain the original collection date and do not establish current entrances or closures.
+
+Explicit ranges such as 30–60 minutes use the lower bound, with a visible explanation. Indefinite or conflicting time cues require clarification or explicit control confirmation.

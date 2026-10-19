@@ -1,0 +1,229 @@
+{
+  "checkedAt": "2026-10-19T09:18:18.194Z",
+  "model": "gemini-3.5-flash-lite",
+  "method": "Six live scenarios (three route-based and three exact-place narratives) across EN/RU/KK with validated place/citation IDs. Explicit --retry-failed requests retain prior fallback attempts. Outputs retained for human review. Not an independent factuality benchmark or user study.",
+  "results": [
+    {
+      "id": "river-bridge-ru",
+      "mode": "gemini-grounded",
+      "reason": null,
+      "attempts": [
+        {
+          "mode": "gemini-grounded",
+          "reason": null,
+          "checkedAt": "2026-10-19T09:18:08.108Z"
+        }
+      ],
+      "places": [
+        {
+          "id": "osm-way-1239177393",
+          "name": "Атырау көпірі",
+          "evidenceCount": 2
+        }
+      ],
+      "suggestions": [
+        {
+          "id": "osm-way-1239177393",
+          "why": "Будучи любознательным путешественником, вы сможете изучить игру света и тени на пешеходном проходе этого примечательного сооружения.",
+          "activity": "Понаблюдайте за формами и материалами конструкции с доступной вам общественной точки обзора в течение двадцати минут.",
+          "mission": "Какой узор создают свет и тень с доступной вам точки обзора?",
+          "evidenceIds": [
+            "atyrau-bridge-light-and-shadow"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "river-bridge-kk",
+      "mode": "gemini-grounded",
+      "reason": null,
+      "attempts": [
+        {
+          "mode": "gemini-grounded",
+          "reason": null,
+          "checkedAt": "2026-10-19T09:18:10.172Z"
+        }
+      ],
+      "places": [
+        {
+          "id": "osm-way-1239177393",
+          "name": "Атырау көпірі",
+          "evidenceCount": 2
+        }
+      ],
+      "suggestions": [
+        {
+          "id": "osm-way-1239177393",
+          "why": "Қызығушылығыңызды қанағаттандыру үшін бұл орын жаяу жүргіншілер өтпесіндегі жарық пен көлеңке ойынын бақылауға мүмкіндік береді.",
+          "activity": "Көпірдің жаяу жүргіншілер өтпесіндегі жарық пен көлеңке ойынын қарап шығыңыз. Бұл сіздің қала туралы біліміңізді толықтырады.",
+          "mission": "Қолжетімді жерден қарағанда жарық пен көлеңке қандай өрнек жасайтынын байқап көріңіз.",
+          "evidenceIds": [
+            "atyrau-bridge-light-and-shadow"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "writer-museum-en",
+      "mode": "gemini-grounded",
+      "reason": null,
+      "attempts": [
+        {
+          "mode": "gemini-grounded",
+          "reason": null,
+          "checkedAt": "2026-10-19T09:18:11.336Z"
+        }
+      ],
+      "places": [
+        {
+          "id": "osm-way-240376692",
+          "name": "Сәкен Сейфуллин музейі",
+          "evidenceCount": 2
+        }
+      ],
+      "suggestions": [
+        {
+          "id": "osm-way-240376692",
+          "why": "This stop satisfies your curiosity about local heritage by presenting a preserved nineteenth-century architectural complex.",
+          "activity": "Observe the exterior wooden structure from a public viewpoint and note the distinct building style mentioned in the city description.",
+          "mission": "From a public viewpoint, examine which wooden architectural detail stands out on the building ensemble.",
+          "evidenceIds": [
+            "seifullin-museum-wooden-architecture"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "family-paleontology",
+      "mode": "gemini-grounded",
+      "reason": null,
+      "attempts": [
+        {
+          "mode": "gemini-grounded",
+          "reason": null,
+          "checkedAt": "2026-10-19T09:18:13.678Z"
+        }
+      ],
+      "places": [
+        {
+          "id": "osm-node-4894937300",
+          "name": "Қазақстан Республикасының Ұлттық Мұражайы",
+          "evidenceCount": 3
+        },
+        {
+          "id": "osm-way-112177946",
+          "name": "Президент саябағы",
+          "evidenceCount": 1
+        }
+      ],
+      "suggestions": [
+        {
+          "id": "osm-node-4894937300",
+          "why": "Этот музей подходит для семейной прогулки с игровым настроением, так как здесь можно рассмотреть древние экспонаты без спешки.",
+          "activity": "Зайдите в зал палеонтологии, чтобы увидеть скелеты мамонта и тираннозавра, используя интерактивные экраны для изучения деталей.",
+          "mission": "Найдите на интерактивном экране информацию о динозаврах и обсудите с семьей, чем они отличаются от современных животных.",
+          "evidenceIds": [
+            "national-museum-paleontology"
+          ]
+        },
+        {
+          "id": "osm-way-112177946",
+          "why": "Президентский парк подходит для короткой семейной разминки на свежем воздухе благодаря своему расположению между крупными архитектурными объектами.",
+          "activity": "Пройдитесь по открытой парковой территории рядом с президентской резиденцией и обратите внимание на элементы ландшафта.",
+          "mission": "Найдите три разных дерева или кустарника в зоне вашего маршрута и сравните их форму друг с другом.",
+          "evidenceIds": [
+            "presidential-park-palace-setting"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "curious-baiterek",
+      "mode": "gemini-grounded",
+      "reason": null,
+      "attempts": [
+        {
+          "mode": "gemini-grounded",
+          "reason": null,
+          "checkedAt": "2026-10-19T09:18:15.559Z"
+        }
+      ],
+      "places": [
+        {
+          "id": "osm-way-230401645",
+          "name": "Бәйтерек",
+          "evidenceCount": 2
+        }
+      ],
+      "suggestions": [
+        {
+          "id": "osm-way-230401645",
+          "why": "Этот монумент подходит для познавательной прогулки, так как его архитектурная символика позволяет изучить концепцию трех миров.",
+          "activity": "Осмотрите форму и детали монумента снаружи, уделяя внимание тому, как ствол и крона отражают идею Древа жизни.",
+          "mission": "Обсудите, как три мира разделены между подземным, земным и небесным уровнями в дизайне сооружения.",
+          "evidenceIds": [
+            "baiterek-three-worlds"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mixed-group",
+      "mode": "gemini-grounded",
+      "reason": null,
+      "attempts": [
+        {
+          "mode": "gemini-grounded",
+          "reason": null,
+          "checkedAt": "2026-10-19T09:18:18.193Z"
+        }
+      ],
+      "places": [
+        {
+          "id": "osm-node-12520559591",
+          "name": "Лепим и варим",
+          "evidenceCount": 2
+        },
+        {
+          "id": "osm-way-1460763574",
+          "name": "Тәуелсіздіктің 25 жылдығы",
+          "evidenceCount": 2
+        },
+        {
+          "id": "osm-way-1456208624",
+          "name": "Бейбітшілік пен Келісім аллеясы",
+          "evidenceCount": 0
+        }
+      ],
+      "suggestions": [
+        {
+          "id": "osm-node-12520559591",
+          "why": "Этот вариант учитывает разные интересы вашей группы, предлагая кофе для любителей бодрящих напитков, хотя здесь придется пойти на компромисс и ограничиться быстрым перерывом.",
+          "activity": "Закажите напиток и уделите несколько минут короткой паузе перед дальнейшими прогулками.",
+          "mission": "Обратите внимание на шестиметровые потолки филиала в MEGA Silk Way и обсудите, как такая архитектура меняет ощущение пространства.",
+          "evidenceIds": [
+            "lepim-mega-high-ceilings"
+          ]
+        },
+        {
+          "id": "osm-way-1460763574",
+          "why": "Масштабный монумент привлекает внимание своей исторической символикой, что отлично подходит для любознательных участников вашей группы.",
+          "activity": "Осмотрите внешнюю сторону мемориала с общедоступных площадок.",
+          "mission": "Сосчитайте видимые грани монумента и сопоставьте их с историческими этапами, упомянутыми в описании.",
+          "evidenceIds": [
+            "independence-25-facets"
+          ]
+        },
+        {
+          "id": "osm-way-1456208624",
+          "why": "Пространство аллеи удовлетворяет тягу группы к природе и спокойным элементам маршрута на свежем воздухе.",
+          "activity": "Совершите короткую прогулку по аллее и понаблюдайте за окружающей обстановкой.",
+          "mission": "Найдите три заметных элемента ландшафта и обсудите их особенности.",
+          "evidenceIds": [
+            "osm-way-1456208624:category"
+          ]
+        }
+      ]
+    }
+  ]
+}

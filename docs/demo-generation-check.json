@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-10-18T19:16:14.722275+00:00",
+  "checkedAt": "2026-10-19T09:27:35.895901+00:00",
   "generationResponses": [
     {
       "mode": "gemini-grounded",
@@ -22,7 +22,7 @@
       "validSuggestionCount": 3
     },
     {
-      "mode": "gemini-grounded",
+      "mode": "retrieval-template",
       "validSuggestionCount": 1
     },
     {
@@ -44,6 +44,14 @@
     {
       "mode": "gemini-grounded",
       "validSuggestionCount": 1
+    },
+    {
+      "mode": "gemini-grounded",
+      "validSuggestionCount": 1
+    },
+    {
+      "mode": "gemini-grounded",
+      "validSuggestionCount": 2
     },
     {
       "mode": "gemini-grounded",
@@ -67,6 +75,6 @@
     }
   ],
   "pageErrors": [],
-  "recordingWallSeconds": 196.56,
-  "durationSeconds": 201.0
+  "durationSeconds": 234.28,
+  "recordingWallSeconds": 230.84
 }

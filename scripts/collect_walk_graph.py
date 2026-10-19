@@ -1,4 +1,4 @@
-"""Build a conservative EXPO walking graph from the collected OSM extract.
+"""Build a conservative walking graph from the five collected OSM extracts.
 
 Reproduce without network: python3 scripts/collect_walk_graph.py --from-source data/walking-source.json
 """
@@ -23,7 +23,7 @@ def permitted(t):
     if t.get('foot') in PERMITTED:return True
     return t.get('foot') is None and t.get('access') in {None,'yes','designated','permissive','public'}
 def build(source):
-    nodes={str(n['id']):n for n in source['nodes']};box=source['bbox'];obstacles=[];restricted=[]
+    nodes={str(n['id']):n for n in source['nodes']};box=source['bbox'];boxes=list(source.get('areas',{}).values()) or [box];obstacles=[];restricted=[]
     for w in source['ways']:
         t=w['tags'];refs=w['nodes'];pts=[[nodes[str(i)]['lon'],nodes[str(i)]['lat']] for i in refs if str(i) in nodes]
         if t.get('barrier') in {'fence','wall'} and len(pts)>=2 and refs[0]!=refs[-1]:
@@ -55,7 +55,7 @@ def build(source):
             if a not in nodes or b not in nodes:rejected['missing_node']+=1;continue
             if a in blocked or b in blocked:rejected['restricted_or_barrier']+=1;continue
             na,nb=nodes[a],nodes[b];pa=[na['lon'],na['lat']];pb=[nb['lon'],nb['lat']]
-            if not all(box[0]<=p[0]<=box[2] and box[1]<=p[1]<=box[3] for p in [pa,pb]):continue
+            if not any(all(bb[0]<=p[0]<=bb[2] and bb[1]<=p[1]<=bb[3] for p in [pa,pb]) for bb in boxes):continue
             if any(inside([(pa[0]+pb[0])/2,(pa[1]+pb[1])/2],p) for p in restricted):continue
             metres=distance(pa,pb)
             if metres<=0:continue
@@ -63,7 +63,7 @@ def build(source):
                 if ref not in graph_nodes:graph_nodes[ref]=len(graph_nodes)
             direction=1 if t.get('oneway:foot')=='yes' else -1 if t.get('oneway:foot')=='-1' else 0
             edges.append([graph_nodes[a],graph_nodes[b],metres,hw=='steps',w['id'],direction]);ways_used.add(w['id'])
-    output={'version':1,'area':'expo','bbox':box,'collectedAt':source['collectedAt'],'source':'OpenStreetMap contributors','license':'ODbL-1.0',
+    output={'version':2,'area':'astana-extracts','areas':source.get('areas',{'expo':box}),'bbox':box,'collectedAt':source['collectedAt'],'source':'OpenStreetMap contributors','license':'ODbL-1.0',
       'profile':'Mapped pedestrian ways; explicit foot permission on shared roads; unknown gates, conditional access and school/university grounds excluded. No claim of current or step-free access.',
       'nodes':[[int(ref),nodes[ref]['lon'],nodes[ref]['lat']] for ref in graph_nodes],'edges':edges,'obstacles':obstacles,
       'metadata':{'ways':len(ways_used),'rejected':dict(rejected),'sourceSha256':hashlib.sha256(json.dumps(source,sort_keys=True,separators=(',',':')).encode()).hexdigest()}}
@@ -72,15 +72,18 @@ def main():
     parser=argparse.ArgumentParser();parser.add_argument('--from-source',type=Path);args=parser.parse_args()
     if args.from_source:source=json.loads(args.from_source.read_text())
     else:
-        metadata=json.loads((ROOT/'data/metadata.json').read_text());root=ET.parse(ROOT/'data/cache-expo.osm').getroot()
-        nodes=[];ways=[]
-        for n in root.findall('node'):
-            nodes.append({'id':int(n.attrib['id']),'lon':float(n.attrib['lon']),'lat':float(n.attrib['lat']),'tags':{t.attrib['k']:t.attrib['v'] for t in n.findall('tag') if t.attrib['k'] in KEYS}})
-        for w in root.findall('way'):
-            t={t.attrib['k']:t.attrib['v'] for t in w.findall('tag') if t.attrib['k'] in KEYS}
-            if t:ways.append({'id':int(w.attrib['id']),'nodes':[int(n.attrib['ref']) for n in w.findall('nd')],'tags':t})
+        metadata=json.loads((ROOT/'data/metadata.json').read_text());node_map={};way_map={}
+        for area in metadata['areas']:
+            root=ET.parse(ROOT/f'data/cache-{area}.osm').getroot()
+            for n in root.findall('node'):
+                node_map[int(n.attrib['id'])]={'id':int(n.attrib['id']),'lon':float(n.attrib['lon']),'lat':float(n.attrib['lat']),'tags':{t.attrib['k']:t.attrib['v'] for t in n.findall('tag') if t.attrib['k'] in KEYS}}
+            for w in root.findall('way'):
+                t={t.attrib['k']:t.attrib['v'] for t in w.findall('tag') if t.attrib['k'] in KEYS}
+                if t:way_map[int(w.attrib['id'])]={'id':int(w.attrib['id']),'nodes':[int(n.attrib['ref']) for n in w.findall('nd')],'tags':t}
+        nodes=list(node_map.values());ways=list(way_map.values())
         used={r for w in ways for r in w['nodes']};nodes=[n for n in nodes if n['id'] in used]
-        source={'bbox':metadata['areas']['expo'],'collectedAt':metadata['collectedAt'],'nodes':nodes,'ways':ways,'sourceUrl':'https://www.openstreetmap.org/api/0.6/map','license':'ODbL-1.0'}
+        boxes=list(metadata['areas'].values());box=[min(b[0] for b in boxes),min(b[1] for b in boxes),max(b[2] for b in boxes),max(b[3] for b in boxes)]
+        source={'bbox':box,'areas':metadata['areas'],'collectedAt':metadata['collectedAt'],'nodes':nodes,'ways':ways,'sourceUrl':'https://www.openstreetmap.org/api/0.6/map','license':'ODbL-1.0'}
         (ROOT/'data/walking-source.json').write_text(json.dumps(source,ensure_ascii=False,separators=(',',':'))+'\n')
     graph=build(source);(ROOT/'data/walking-graph.json').write_text(json.dumps(graph,ensure_ascii=False,separators=(',',':'))+'\n')
     print(json.dumps({'nodes':len(graph['nodes']),'edges':len(graph['edges']),'obstacles':len(graph['obstacles']),**graph['metadata']},indent=2))

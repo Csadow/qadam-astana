@@ -13,3 +13,18 @@ test('generation receives bounded normalized context and actual evidence, never 
 test('source overrides are separate from and never mutate raw OSM records',()=>{const raw={...p,hours:null};const pack={places:[{id:p.id,hours:'Tu-Su 10:00-18:00; Mo off',hoursSource:{url:'https://example.test'},accessRestricted:true,facts:p.evidence}]};const [enriched]=attachEvidence([raw],pack);assert.equal(raw.hours,null);assert.equal(enriched.hours,pack.places[0].hours);assert.equal(enriched.accessRestricted,true);assert.equal(evidenceFor(enriched).length,2);});
 test('restricted places cannot be forced into the generation API',async()=>{await assert.rejects(()=>generateSuggestions({ids:['p1']},[{...p,accessRestricted:true}],{}));});
 test('an exterior stop cannot cite an interior-only exhibit',()=>{const exterior={...p,visitScope:'exterior',evidence:[...p.evidence,{id:'interior',text:{en:'Indoor viewing room'},visitScope:'interior'}]};assert.throws(()=>validateNarrative({suggestions:[{...suggestion,evidenceIds:['interior']}]},[exterior]));assert.throws(()=>validateNarrative({suggestions:[{...suggestion,activity:'Go inside and find the viewing room.'}]},[exterior]));});
+test('rich facts cannot be replaced with category citations and missions cannot repeat',()=>{
+ assert.throws(()=>validateNarrative({suggestions:[{...suggestion,evidenceIds:['p1:category']}]},[p]));
+ const p2={...p,id:'p2',evidence:[{...p.evidence[0],id:'f2'}]};
+ assert.throws(()=>validateNarrative({suggestions:[suggestion,{...suggestion,id:'p2',evidenceIds:['f2']}]},[p,p2]));
+});
+test('conflicting official schedules suppress inherited OSM opening claims',()=>{
+ const [enriched]=attachEvidence([{...p,hours:'24/7'}],{places:[{id:p.id,hoursConflict:true,hoursSource:{url:'https://example.test/conflict'}}]});assert.equal(enriched.hours,null);
+});
+test('spelled-out durations cannot bypass generated-timing restrictions',()=>{
+ for(const activity of ['Walk around for twenty minutes.','Осмотрите мост в течение двадцати минут.','Жиырма минут айналаны қараңыз.'])assert.throws(()=>validateNarrative({suggestions:[{...suggestion,activity}]},[p]));
+});
+test('a public viewpoint suggestion cannot invent a built viewing platform',()=>{
+ assert.throws(()=>validateNarrative({suggestions:[{...suggestion,activity:'Осмотрите монумент со смотровой площадки.'}]},[p]));
+ assert.equal(validateNarrative({suggestions:[{...suggestion,activity:'Observe the building from a public viewpoint.'}]},[p]).length,1);
+});

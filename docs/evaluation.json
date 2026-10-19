@@ -1,9 +1,9 @@
 {
-  "evaluatedAt": "2026-10-18T19:14:58.571Z",
+  "evaluatedAt": "2026-10-19T09:21:56.451Z",
   "datasetSize": 300,
   "passed": 25,
   "total": 25,
-  "appVersion": "4.0.0",
+  "appVersion": "5.0.0",
   "method": "Deterministic scenario acceptance checks on the collected snapshot using the same pedestrian router as the browser. Not a user study or LLM quality benchmark.",
   "scenarios": [
     {
@@ -136,52 +136,125 @@
         "Бәйтерек",
         "Ғашықтар саябағы"
       ],
-      "routeMinutes": 95,
+      "routeMinutes": 96,
       "budget": 120,
       "timing": {
         "departure": "2026-10-20T14:00",
-        "plannedEnd": "2026-10-20T15:35",
-        "reservedEnd": "2026-10-20T15:35",
+        "plannedEnd": "2026-10-20T15:36",
+        "reservedEnd": "2026-10-20T15:36",
         "returnBy": null,
         "bufferMinutes": 0,
         "grossBudget": 120,
         "requestedBudget": 120,
-        "slackMinutes": 25
+        "slackMinutes": 24
       },
       "routingModes": [
-        "estimated",
-        "estimated",
-        "estimated"
+        "mapped",
+        "mapped",
+        "mapped"
       ],
       "routingLegs": [
         {
-          "mode": "estimated",
+          "mode": "mapped",
           "minutes": 1,
-          "distanceM": 14,
-          "connectorMeters": 0,
-          "geometryPoints": 2,
-          "wayIds": [],
-          "reason": "outside_graph",
-          "exteriorViewpoint": false
+          "distanceM": 26,
+          "connectorMeters": 2,
+          "geometryPoints": 7,
+          "wayIds": [
+            1548472434,
+            1548129893
+          ],
+          "reason": null,
+          "exteriorViewpoint": true
         },
         {
-          "mode": "estimated",
+          "mode": "mapped",
           "minutes": 27,
-          "distanceM": 2021,
-          "connectorMeters": 0,
-          "geometryPoints": 2,
-          "wayIds": [],
-          "reason": "outside_graph",
-          "exteriorViewpoint": false
+          "distanceM": 2015,
+          "connectorMeters": 3,
+          "geometryPoints": 98,
+          "wayIds": [
+            258117856,
+            258117878,
+            512547488,
+            258117860,
+            507951373,
+            1525700802,
+            1525700800,
+            512547513,
+            1525700823,
+            1525700824,
+            409905019,
+            1504536838,
+            1504536837,
+            696618031,
+            1525700791,
+            858472810,
+            409905017,
+            1525700837,
+            1525700836,
+            1452593732,
+            1525461652,
+            1452593731,
+            696370631,
+            1452593730,
+            258818034,
+            258818049,
+            258818025,
+            1548447947,
+            258818013,
+            507843521,
+            1548129890,
+            1548472439,
+            1548129894,
+            1548472434
+          ],
+          "reason": null,
+          "exteriorViewpoint": true
         },
         {
-          "mode": "estimated",
-          "minutes": 27,
-          "distanceM": 2019,
-          "connectorMeters": 0,
-          "geometryPoints": 2,
-          "wayIds": [],
-          "reason": "outside_graph",
+          "mode": "mapped",
+          "minutes": 28,
+          "distanceM": 2028,
+          "connectorMeters": 5,
+          "geometryPoints": 102,
+          "wayIds": [
+            1548129893,
+            1548129895,
+            1548472440,
+            1548129890,
+            507843521,
+            258818013,
+            1548447947,
+            258818025,
+            258818049,
+            258818034,
+            1452593730,
+            696370631,
+            1452593731,
+            1525461652,
+            1452593732,
+            1525700836,
+            1525700837,
+            409905017,
+            858472810,
+            1525700791,
+            696618031,
+            1504536837,
+            1504536838,
+            409905019,
+            1525700824,
+            1525700823,
+            512547513,
+            1525700800,
+            1525700802,
+            507951373,
+            258117860,
+            512547488,
+            258117878,
+            258117856
+          ],
+          "reason": null,
           "exteriorViewpoint": false
         }
       ],
@@ -234,8 +307,8 @@
       },
       "routingModes": [
         "estimated",
-        "estimated",
-        "estimated"
+        "mapped",
+        "mapped"
       ],
       "routingLegs": [
         {
@@ -245,27 +318,59 @@
           "connectorMeters": 0,
           "geometryPoints": 2,
           "wayIds": [],
-          "reason": "outside_graph",
+          "reason": "interior_connection",
           "exteriorViewpoint": false
         },
         {
-          "mode": "estimated",
+          "mode": "mapped",
           "minutes": 19,
-          "distanceM": 1365,
-          "connectorMeters": 0,
-          "geometryPoints": 2,
-          "wayIds": [],
-          "reason": "outside_graph",
+          "distanceM": 1353,
+          "connectorMeters": 92,
+          "geometryPoints": 84,
+          "wayIds": [
+            506286694,
+            609568362,
+            506286684,
+            258825759,
+            506032165,
+            1101541168,
+            1101541167,
+            506032167,
+            506032166,
+            1099871710,
+            1099865969,
+            1099865983,
+            506032158,
+            1381448950,
+            1381448982
+          ],
+          "reason": null,
           "exteriorViewpoint": false
         },
         {
-          "mode": "estimated",
+          "mode": "mapped",
           "minutes": 19,
-          "distanceM": 1366,
-          "connectorMeters": 0,
-          "geometryPoints": 2,
-          "wayIds": [],
-          "reason": "outside_graph",
+          "distanceM": 1364,
+          "connectorMeters": 103,
+          "geometryPoints": 84,
+          "wayIds": [
+            1381448982,
+            1381448950,
+            506032158,
+            1099865983,
+            1099865969,
+            1099871710,
+            506032166,
+            506032167,
+            1101541167,
+            1101541168,
+            506032165,
+            258825759,
+            506286684,
+            609568362,
+            506286694
+          ],
+          "reason": null,
           "exteriorViewpoint": false
         }
       ],
@@ -1004,7 +1109,7 @@
           "connectorMeters": 0,
           "geometryPoints": 2,
           "wayIds": [],
-          "reason": "outside_graph",
+          "reason": "interior_connection",
           "exteriorViewpoint": false
         },
         {
@@ -1014,7 +1119,7 @@
           "connectorMeters": 0,
           "geometryPoints": 2,
           "wayIds": [],
-          "reason": "outside_graph",
+          "reason": "interior_connection",
           "exteriorViewpoint": false
         },
         {
@@ -1024,7 +1129,7 @@
           "connectorMeters": 0,
           "geometryPoints": 2,
           "wayIds": [],
-          "reason": "outside_graph",
+          "reason": "unverified_endpoint",
           "exteriorViewpoint": false
         },
         {
@@ -1034,7 +1139,7 @@
           "connectorMeters": 0,
           "geometryPoints": 2,
           "wayIds": [],
-          "reason": "outside_graph",
+          "reason": "unverified_endpoint",
           "exteriorViewpoint": false
         }
       ],
@@ -1430,29 +1535,35 @@
         "slackMinutes": 38
       },
       "routingModes": [
-        "estimated",
-        "estimated"
+        "mapped",
+        "mapped"
       ],
       "routingLegs": [
         {
-          "mode": "estimated",
+          "mode": "mapped",
           "minutes": 1,
-          "distanceM": 14,
-          "connectorMeters": 0,
-          "geometryPoints": 2,
-          "wayIds": [],
-          "reason": "outside_graph",
-          "exteriorViewpoint": false
+          "distanceM": 26,
+          "connectorMeters": 2,
+          "geometryPoints": 7,
+          "wayIds": [
+            1548472434,
+            1548129893
+          ],
+          "reason": null,
+          "exteriorViewpoint": true
         },
         {
-          "mode": "estimated",
+          "mode": "mapped",
           "minutes": 1,
-          "distanceM": 14,
-          "connectorMeters": 0,
-          "geometryPoints": 2,
-          "wayIds": [],
-          "reason": "outside_graph",
-          "exteriorViewpoint": false
+          "distanceM": 26,
+          "connectorMeters": 2,
+          "geometryPoints": 7,
+          "wayIds": [
+            1548129893,
+            1548472434
+          ],
+          "reason": null,
+          "exteriorViewpoint": true
         }
       ],
       "uncertainties": [
@@ -1603,41 +1714,85 @@
       "names": [
         "Degirmen"
       ],
-      "routeMinutes": 28,
+      "routeMinutes": 30,
       "budget": 60,
       "timing": {
         "departure": "2026-10-19T14:00",
-        "plannedEnd": "2026-10-19T14:28",
-        "reservedEnd": "2026-10-19T14:28",
+        "plannedEnd": "2026-10-19T14:30",
+        "reservedEnd": "2026-10-19T14:30",
         "returnBy": null,
         "bufferMinutes": 0,
         "grossBudget": 60,
         "requestedBudget": 60,
-        "slackMinutes": 32
+        "slackMinutes": 30
       },
       "routingModes": [
-        "estimated",
-        "estimated"
+        "mapped",
+        "mapped"
       ],
       "routingLegs": [
         {
-          "mode": "estimated",
-          "minutes": 4,
-          "distanceM": 271,
-          "connectorMeters": 0,
-          "geometryPoints": 2,
-          "wayIds": [],
-          "reason": "outside_graph",
+          "mode": "mapped",
+          "minutes": 5,
+          "distanceM": 362,
+          "connectorMeters": 28,
+          "geometryPoints": 48,
+          "wayIds": [
+            1547333240,
+            1547333254,
+            1547333239,
+            1547333249,
+            1547333248,
+            1547333149,
+            1547333150,
+            1547333153,
+            1547333152,
+            1547333147,
+            1547333148,
+            1527868464,
+            258818031,
+            258818051,
+            258818023,
+            1548447939,
+            258818019,
+            1548472438,
+            1548472439,
+            1548129894,
+            1548129893
+          ],
+          "reason": null,
           "exteriorViewpoint": false
         },
         {
-          "mode": "estimated",
-          "minutes": 4,
-          "distanceM": 271,
-          "connectorMeters": 0,
-          "geometryPoints": 2,
-          "wayIds": [],
-          "reason": "outside_graph",
+          "mode": "mapped",
+          "minutes": 5,
+          "distanceM": 362,
+          "connectorMeters": 28,
+          "geometryPoints": 48,
+          "wayIds": [
+            1548129893,
+            1548129894,
+            1548472439,
+            1548472438,
+            258818019,
+            1548447939,
+            258818023,
+            258818051,
+            258818031,
+            1527868464,
+            1547333148,
+            1547333147,
+            1547333152,
+            1547333153,
+            1547333150,
+            1547333149,
+            1547333248,
+            1547333249,
+            1547333239,
+            1547333254,
+            1547333240
+          ],
+          "reason": null,
           "exteriorViewpoint": false
         }
       ],
@@ -1685,8 +1840,8 @@
       },
       "routingModes": [
         "estimated",
-        "estimated",
-        "estimated"
+        "mapped",
+        "mapped"
       ],
       "routingLegs": [
         {
@@ -1696,27 +1851,59 @@
           "connectorMeters": 0,
           "geometryPoints": 2,
           "wayIds": [],
-          "reason": "outside_graph",
+          "reason": "interior_connection",
           "exteriorViewpoint": false
         },
         {
-          "mode": "estimated",
+          "mode": "mapped",
           "minutes": 19,
-          "distanceM": 1365,
-          "connectorMeters": 0,
-          "geometryPoints": 2,
-          "wayIds": [],
-          "reason": "outside_graph",
+          "distanceM": 1353,
+          "connectorMeters": 92,
+          "geometryPoints": 84,
+          "wayIds": [
+            506286694,
+            609568362,
+            506286684,
+            258825759,
+            506032165,
+            1101541168,
+            1101541167,
+            506032167,
+            506032166,
+            1099871710,
+            1099865969,
+            1099865983,
+            506032158,
+            1381448950,
+            1381448982
+          ],
+          "reason": null,
           "exteriorViewpoint": false
         },
         {
-          "mode": "estimated",
+          "mode": "mapped",
           "minutes": 19,
-          "distanceM": 1366,
-          "connectorMeters": 0,
-          "geometryPoints": 2,
-          "wayIds": [],
-          "reason": "outside_graph",
+          "distanceM": 1364,
+          "connectorMeters": 103,
+          "geometryPoints": 84,
+          "wayIds": [
+            1381448982,
+            1381448950,
+            506032158,
+            1099865983,
+            1099865969,
+            1099871710,
+            506032166,
+            506032167,
+            1101541167,
+            1101541168,
+            506032165,
+            258825759,
+            506286684,
+            609568362,
+            506286694
+          ],
+          "reason": null,
           "exteriorViewpoint": false
         }
       ],
@@ -1782,7 +1969,7 @@
           "connectorMeters": 0,
           "geometryPoints": 2,
           "wayIds": [],
-          "reason": "outside_graph",
+          "reason": "interior_connection",
           "exteriorViewpoint": false
         },
         {
@@ -1792,7 +1979,7 @@
           "connectorMeters": 0,
           "geometryPoints": 2,
           "wayIds": [],
-          "reason": "outside_graph",
+          "reason": "interior_connection",
           "exteriorViewpoint": false
         },
         {
@@ -1802,7 +1989,7 @@
           "connectorMeters": 0,
           "geometryPoints": 2,
           "wayIds": [],
-          "reason": "outside_graph",
+          "reason": "unverified_endpoint",
           "exteriorViewpoint": false
         },
         {
@@ -1812,7 +1999,7 @@
           "connectorMeters": 0,
           "geometryPoints": 2,
           "wayIds": [],
-          "reason": "outside_graph",
+          "reason": "unverified_endpoint",
           "exteriorViewpoint": false
         }
       ],
@@ -1912,7 +2099,7 @@
           "connectorMeters": 0,
           "geometryPoints": 2,
           "wayIds": [],
-          "reason": "outside_graph",
+          "reason": "unverified_endpoint",
           "exteriorViewpoint": false
         },
         {
@@ -1922,7 +2109,7 @@
           "connectorMeters": 0,
           "geometryPoints": 2,
           "wayIds": [],
-          "reason": "outside_graph",
+          "reason": "unverified_endpoint",
           "exteriorViewpoint": false
         },
         {
@@ -1932,7 +2119,7 @@
           "connectorMeters": 0,
           "geometryPoints": 2,
           "wayIds": [],
-          "reason": "outside_graph",
+          "reason": "unverified_endpoint",
           "exteriorViewpoint": false
         }
       ],

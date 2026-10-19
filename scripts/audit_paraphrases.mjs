@@ -16,5 +16,5 @@ const cases=[
  ['Вернуться к 16:20',{returnByClock:'16:20'}],
 ];
 const results=cases.map(([query,expected])=>{const intent=parseIntent(query),actual=Object.fromEntries(Object.keys(expected).map(k=>[k,intent[k]??null]));return {query,expected,actual,pass:JSON.stringify(expected)===JSON.stringify(actual)};});
-const report={checkedAt:new Date().toISOString(),appVersion:'4.0.0',method:'Twelve additional examples specified after feature implementation and before executing this audit. Authored by the implementation agent, not an independent or representative language benchmark. This script was not used to tune the parser.',passed:results.filter(r=>r.pass).length,total:results.length,results};
+const report={checkedAt:new Date().toISOString(),appVersion:'5.0.0',method:'Twelve additional examples specified after feature implementation and before executing this audit. Authored by the implementation agent, not an independent or representative language benchmark. This script was not used to tune the parser.',passed:results.filter(r=>r.pass).length,total:results.length,results};
 await writeFile(new URL('../docs/intent-paraphrases.json',import.meta.url),JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report,null,2));

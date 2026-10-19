@@ -1,6 +1,6 @@
 # First-party evidence and source decisions
 
-The automated OSM snapshot supplies 300 named POIs. A separate, manually researched layer adds 25 concise attributed facts across 13 existing places; 14 places are enriched when the access-only record is included. `src/evidence.js` merges it at runtime without changing the raw snapshot. Primary sources were researched on 18 October 2026, using indexed results where direct retrieval failed; this is not an on-site or real-time verification.
+The automated OSM snapshot supplies 300 named POIs. A separate, manually researched layer adds 32 concise attributed facts across 18 existing places; 19 places are enriched when the access-only record is included. `src/evidence.js` merges it at runtime without changing the raw snapshot. Primary sources were researched on 18–19 October 2026, using indexed results where direct retrieval failed; this is not an on-site or real-time verification.
 
 ## Mapping and scope
 
@@ -109,8 +109,52 @@ OSM ID: `osm-node-6408271985`. Facts: 1. The operator describes a French crêper
 - [CrêpeCafé — branch selector](https://crepecafe.kz/franshiza/)
 - [CrêpeCafé — vacancies and branch address](https://crepecafe.kz/rus/vacancies)
 
+### Atyrau Bridge
+
+OSM ID: `osm-way-1239177393`. Facts: 2.
+
+Do not use the Visit Astana Atyrau Bridge page: it describes the Ural River and Atyrau city, a different entity. No 24/7 access, structural condition, illumination or accessible crossing guarantee is proposed. Bridge passage is outdoors despite its cover.
+
+- [Kazakhstan.travel — Atyrau Bridge](https://kazakhstan.travel/en/attractions/435)
+
+### Triathlon Park
+
+OSM ID: `osm-way-1363058986`. Facts: 1.
+
+No automatic hours override in this proposed pack. Do not infer protected separation, route continuity or bike rental from the list of routes. Ask observation questions while standing clear of sport traffic.
+
+- [Visit Astana — Триатлон Парк «Астана»](https://visitastana.kz/ru/about-city/what-to-see/triatlon-park-astana/)
+
+### Ataturk Park
+
+OSM ID: `osm-way-1460702136`. Facts: 1.
+
+Use the stable monument fact only. Do not derive present hammocks, playground availability or quietness from an older redevelopment report. No exact opening date is proposed: report dates were not exposed in extracted text, and reports differ in when they describe installation/opening. The park polygon is not the precise monument waypoint.
+
+- [Astana Akimat — Большая ель, гамаки, круговая лавка: как преобразился парк «Ататюрк» в Астане](https://www.gov.kz/memleket/entities/astana/press/news/details/441598?lang=ru)
+
+### Saken Seifullin Museum
+
+OSM ID: `osm-way-240376692`. Facts: 2.
+
+The state museum catalogue and national tourism list different prices; do not merge a numeric price. Catalogue text also mixes building dates/use and an assertion that Seifullin lived here, so only akimat-supported wooden architecture and collection facts are selected.
+
+- [Astana Akimat — Музеи Астаны: обитель истории и познания](https://www.gov.kz/org/astana/press/news/details/1222750?lang=ru)
+- [Kazakhstan.travel — Saken Seifullin Museum](https://kazakhstan.travel/ru/attractions/438)
+
+### State Military History Museum
+
+OSM ID: `osm-way-240391776`. Facts: 1.
+
+No hours or price override. The outdoor military-equipment pavilion is inside museum grounds; do not treat it as a freely accessible exterior stop. Avoid changing collection-count claims: official sources differ. Catalogue contains an outdated present-tense officeholder reference, which is not used.
+
+- [e-museum.kz — Военно-исторический музей ВС Республики Казахстан](https://e-museum.kz/ru/museum/68da379da9894247d-ru/)
+- [Visit Astana — military history museum visitor information](https://visitastana.kz/ru/about-city/what-to-see/voenno-istoricheskiy-muzey-vooruzhennykh-sil-respubliki-kazakhstan/)
+
 ## Rights and reliability
 
 Facts are short paraphrases, with EN/RU/KK translations and provenance. Original source content retains its owners’ rights. OSM-derived records remain ODbL. No full web articles are redistributed.
 
 Citations constrain what the model may reference; they do not certify the truth of every generated sentence. This limitation is also stated in the app and pitch.
+
+The five new records were directly retrieved on 19 October. EXPO Peace and Accord Alley and the Beatles statue were not enriched: exact primary-source verification was insufficient. Source-linked observation questions are editorial suggestions, not new factual claims. Conflicting military museum schedules suppress inherited opening hours; the UI asks the visitor to confirm.

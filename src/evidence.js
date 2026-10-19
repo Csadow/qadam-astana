@@ -4,7 +4,7 @@ export function attachEvidence(pois,pack={places:[]}) {
  return pois.map(p=>{
   const e=entries.get(p.id);
   return {...p,visitScope:e?.visitScope,capabilities:(pack.capabilityEvidence||[]).filter(c=>c.id===p.id),evidence:e?.facts||[],operationalNotes:e?.notes||[],accessRestricted:e?.accessRestricted===true,
-   ...(e?.hours?{hours:e.hours,hoursSource:e.hoursSource}:{}),
+   ...(e?.hoursConflict?{hours:null,hoursSource:e.hoursSource}:e?.hours?{hours:e.hours,hoursSource:e.hoursSource}:{}),
    ...(e?.themes?{themes:e.themes}:{}),...(e?.names?{names:{...p.names,...e.names}}:{})};
  });
 }

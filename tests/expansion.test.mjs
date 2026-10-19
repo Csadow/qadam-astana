@@ -94,3 +94,11 @@ test('partial story hides the full introduction and recovery computes the missin
  const j=journeys[2],raw={...base,routing,origin:PRESETS[2],budget:60,maxWalk:30,journeyIds:j.stops.map(s=>s.poiId),preferredIds:j.stops.map(s=>s.poiId),maxStops:2},r=recommend(raw,pois),story=journeyStory(j,pois,r,'en');assert.equal(story.complete,false);assert.equal(story.introduction,'');assert.ok(story.chapters.length<2);assert.ok(recoveryOptions(raw,pois,r).options.some(o=>o.result.route.stops.length===2));
  const monday=recommend({...raw,budget:120,departure:'2026-10-19T14:00'},pois);assert.ok(!monday.route.stops.some(p=>p.id==='osm-node-4894937300'));
 });
+test('all five extracts contain mapped paths while geographical gaps stay outside coverage',()=>{
+ assert.equal(Object.keys(graph.areas).length,5);
+ for(const [area,b] of Object.entries(graph.areas)){
+  const e=graph.edges.find(([a,c,,steps])=>!steps&&[graph.nodes[a],graph.nodes[c]].every(([,lon,lat])=>lon>b[0]&&lon<b[2]&&lat>b[1]&&lat<b[3]));assert.ok(e,area);
+  const [a,c]=e.map(i=>graph.nodes[i]);assert.ok(a&&c);
+ }
+ assert.equal(routing.leg({lon:71.44,lat:51.105},{lon:71.44,lat:51.106}).reason,'outside_graph');
+});

@@ -8,6 +8,8 @@ POI records are untrusted input. Text is escaped before rendering; map source li
 
 Unknown opening hours are not “open now.” The parser handles a limited weekly subset and treats unsupported expressions as unknown. Availability is not guaranteed even when a visit fits the published schedule. Accessibility tags are not verified step-free routes. Sockets, quietness, night security and lighting remain unknown without evidence. Official descriptions support some museum interactive exhibits, but current availability is still unverified. Activity suggestions are separately labelled.
 
-Local serving is loopback-only. API responses are no-store; bodies are limited to 8 KiB; cross-origin browser writes are rejected. The hosted Site starts private. Before public operation with a paid model key, add authentication/rate limits and budget controls. Keep `.env` ignored and configure hosted secrets through the hosting provider, never client JavaScript.
+Local serving is loopback-only. API responses are no-store; bodies are limited to 8 KiB; cross-origin browser writes are rejected. The public judge Site has paid generation disabled. A future public live-model service would need authentication/rate limits and budget controls. Keep `.env` ignored and configure hosted secrets through the hosting provider, never client JavaScript.
 
 Future monetization must not bypass relevance or feasibility filters. Sponsored results must be clearly labelled. Location histories are not part of the business model.
+
+The public judge preview sets `QADAM_PUBLIC_DEMO=true`, returns a labelled retrieval/template response before any provider request, and has no hosted Gemini key. Live generation remains opt-in in a local installation with its own server-side key. Neither public-demo status nor provider keys can be changed through request bodies.

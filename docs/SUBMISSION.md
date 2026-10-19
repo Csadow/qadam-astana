@@ -5,7 +5,7 @@ Deadline: **19 October 2026 inclusive**, as supplied by the participant. Confirm
 | Required deliverable | Prepared artifact | Status |
 |---|---|---|
 | Product concept | `docs/PLAN.md`, pitch slides | Ready |
-| Interactive prototype | Local Node app; private hosted Site | Local tested; private deployment succeeded |
+| Interactive prototype | Local Node app; public judge preview | Local tested; public preview prepared |
 | Automated POI collection | `scripts/collect_pois.py`, source snapshot, metadata | Collected and reproducible |
 | RAG explanation | README, slide 6, `live-generation-check.json` | Live Gemini verified locally and on the hosted site |
 | Test cases and limitations | `docs/SCENARIOS.md`, evaluation reports | Ready |
@@ -18,7 +18,7 @@ Public repository: https://github.com/Csadow/qadam-astana
 
 Hosted demo: https://qadam-arcsolo-astana.candy-ball-8297.chatgpt.site
 
-Private version 4 publication succeeded on 19 October 2026 (Astana), from source commit `7d53e3fe58a2b525c6347b6415af0dc086df061c`. Deployment: `appgdep_6ad51b9ab2748191bc3fdf7dad6adcb4`. This Site is owner-private and must not be treated as anonymously accessible to judges. The hosting platform confirmed successful deployment; the version 4 modules, all three journeys, the 5,747-node walking graph and a live hosted Gemini response were validated, and browser QA was performed on the same local application build. The API key is stored as a runtime secret and is excluded from the repository and submission archive.
+Version 5 public judge preview is prepared. Its planner, maps and sources work without a Gemini key; paid generation stays in the local app and recorded demo. Publication verification is recorded below after deployment. The API key is excluded from the repository and submission archive.
 
 Submission ZIP: `Qadam_ArcSolo_submission.zip` in the participant's Downloads directory, generated from the final Git commit. It contains the source snapshot, app, tests, English documents, Russian slides and demo video. Secrets, local caches, development environments and Git metadata are excluded.
 
@@ -26,15 +26,15 @@ YouTube watch URL: **not uploaded**.
 
 ## Final actions before submitting
 
-1. Live Gemini is configured and verified. Before presenting, open the demo and confirm the Gemini badge appears after planning. A fresh local installation needs its own server-side key; use `node --env-file=.env scripts/check_gemini.mjs` to check it. If the provider is unavailable, explain the labelled template fallback.
+1. Live Gemini is configured and verified. Before presenting, open the local app and confirm the Gemini badge appears after planning. A fresh local installation needs its own server-side key; use `node --env-file=.env scripts/check_gemini.mjs` to check it. If the provider is unavailable, explain the labelled template fallback.
 2. Upload `presentation/Qadam_demo_RU.mp4` to YouTube and insert the actual watch URL. Use the supplied Russian title/description and optional SRT. The video has captions and no voiceover; you may replace it with your own narrated recording.
-3. Submit the public repository link or source ZIP. Public visibility and anonymous GitHub API access were verified on 18 October 2026. The hosted demo remains private; use the local app/video unless its audience settings are changed.
+3. Submit the public repository link or source ZIP. Public visibility and anonymous GitHub API access were verified on 18 October 2026. The public judge preview runs planning and sources without paid generation; use the local app/video to demonstrate Gemini.
 4. Rehearse the 6:15 Russian pitch. Keep the MP4 and PDF locally as backups. Check the exact deadline, AI-assistance rules and submission form with the organizers; those details are absent from the provided brief.
 5. Participant testing is deferred. All five planned engineering improvements are implemented; see `docs/NEXT_STEPS.md` and the before/after intent audit; no user-study results are claimed.
 6. Submit the actual links/files. This project has not been submitted to an organizer automatically.
 
 ## Claims supported by evidence
 
-300 collected POIs; 25 first-party facts across 13 places (14 enriched records including access-only evidence), 102 opening-hour records, 26 accessibility tags; 75 code/API/Worker tests and 6 graph-collector tests, 160 constraint combinations, 100 route/card agreement combinations, 25 acceptance scenarios, and 62 browser checks. These are deterministic engineering checks, not traction, user satisfaction, or live-model quality measurements.
+300 collected POIs; 32 first-party facts across 18 places (19 enriched records including access-only evidence), 102 opening-hour records, 26 accessibility tags; 86 code/API/Worker tests and 6 graph-collector tests, 160 constraint combinations, 100 route/card agreement combinations, 25 acceptance scenarios, and 73 browser checks. These are deterministic engineering checks, not traction, user satisfaction, or live-model quality measurements.
 
-Version 4 source verification also passed on [GitHub Actions](https://github.com/Csadow/qadam-astana/actions/runs/39158239526). The final evidence commit may follow the deployment commit; application source remains the same.
+Deployment and final source verification are recorded below. The evidence commit may follow the deployed application commit.

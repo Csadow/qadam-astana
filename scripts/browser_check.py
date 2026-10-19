@@ -33,6 +33,17 @@ with sync_playwright() as p:
  check('Campus restrictions are explained','NU Park' not in page.locator('#result-cards').inner_text() and page.locator('#source-updates').is_visible())
  check('Demo time is fixed and visibly labelled',page.locator('#departure').input_value()=='2026-10-20T14:00' and 'Demo time' in page.locator('#status').inner_text())
  page.screenshot(path=str(OUT/'desktop.png'),full_page=True)
+ # Timing must agree between the cards, route and explicit confirmation UI.
+ check('Card walking minutes equal the actual incoming route leg',page.locator('.place-time').all_text_contents()==[x.split(' + ')[0] for x in page.locator('.route-timeline li > span:first-of-type').all_text_contents()])
+ check('Cards disclose local-fact versus category-only evidence',page.locator('.evidence-level').count()==len(ids()))
+ for query,expected in [('I have half an hour',30),('У меня полчаса',30),('бір жарым сағат',60),('1h30m',60)]:
+  run_query(query);check('Visible time interpretation: '+query,str(expected)+' min' in page.locator('#intent-summary').inner_text())
+ run_query('a couple of hours');check('Ambiguous time removes old cards and blocks generation',len(ids())==0 and page.locator('#confirm-timing').is_visible())
+ page.locator('#confirm-timing').click();check('Confirmation reveals all time settings',page.locator('#timing-confirmation').is_visible() and page.locator('#departure').is_visible())
+ page.locator('#use-timing-controls').click();ready();check('Explicit confirmation restores the plan with a visible override',len(ids())>0 and 'controls you confirmed' in page.locator('#status').inner_text())
+ run_query('a few hours');check('Editing the request invalidates time confirmation',len(ids())==0)
+ scenario('expo');preferences();run_query('15:00-ге дейін қайту');check('Kazakh return deadline is visible','15:00' in page.locator('#intent-summary').inner_text())
+ scenario('expo')
  # The route keeps a chosen park while replacing the cafe.
  start_ids=ids();park=start_ids[1];cafe=start_ids[0]
  page.locator('[data-edit=keep][data-stop="'+park+'"]').click();check('A kept stop is marked and its remove action is disabled',page.locator('[data-edit=keep][data-stop="'+park+'"]').get_attribute('aria-pressed')=='true' and page.locator('[data-edit=remove][data-stop="'+park+'"]').is_disabled())
@@ -114,4 +125,4 @@ with sync_playwright() as p:
  check('No third-party browser requests',not external);check('No persistent location or editing history',page.evaluate('localStorage.length===0&&sessionStorage.length===0'));check('No uncaught browser errors',not errors)
  browser.close()
 report={'checks':checks,'passed':sum(c['pass'] for c in checks),'total':len(checks),'metrics':metrics,'browser':'Installed Chromium via Playwright','generation':'Controlled fixtures for UI checks; real provider checks in live-rag-evaluation.json','externalRequests':external,'pageErrors':errors}
-(ROOT/'docs/browser-checks.json').write_text(json.dumps(report,indent=2)+'\n');print(json.dumps(report,indent=2))
+(ROOT/'docs/browser-checks.json').write_text(json.dumps(report,indent=2)+'\n');print(json.dumps({k:report[k] for k in ['passed','total','metrics','pageErrors']}))

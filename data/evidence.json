@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "checkedAt": "2026-10-18",
+  "checkedAt": "2026-10-19",
   "researchScope": "Separately sourced enrichment for existing OSM POIs. These are concise paraphrases, not venue text reproductions. Published dates are null unless explicitly available. No sockets, noise levels, tickets or step-free street routes are inferred.",
   "places": [
     {
@@ -31,7 +31,12 @@
           "title": "National Museum — exhibition halls",
           "checkedAt": "2026-10-18",
           "publishedAt": null,
-          "scope": "Paleontology Hall"
+          "scope": "Paleontology Hall",
+          "observationQuestion": {
+            "en": "If the hall is accessible, compare the mammoth and Tyrannosaurus skeletons: which differences suggest how they moved?",
+            "ru": "Если зал доступен, сравните скелеты мамонта и тираннозавра: какие различия подсказывают, как они двигались?",
+            "kk": "Залға кіруге мүмкіндік болса, мамонт пен тираннозавр қаңқаларын салыстырыңыз: қозғалысын қандай айырмашылықтар көрсетеді?"
+          }
         },
         {
           "id": "national-museum-animal-symbols",
@@ -396,7 +401,12 @@
           "title": "Palace of Peace and Reconciliation — official description",
           "checkedAt": "2026-10-18",
           "publishedAt": null,
-          "scope": "Park immediately around/beside Palace; not same-named park south of Ak Orda"
+          "scope": "Park immediately around/beside Palace; not same-named park south of Ak Orda",
+          "observationQuestion": {
+            "en": "From a public viewpoint, how does the Palace of Peace and Reconciliation shape the park skyline?",
+            "ru": "Как Дворец мира и согласия меняет силуэт парка с общедоступной точки обзора?",
+            "kk": "Қоғамдық жерден қарағанда Бейбітшілік және келісім сарайы саябақ көкжиегін қалай өзгертеді?"
+          }
         }
       ],
       "notes": [
@@ -435,7 +445,12 @@
           "title": "Visit Astana — Baiterek Monument",
           "checkedAt": "2026-10-18",
           "publishedAt": null,
-          "scope": "Architectural symbolism; can be discussed from outside"
+          "scope": "Architectural symbolism; can be discussed from outside",
+          "observationQuestion": {
+            "en": "Looking from outside, where can you distinguish the tree’s roots, trunk and crown in the design?",
+            "ru": "Глядя снаружи, где в конструкции можно различить корни, ствол и крону дерева?",
+            "kk": "Сыртынан қарағанда құрылымнан ағаштың тамыры, діңі мен тәжін қайдан ажыратуға болады?"
+          }
         },
         {
           "id": "baiterek-97-metres",
@@ -532,7 +547,12 @@
           "title": "Lepim i Varim — Pelmennaya Velikoy Stepi",
           "checkedAt": "2026-10-18",
           "publishedAt": null,
-          "scope": "Branch interior description, not noise/crowding or available seating"
+          "scope": "Branch interior description, not noise/crowding or available seating",
+          "observationQuestion": {
+            "en": "How does the branch’s high ceiling change your impression of the space during a short drink break?",
+            "ru": "Как высокий потолок филиала меняет ощущение пространства во время короткой паузы за напитком?",
+            "kk": "Сусын ішіп демалғанда филиалдың биік төбесі кеңістікті қабылдауыңызды қалай өзгертеді?"
+          }
         }
       ],
       "notes": [
@@ -574,7 +594,12 @@
           "title": "Visit Astana — Uly Dala Eli Monument",
           "checkedAt": "2026-10-18",
           "publishedAt": null,
-          "scope": "Architectural symbolism of the monument dedicated to the 25th independence anniversary"
+          "scope": "Architectural symbolism of the monument dedicated to the 25th independence anniversary",
+          "observationQuestion": {
+            "en": "From a public viewpoint, which monument facets can you distinguish, and how might they tell a historical story?",
+            "ru": "Какие грани монумента видны с общедоступной точки и как они могут рассказать исторический сюжет?",
+            "kk": "Қоғамдық жерден ескерткіштің қай қырлары көрінеді және олар тарихи оқиғаны қалай жеткізуі мүмкін?"
+          }
         },
         {
           "id": "independence-monument-creator",
@@ -705,6 +730,277 @@
         "matchingPhone": "+77719494949",
         "retrievalCaveat": "Operator content was verified through indexed primary-source search results; direct page opens sometimes return loading shells or timeout. The indexed older city PDF is supplementary historical entity-match evidence only, not the cited primary fact. The franchise-concept search result indicated an approximately 1.4-year-old crawl; checkedAt records research date, not source freshness or current operation.",
         "operationNotVerified": true
+      }
+    },
+    {
+      "id": "osm-way-1239177393",
+      "names": {
+        "en": "Atyrau Bridge",
+        "ru": "Мост «Атырау»",
+        "kk": "«Атырау» көпірі"
+      },
+      "themes": [
+        "architecture",
+        "culture"
+      ],
+      "facts": [
+        {
+          "id": "atyrau-bridge-light-and-shadow",
+          "text": {
+            "en": "Kazakhstan.travel highlights the play of light and shadow inside Atyrau Bridge’s pedestrian passage.",
+            "ru": "Kazakhstan.travel отмечает игру света и тени внутри пешеходного прохода моста «Атырау».",
+            "kk": "Kazakhstan.travel «Атырау» көпірінің жаяу жүргіншілер өтпесіндегі жарық пен көлеңке ойынын атап өтеді."
+          },
+          "url": "https://kazakhstan.travel/en/attractions/435",
+          "title": "Kazakhstan.travel — Atyrau Bridge",
+          "checkedAt": "2026-10-19",
+          "publishedAt": null,
+          "scope": "Exterior bridge passage; daylight and weather affect shadows; no claim that entry is currently open.",
+          "visitScope": "exterior",
+          "confidence": "high",
+          "observationQuestion": {
+            "en": "From an accessible spot, what pattern do light and shadow make?",
+            "ru": "Какой узор создают свет и тень с доступной вам точки обзора?",
+            "kk": "Қолжетімді жерден қарағанда жарық пен көлеңке қандай өрнек жасайды?"
+          }
+        },
+        {
+          "id": "atyrau-bridge-caspian-sturgeon",
+          "text": {
+            "en": "Kazakhstan.travel identifies a bronze Caspian Sturgeon sculpture on the bridge as a symbol of Atyrau Region.",
+            "ru": "Kazakhstan.travel называет бронзового «Каспийского осетра» на мосту символом Атырауской области.",
+            "kk": "Kazakhstan.travel көпірдегі қоладан жасалған «Каспий бекіресін» Атырау облысының нышаны деп көрсетеді."
+          },
+          "url": "https://kazakhstan.travel/en/attractions/435",
+          "title": "Kazakhstan.travel — Atyrau Bridge",
+          "checkedAt": "2026-10-19",
+          "publishedAt": null,
+          "scope": "Exterior sculpture on bridge; exact viewing point and current accessibility are not established.",
+          "visitScope": "exterior",
+          "confidence": "high",
+          "observationQuestion": {
+            "en": "If the sculpture is accessible, which details help you recognize the fish?",
+            "ru": "Если скульптура доступна для осмотра, какие детали помогают узнать рыбу?",
+            "kk": "Мүсінді қарауға мүмкіндік болса, балықты тануға қай бөлшектері көмектеседі?"
+          }
+        }
+      ],
+      "notes": [],
+      "entityMatch": {
+        "confidence": "high",
+        "basis": "Official national tourism page explicitly identifies Astana and the Yesil River. Its coordinates 51.15680,71.42420 fall on the same bridge as OSM centre 51.15644,71.42499.",
+        "sourceUrl": "https://kazakhstan.travel/en/attractions/435"
+      },
+      "researchNotes": "Do not use the Visit Astana Atyrau Bridge page: it describes the Ural River and Atyrau city, a different entity. No 24/7 access, structural condition, illumination or accessible crossing guarantee is proposed. Bridge passage is outdoors despite its cover."
+    },
+    {
+      "id": "osm-way-1363058986",
+      "names": {
+        "en": "Triathlon Park",
+        "ru": "Триатлон парк",
+        "kk": "Триатлон саябағы"
+      },
+      "themes": [
+        "nature",
+        "sports"
+      ],
+      "facts": [
+        {
+          "id": "triathlon-park-running-and-cycling",
+          "text": {
+            "en": "Visit Astana describes Triathlon Park on the Yesil embankment with running routes, cycle routes and outdoor sports areas.",
+            "ru": "Visit Astana описывает Триатлон парк на набережной Есиля с беговыми и велосипедными маршрутами и открытыми спортивными площадками.",
+            "kk": "Visit Astana Есіл жағалауындағы Триатлон саябағында жүгіру, велосипед маршруттары және ашық спорт алаңдары бар екенін көрсетеді."
+          },
+          "url": "https://visitastana.kz/ru/about-city/what-to-see/triatlon-park-astana/",
+          "title": "Visit Astana — Триатлон Парк «Астана»",
+          "checkedAt": "2026-10-19",
+          "publishedAt": null,
+          "scope": "Exterior park infrastructure described by tourism authority; no promise of equipment availability, events, rental or current route access.",
+          "visitScope": "exterior",
+          "confidence": "high",
+          "observationQuestion": {
+            "en": "How do the running and cycling routes differ in the section you can see?",
+            "ru": "Чем отличаются беговой и велосипедный маршруты на видимом вам участке?",
+            "kk": "Көрініп тұрған бөлікте жүгіру және велосипед маршруттары қалай ерекшеленеді?"
+          }
+        }
+      ],
+      "notes": [],
+      "entityMatch": {
+        "confidence": "high",
+        "basis": "Exact park name and Yesil embankment; city tourism parks directory locates it beside Baurzhan Momyshuly and Presidential parks, matching the OSM polygon.",
+        "sourceUrl": "https://visitastana.kz/ru/about-city/what-to-see/?category=parks"
+      },
+      "researchNotes": "No automatic hours override in this proposed pack. Do not infer protected separation, route continuity or bike rental from the list of routes. Ask observation questions while standing clear of sport traffic."
+    },
+    {
+      "id": "osm-way-1460702136",
+      "names": {
+        "en": "Ataturk Park",
+        "ru": "Парк Ататюрка",
+        "kk": "Ататүрік саябағы"
+      },
+      "themes": [
+        "culture",
+        "nature"
+      ],
+      "facts": [
+        {
+          "id": "ataturk-park-yunus-emre",
+          "text": {
+            "en": "Astana’s akimat records a monument in Ataturk Park to Yunus Emre, a medieval Turkish poet.",
+            "ru": "Акимат Астаны сообщает о памятнике средневековому турецкому поэту Юнусу Эмре в парке Ататюрка.",
+            "kk": "Астана әкімдігі Ататүрік саябағында ортағасырлық түрік ақыны Юнус Әмреге ескерткіш орнатылғанын хабарлайды."
+          },
+          "url": "https://www.gov.kz/memleket/entities/astana/press/news/details/441598?lang=ru",
+          "title": "Astana Akimat — Большая ель, гамаки, круговая лавка: как преобразился парк «Ататюрк» в Астане",
+          "checkedAt": "2026-10-19",
+          "publishedAt": null,
+          "scope": "Exterior park sculpture, documented in city redevelopment report; not a current park-access or monument-condition guarantee.",
+          "visitScope": "exterior",
+          "confidence": "high",
+          "observationQuestion": {
+            "en": "If you can view the monument, which sculptural detail makes the figure distinctive?",
+            "ru": "Если памятник доступен для осмотра, какая скульптурная деталь выделяет эту фигуру?",
+            "kk": "Ескерткішті қарауға мүмкіндік болса, мүсіннің қай бөлшегі тұлғаны ерекшелейді?"
+          }
+        }
+      ],
+      "notes": [],
+      "entityMatch": {
+        "confidence": "high",
+        "basis": "City akimat explicitly names Ataturk Park in Astana. Separate city opening report identifies the Baikonyr district administration and the same Yunus Emre monument.",
+        "supportingSource": "https://www.gov.kz/org/astana/press/news/details/642905?lang=ru"
+      },
+      "researchNotes": "Use the stable monument fact only. Do not derive present hammocks, playground availability or quietness from an older redevelopment report. No exact opening date is proposed: report dates were not exposed in extracted text, and reports differ in when they describe installation/opening. The park polygon is not the precise monument waypoint."
+    },
+    {
+      "id": "osm-way-240376692",
+      "names": {
+        "en": "Saken Seifullin Museum",
+        "ru": "Музей Сакена Сейфуллина",
+        "kk": "Сәкен Сейфуллин музейі"
+      },
+      "themes": [
+        "culture",
+        "history"
+      ],
+      "facts": [
+        {
+          "id": "seifullin-museum-wooden-architecture",
+          "text": {
+            "en": "Astana’s akimat describes the museum’s buildings as examples of nineteenth-century wooden architecture.",
+            "ru": "Акимат Астаны описывает здания музея как образцы деревянного зодчества XIX века.",
+            "kk": "Астана әкімдігі музей ғимараттарын XIX ғасырдағы ағаш сәулет өнерінің үлгілері ретінде сипаттайды."
+          },
+          "url": "https://www.gov.kz/org/astana/press/news/details/1222750?lang=ru",
+          "title": "Astana Akimat — Музеи Астаны: обитель истории и познания",
+          "checkedAt": "2026-10-19",
+          "publishedAt": null,
+          "scope": "Exterior architecture of museum building ensemble; not evidence that Seifullin lived in this exact building.",
+          "visitScope": "exterior",
+          "confidence": "high",
+          "observationQuestion": {
+            "en": "From a public viewpoint, which wooden architectural detail stands out?",
+            "ru": "Какая деталь деревянной архитектуры выделяется с общедоступной точки обзора?",
+            "kk": "Көпшілікке қолжетімді жерден ағаш сәулет өнерінің қай бөлшегі көзге түседі?"
+          }
+        },
+        {
+          "id": "seifullin-museum-writing-and-time",
+          "text": {
+            "en": "The akimat lists Seifullin’s Underwood typewriter and gold pocket watch among the museum’s collection.",
+            "ru": "Акимат называет пишущую машинку «Ундервудъ» и золотые карманные часы Сейфуллина среди предметов музейного фонда.",
+            "kk": "Әкімдік музей қорында Сейфуллиннің «Ундервуд» жазу машинкасы мен алтын қалта сағаты бар екенін көрсетеді."
+          },
+          "url": "https://www.gov.kz/org/astana/press/news/details/1222750?lang=ru",
+          "title": "Astana Akimat — Музеи Астаны: обитель истории и познания",
+          "checkedAt": "2026-10-19",
+          "publishedAt": null,
+          "scope": "Interior collection; holding an object does not guarantee it is on display today.",
+          "visitScope": "interior",
+          "confidence": "high",
+          "observationQuestion": {
+            "en": "If either object is displayed, what detail shows how it was used?",
+            "ru": "Если один из этих предметов выставлен, какая деталь показывает, как им пользовались?",
+            "kk": "Осы заттардың бірі көрмеде болса, оның қалай қолданылғанын қай бөлшегі көрсетеді?"
+          }
+        }
+      ],
+      "notes": [
+        {
+          "en": "Check museum admission and the published schedule before an indoor visit. Collection objects may not all be displayed.",
+          "ru": "Перед посещением залов уточните условия входа и опубликованный график. Не все предметы фонда могут быть выставлены.",
+          "kk": "Залдарға кірер алдында кіру шарттары мен жарияланған кестені нақтылаңыз. Қордағы барлық зат көрмеге қойылмауы мүмкін.",
+          "url": "https://kazakhstan.travel/ru/attractions/438",
+          "title": "Kazakhstan.travel — Saken Seifullin Museum",
+          "checkedAt": "2026-10-19"
+        }
+      ],
+      "entityMatch": {
+        "confidence": "high",
+        "basis": "Exact museum name; national tourism and the state museum catalogue give Auezov 20 / 20A, matching the OSM building address.",
+        "sourceUrl": "https://kazakhstan.travel/ru/attractions/438",
+        "coordinateCaveat": "National tourism longitude 71.41870 is west of the OSM building longitude 71.423568. Match by explicit address, preserve OSM geometry; do not copy the tourism map pin."
+      },
+      "researchNotes": "The state museum catalogue and national tourism list different prices; do not merge a numeric price. Catalogue text also mixes building dates/use and an assertion that Seifullin lived here, so only akimat-supported wooden architecture and collection facts are selected."
+    },
+    {
+      "id": "osm-way-240391776",
+      "names": {
+        "en": "State Military History Museum",
+        "ru": "Государственный военно-исторический музей",
+        "kk": "Мемлекеттік әскери-тарихи музей"
+      },
+      "themes": [
+        "culture",
+        "history"
+      ],
+      "facts": [
+        {
+          "id": "military-museum-mangilik-el-composition",
+          "text": {
+            "en": "The state museum catalogue describes an atrium composition, Mangilik El, combining historical batyrs and modern defenders of the country.",
+            "ru": "Государственный музейный каталог описывает в атриуме композицию «Мәңгілік Ел», объединяющую образы исторических батыров и современных защитников страны.",
+            "kk": "Мемлекеттік музей каталогы атриумдағы «Мәңгілік Ел» композициясында тарихи батырлар мен қазіргі ел қорғаушыларының бейнелері біріктірілгенін сипаттайды."
+          },
+          "url": "https://e-museum.kz/ru/museum/68da379da9894247d-ru/",
+          "title": "e-museum.kz — Военно-исторический музей ВС Республики Казахстан",
+          "checkedAt": "2026-10-19",
+          "publishedAt": null,
+          "scope": "Interior atrium display; no guarantee of admission, hall availability or interactive equipment operation.",
+          "visitScope": "interior",
+          "confidence": "high",
+          "observationQuestion": {
+            "en": "If the composition is accessible, which details distinguish the historical and modern figures?",
+            "ru": "Если композиция доступна для осмотра, какие детали отличают исторические фигуры от современных?",
+            "kk": "Композицияны қарауға мүмкіндік болса, тарихи және қазіргі тұлғаларды қай бөлшектері ажыратады?"
+          }
+        }
+      ],
+      "notes": [
+        {
+          "en": "Official listings disagree on hours and admission. Confirm with the museum; Visit Astana lists Monday closure and advance booking for tours.",
+          "ru": "Официальные страницы расходятся в часах работы и условиях входа. Уточните их у музея; Visit Astana указывает выходной в понедельник и предварительную запись на экскурсии.",
+          "kk": "Ресми беттердегі жұмыс уақыты мен кіру шарттары сәйкес келмейді. Музейден нақтылаңыз; Visit Astana дүйсенбі демалыс екенін және экскурсияға алдын ала жазылу керегін көрсетеді.",
+          "url": "https://visitastana.kz/ru/about-city/what-to-see/voenno-istoricheskiy-muzey-vooruzhennykh-sil-respubliki-kazakhstan/",
+          "title": "Visit Astana — military history museum visitor information",
+          "checkedAt": "2026-10-19"
+        }
+      ],
+      "entityMatch": {
+        "confidence": "high",
+        "basis": "State museum catalogue explicitly gives Astana, Respublika Avenue 2, matching the OSM building. State procurement registry independently lists the same institution at the same address.",
+        "sourceUrl": "https://e-museum.kz/ru/museum/68da379da9894247d-ru/",
+        "supportingSource": "https://old.goszakup.gov.kz/ru/registry/show_supplier/555907"
+      },
+      "researchNotes": "No hours or price override. The outdoor military-equipment pavilion is inside museum grounds; do not treat it as a freely accessible exterior stop. Avoid changing collection-count claims: official sources differ. Catalogue contains an outdated present-tense officeholder reference, which is not used.",
+      "hoursConflict": true,
+      "hoursSource": {
+        "url": "https://visitastana.kz/ru/about-city/what-to-see/voenno-istoricheskiy-muzey-vooruzhennykh-sil-respubliki-kazakhstan/",
+        "title": "Conflicting official schedules; confirmation required",
+        "checkedAt": "2026-10-19"
       }
     }
   ],

@@ -18,7 +18,7 @@ node --env-file-if-exists=.env server.mjs
 
 Open **http://127.0.0.1:8787**. The checked-in snapshot makes the local demo independent of public data services. Local serving binds only to loopback. To change the port, set `PORT` in `.env`.
 
-The repository is **public**: judges can read or clone it without an invitation. The hosted Site remains owner-private; use the local app or recorded demo for review. See [submission status](docs/SUBMISSION.md).
+The repository is **public**: judges can read or clone it without an invitation. The [public judge preview](https://qadam-arcsolo-astana.candy-ball-8297.chatgpt.site) runs the planner, maps and sources without paid generation. Live Gemini is available in the local app with a server-side key and demonstrated in the recorded walkthrough. See [submission status](docs/SUBMISSION.md).
 
 ## Try it
 
@@ -34,7 +34,9 @@ The repository is **public**: judges can read or clone it without an invitation.
 9. Select **a story walk**: EXPO: Space and Symbols; Symbols in Sculpture; or Ancient Life, Modern City. For the complete examples, use 120 minutes, a 30-minute walking cap, and Tuesday 20 October at 14:00. Every chapter links to its source; partial stories are labelled.
 10. Set **Back by 15:00** and a **5-minute buffer**. The deadline includes returning to the start, and the timeline shows when the reserve ends.
 11. Reduce a story to 30 minutes. Apply a **recomputed time alternative**, then restore the previous conditions. On Monday, the museum story offers a checked later departure.
-12. Inspect the **EXPO pedestrian paths**: solid lines follow OSM geometry; dotted connections remain estimates. Outside EXPO, walking is explicitly approximate.
+12. Inspect the **pedestrian paths in all five collected areas**: solid lines follow OSM geometry; dotted connections remain estimates. Gaps and unverified endpoints remain explicitly approximate.
+
+13. Try **“half an hour”**, **“полчаса”**, **“1h30m”** or **“15:00-ге дейін қайту”**. Ambiguous or unsupported time cues pause planning; you can revise the request or explicitly confirm the time controls.
 
 On mobile, the route appears first and the preference editor can be expanded. Demo scenarios explicitly simulate afternoon departure. All estimates use Astana UTC+5. EN/RU/KK interface, keyboard controls, opt-in geolocation, mobile layout and itinerary export are included.
 
@@ -58,9 +60,9 @@ Validate POI/citation IDs, shape and common unsupported claims
 Personalized explanation + activity + discovery mission; source facts shown separately
 ```
 
-Retrieval is sparse and concept-based; there is no vector database. Gemini composes an explanation, a focused activity and a discovery mission from the retrieved facts and normalized context. It receives mood, group interests, planned visit lengths and limited preference flags. Citation IDs must belong to the selected POI; an exterior visit cannot cite interior-only exhibits. Invalid output, provider errors and timeouts fall back to labelled templates.
+Retrieval is sparse and concept-based; there is no vector database. Gemini composes an explanation, a focused activity and a discovery mission from the retrieved facts and normalized context. It receives mood, group interests, planned visit lengths and limited preference flags. Citation IDs must belong to the selected POI, rich facts must be cited when available, and duplicate missions are rejected; an exterior visit cannot cite interior-only exhibits. Invalid output, provider errors and timeouts fall back to labelled templates.
 
-Venue fields, routes and source facts are deterministic. Generated prose is separately labelled: citation and lexical checks do **not** establish that every sentence is supported. Three live scenario outputs are retained for review in [the current RAG evaluation](docs/live-rag-evaluation.json). The earlier museum fallback and successful recheck remain in [the v3 report](docs/live-rag-v3.json).
+Venue fields, routes and source facts are deterministic. Generated prose is separately labelled: citation and lexical checks do **not** establish that every sentence is supported. Six live scenario outputs are retained for review in [the current RAG evaluation](docs/live-rag-evaluation.json). The earlier museum fallback and successful recheck remain in [the v3 report](docs/live-rag-v3.json).
 **Current verified mode:** retrieval plus live Gemini structured generation, verified locally and on the private hosted site on 19 October 2026 (Astana). See [live integration evidence](docs/live-generation-check.json). The UI labels validated model responses as Gemini; missing keys, provider failures and invalid responses fall back to explicitly labelled templates. These smoke checks confirm connectivity and validated output, not model quality.
 
 For a new installation, copy `.env.example` to `.env`, set `GEMINI_API_KEY` locally, and restart the server. Keep the key out of chat, commits and frontend files. Then verify one real call:
@@ -75,7 +77,7 @@ The default model is configurable via `GEMINI_MODEL`. The example uses `gemini-3
 
 ## Data and privacy
 
-The automated snapshot contains **300 named POIs across five neighborhoods**, collected on 18 October 2026. **102** have opening hours, **26** have wheelchair tags. Short descriptions are labelled source-tag summaries. Each record preserves its OSM ID, source URL, original tags and collection timestamp. [Collection and licensing details](data/README.md). A separate evidence layer adds **25 cited facts across 13 places (14 places enriched including access-only records)**, three official weekly-hours overrides and two campus-access exclusions. [Evidence decisions](docs/EVIDENCE.md).
+The automated snapshot contains **300 named POIs across five neighborhoods**, collected on 18 October 2026. **102** have opening hours, **26** have wheelchair tags. Short descriptions are labelled source-tag summaries. Each record preserves its OSM ID, source URL, original tags and collection timestamp. [Collection and licensing details](data/README.md). A separate evidence layer adds **32 cited facts across 18 places (19 places enriched including access-only records)**, three official weekly-hours overrides, two campus-access exclusions and one conflicting museum schedule suppressed to unknown. [Evidence decisions](docs/EVIDENCE.md).
 
 ```sh
 python3 scripts/collect_pois.py --osm-api --map  # live alternate collection
@@ -84,7 +86,7 @@ python3 scripts/collect_pois.py --from-raw data/raw-osm.json  # reproducible off
 
 Precise origin coordinates stay in browser memory. No account, location history, analytics or external map tiles. Optional Gemini requests contain public POI records and limited preference flags, not the origin or raw user query. [Privacy and reliability notes](docs/PRIVACY.md).
 
-EXPO routing uses a reproducible OSM pedestrian graph: 5,747 nodes, 6,421 edges and 1,122 ways. Restricted campus paths and unknown gates are excluded. Connected paths use their mapped length; entrance connections and other areas use explicitly labelled estimates (straight-line distance × 1.3). Speeds are 75 m/min, or 55 in gentle mode. This is not verified pedestrian navigation. Complex hours remain unknown. Weather is manual. Venue accessibility tags do not verify a step-free route. [Scenarios and full limitations](docs/SCENARIOS.md).
+Routing across the five collected areas uses a reproducible OSM pedestrian graph: 22,868 nodes, 25,831 edges and 5,188 ways. Restricted campus paths and unknown gates are excluded. Connected paths use their mapped length; entrance connections, gaps and unsupported endpoints use explicitly labelled estimates (straight-line distance × 1.3). Speeds are 75 m/min, or 55 in gentle mode. This is not verified pedestrian navigation. Complex hours remain unknown. Weather is manual. Venue accessibility tags do not verify a step-free route. [Scenarios and full limitations](docs/SCENARIOS.md).
 
 ## Verify
 
@@ -96,7 +98,7 @@ python3 tests/collector_test.py
 python3 scripts/collect_walk_graph.py --from-source data/walking-source.json
 ```
 
-**75 unit/API/Worker tests** plus **6 graph-collector tests**, a **160-case constraint matrix**, **100 route/card agreement combinations**, **25/25 scenario checks**, and **62/62 browser checks** passed during development. These are engineering checks, not user-study results. Reports: [scenarios](docs/evaluation.json), [browser](docs/browser-checks.json).
+**86 unit/API/Worker tests** plus **6 graph-collector tests**, a **160-case constraint matrix**, **100 route/card agreement combinations**, **25/25 scenario checks**, and **73/73 browser checks** passed during development. These are engineering checks, not user-study results. Reports: [scenarios](docs/evaluation.json), [browser](docs/browser-checks.json).
 
 Optional browser QA and presentation tools:
 
@@ -125,3 +127,7 @@ Participant testing is deferred. All five items in the [improvement plan](docs/N
 `node scripts/build.mjs` produces one Cloudflare-compatible ES module at `dist/server/index.js`, with static assets embedded. `.openai/hosting.json` binds the existing private Site. Configure hosted secrets separately; never embed them in the build. Before making a key-enabled service public, add authentication/rate limits and budget controls.
 
 Code: MIT. First-party enrichment contains short attributed paraphrases; original source content retains its owners' rights. OpenStreetMap-derived data: ODbL 1.0, © OpenStreetMap contributors. See [LICENSE](LICENSE).
+
+Version 5 narrative review retains two earlier samples, the observed defects and the final six cases (one explicit retry) in [the review record](docs/narrative-review-v5.json). The public preview can be reproduced locally with `QADAM_PUBLIC_DEMO=true node --env-file-if-exists=.env server.mjs`. Its server returns before any paid provider call.
+
+Explicit ranges such as 30–60 minutes use the lower bound, with a visible explanation. Indefinite or conflicting time cues require clarification or explicit control confirmation.
