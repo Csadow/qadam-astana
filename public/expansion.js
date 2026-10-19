@@ -19,3 +19,7 @@ Object.assign(expansion.kk,{publicPreviewNotice:'Ашық демо: жоспар
 Object.assign(expansion.en,{timing_range_lower:'For your time range, the plan uses its lower limit.'});
 Object.assign(expansion.ru,{timing_range_lower:'Для указанного диапазона времени план использует нижнюю границу.'});
 Object.assign(expansion.kk,{timing_range_lower:'Берілген уақыт аралығының төменгі шегі қолданылды.'});
+
+Object.assign(expansion.en,{heroCompanion:'Try Walk with me',heroResume:'Resume my companion',heroWatch:'Watch recorded Gemini demo',heroDemoNote:'Rehearsal: unavailable café, 15 minutes lost. Original return by 15:00.',publicPreviewNotice:'Public preview: planning and sources work here. Live Gemini is demonstrated in the recording.'});
+Object.assign(expansion.ru,{heroCompanion:'Попробовать «Идём вместе»',heroResume:'Вернуться к сопровождению',heroWatch:'Смотреть запись с Gemini',heroDemoNote:'Репетиция: кафе недоступно, потеряли 15 минут. Срок возвращения — 15:00.',publicPreviewNotice:'Публичное демо: планирование и источники работают здесь. Живой Gemini показан в записи.'});
+Object.assign(expansion.kk,{heroCompanion:'«Бірге жүрейік» сынағы',heroResume:'Сүйемелдеуге оралу',heroWatch:'Gemini бар жазбаны көру',heroDemoNote:'Сынақ: кафе қолжетімсіз, 15 минут жоғалды. Бастапқы қайту мерзімі — 15:00.',publicPreviewNotice:'Ашық демо: жоспарлау мен дереккөздер осында жұмыс істейді. Тікелей Gemini бейнежазбада көрсетілген.'});

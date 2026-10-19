@@ -8,9 +8,9 @@ An interactive Astana walking assistant that turns a short break into one editab
 
 [![Animated preview of Qadam: an unavailable café, lost time and an adaptive return plan. Click to open the full demo.](presentation/assets/demo-preview.gif)](https://github.com/Csadow/qadam-astana/blob/main/presentation/Qadam_demo_RU.mp4)
 
-**[▶ Full demo — 4:25, Russian captions](https://github.com/Csadow/qadam-astana/blob/main/presentation/Qadam_demo_RU.mp4)** · [Download MP4](https://github.com/Csadow/qadam-astana/raw/refs/heads/main/presentation/Qadam_demo_RU.mp4) · [Try the public planner](https://qadam-arcsolo-astana.candy-ball-8297.chatgpt.site)
+**[▶ Full demo — 5:53, Russian captions](https://github.com/Csadow/qadam-astana/blob/main/presentation/Qadam_demo_RU.mp4)** · [Download MP4](https://github.com/Csadow/qadam-astana/raw/refs/heads/main/presentation/Qadam_demo_RU.mp4) · [Try the public planner](https://qadam-arcsolo-astana.candy-ball-8297.chatgpt.site)
 
-The recording demonstrates live Gemini, itinerary editing, group preferences, source-backed stories, time constraints and the new adaptive companion (from 3:18). It includes one labelled template fallback. The public planner runs without paid generation.
+The recording opens with the adaptive companion rehearsal (from 0:14): an unavailable café, lost time, rain and the original return deadline. It then demonstrates live Gemini, itinerary editing, group preferences, source-backed stories and time constraints. The 353-second video comes from a recording session with 19 successful live Gemini responses, 3 labelled template fallbacks and no browser errors. The public planner runs without paid generation.
 
 ## Run in one command
 
@@ -30,7 +30,7 @@ The repository is **public**: judges can read or clone it without an invitation.
 
 **“The café is unavailable, and we have lost 15 minutes. What can we still do?”**
 
-Start an EXPO plan with a five-minute reserve, then choose **Try a rehearsal** under the route. Report **Unavailable on arrival**, **Lose 15 minutes**, and **Rain started**. The remaining walk is recomputed from the manually confirmed place. The **original return point, absolute deadline and reserve stay fixed**. Finished/unavailable stops are excluded, and changes are visible. If no visit fits, Qadam shows a return estimate; an unreachable deadline or missing route is disclosed.
+Choose **Try Walk with me** on the opening screen. It starts a labelled EXPO rehearsal with a 15:00 return deadline and five-minute reserve; ending it restores your previous plan. Report **Unavailable on arrival**, **Lose 15 minutes**, and **Rain started**. The remaining walk is recomputed from the manually confirmed place. The **original return point, absolute deadline and reserve stay fixed**. Finished/unavailable stops are excluded, and changes are visible. If no visit fits, Qadam shows a return estimate; an unreachable deadline or missing route is disclosed.
 
 Rehearsal uses explicitly simulated time and supports undo. An actual walk requires **Now** mode and uses the device clock on each action; planned travel/visit durations are not double-counted. Confirm a stop only when you are there. There is no background GPS, automatic weather detection, turn-by-turn navigation, or persistent walk history. This feature works in the public preview without paid generation.
 
@@ -112,7 +112,7 @@ python3 tests/collector_test.py
 python3 scripts/collect_walk_graph.py --from-source data/walking-source.json
 ```
 
-**103 unit/API/Worker tests** plus **6 graph-collector tests**, a **160-case constraint matrix**, **100 route/card agreement combinations**, **25/25 scenario checks**, and **98/98 browser checks** passed during development. These are engineering checks, not user-study results. Reports: [scenarios](docs/evaluation.json), [planner browser](docs/browser-checks.json), [companion browser](docs/companion-browser-checks.json).
+**103 unit/API/Worker tests** plus **6 graph-collector tests**, a **160-case constraint matrix**, **100 route/card agreement combinations**, **25/25 scenario checks**, and **106/106 browser checks** passed during development (73 planner + 33 companion). These are engineering checks, not user-study results. Reports: [scenarios](docs/evaluation.json), [planner browser](docs/browser-checks.json), [companion browser](docs/companion-browser-checks.json).
 
 Optional browser QA and presentation tools:
 
@@ -133,12 +133,13 @@ Participant testing is deferred. All five items in the [improvement plan](docs/N
 - [Russian speaker notes](presentation/SPEAKER_NOTES_RU.md) — 12 slides, target **6:15**, including a live demo.
 - [Captioned Russian demo video](presentation/Qadam_demo_RU.mp4), [subtitles](presentation/Qadam_demo_RU.srt), and [YouTube upload copy](presentation/YOUTUBE_UPLOAD.md).
 - [Test scenarios](docs/SCENARIOS.md), [English report PDF](docs/Qadam_Test_Scenarios_EN.pdf), [privacy](docs/PRIVACY.md), and [submission checklist](docs/SUBMISSION.md).
+- [Submission text and links](docs/SUBMISSION_COPY.md) — prepared draft; no form submission or YouTube upload has been performed.
 
 ## Structure and deployment
 
 `src/` holds pure retrieval, validated generation and HTTP handlers. `public/` contains the dependency-free UI. `scripts/` contains collection, checks, builds, recording and slide generation. `data/` preserves the public snapshot. `tests/` exercises core behavior. `presentation/` contains the actual deliverables.
 
-`node scripts/build.mjs` produces one Cloudflare-compatible ES module at `dist/server/index.js`, with static assets embedded. `.openai/hosting.json` binds the existing private Site. Configure hosted secrets separately; never embed them in the build. Before making a key-enabled service public, add authentication/rate limits and budget controls.
+`node scripts/build.mjs` produces one Cloudflare-compatible ES module at `dist/server/index.js`, with static assets embedded. `.openai/hosting.json` binds the existing public Site. The hosted judge preview uses `QADAM_PUBLIC_DEMO=true` and disables paid generation. Configure local model secrets separately; never embed them in the build.
 
 Code: MIT. First-party enrichment contains short attributed paraphrases; original source content retains its owners' rights. OpenStreetMap-derived data: ODbL 1.0, © OpenStreetMap contributors. See [LICENSE](LICENSE).
 

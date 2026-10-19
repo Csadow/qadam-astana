@@ -61,6 +61,6 @@ const report=cases.map(c=>{
   uncertainties:r.recommendations.map(p=>({id:p.id,unknowns:p.uncertainties})),warnings:r.warnings};
 });
 const output={evaluatedAt:new Date().toISOString(),datasetSize:pois.length,passed:report.filter(r=>r.pass).length,total:report.length,
- appVersion:'6.0.0',method:'Deterministic scenario acceptance checks on the collected snapshot using the same pedestrian router as the browser. Not a user study or LLM quality benchmark.',scenarios:report};
+ appVersion:'6.1.0',method:'Deterministic scenario acceptance checks on the collected snapshot using the same pedestrian router as the browser. Not a user study or LLM quality benchmark.',scenarios:report};
 await writeFile(new URL('../docs/evaluation.json',import.meta.url),JSON.stringify(output,null,2)+'\n');
 console.log(JSON.stringify(output,null,2));if(output.passed!==output.total)process.exitCode=1;

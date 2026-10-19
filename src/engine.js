@@ -3,7 +3,7 @@ import {CONCEPTS,parseIntent} from './intent.js';
 import {distanceM,walkMinutes} from './geo.js';
 export {distanceM,walkMinutes} from './geo.js';
 export {parseIntent} from './intent.js';
-export const VERSION = '6.0.0';
+export const VERSION = '6.1.0';
 export const PRESETS = [
   {id:'expo',name:'EXPO / MEGA Silk Way',lat:51.0893,lon:71.4076},
   {id:'baiterek',name:'Baiterek',lat:51.1282,lon:71.4304},

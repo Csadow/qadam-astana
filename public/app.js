@@ -76,6 +76,7 @@ function factsHTML(p,suggestion){
  return facts.length?`<details class="source-facts"><summary>${t('sourceMore')} · ${facts.length}</summary>${facts.map(f=>`<p>${esc(f.text)}</p>${f.observationQuestion?'<p class="story-question">'+esc(localized(f.observationQuestion))+'</p>':''}<a href="${esc(safeUrl(f.url))}" target="_blank" rel="noreferrer">${esc(f.title)} ↗ · ${t('sourceChecked')} ${esc(f.checkedAt)}</a>`).join('')}</details>`:'';
 }
 function render(){
+ $('#watch-generation').hidden=generation.reason!=='public_preview';
  modeBadge();$('#results-title').textContent=result.group.length?t('groupResult'):result.trace.effectiveBudget===60?t('yourNextHour'):t('newResults');
  const notes=[generation.reason==='public_preview'?t('publicPreviewNotice'):'',companionSession?companionText(locale,companionSession.mode==='live'?'actual':'rehearsal'):t($('#time-mode').value==='demo'?'demoNotice':$('#time-mode').value==='now'?'liveNotice':'customNotice'),originalPlan?t('changedPlan'):'',...result.warnings.filter(x=>x!=='estimates').map(t)].filter(Boolean);notify(notes.join(' '));
  $('#result-cards').innerHTML=result.recommendations.length?result.recommendations.map((p,i)=>{
@@ -191,8 +192,10 @@ function exportWalk(){
  const url=URL.createObjectURL(new Blob([content],{type:'text/plain;charset=utf-8'})),a=document.createElement('a');a.href=url;a.download='qadam-walk.txt';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
 }
 function renderCompanion(){
- const active=!!companionSession;
+ const active=!!companionSession,headingFocused=document.activeElement?.id==='companion-title';
+ $('#hero-companion').disabled=!datasetReady;$('#hero-companion').textContent=t(active?'heroResume':'heroCompanion');
  $('#companion-panel').innerHTML=companionHTML({session:companionSession,locale,canStart:result.returnToStart&&result.route.stops.length>0,canLive:$('#time-mode').value==='now',canUndo:companionHistory.length>0,pois});
+ if(headingFocused)$('#companion-title')?.focus({preventScroll:true});
  $('.map-legend [data-i18n=youAreHere]').textContent=active?companionText(locale,'current'):t('youAreHere');
  $('#plan-form').inert=active;$('#plan-form').classList.toggle('companion-locked',active);$$('.scenario').forEach(b=>b.disabled=active);
  for(const selector of ['#backup-panel','#edit-summary','#recovery-panel','#story-panel','#group-summary','#edit-request'])if(active)$(selector).hidden=true;
@@ -205,6 +208,18 @@ function showCompanion(){
  plan({prepared:companionSession.result,context:companionSession.input});
  $('#companion-title')?.focus({preventScroll:true});
 }
+// A named rehearsal uses its own context and restores the visitor's current plan on exit.
+$('#hero-companion').addEventListener('click',()=>{
+ if(!datasetReady)return;
+ if(!companionSession){
+  try{
+   const demoInput={origin:PRESETS[0],routing,budget:60,maxWalk:20,bufferMinutes:5,departure:DEMO_TIME,returnBy:DEMO_TIME.slice(0,10)+'T15:00',interests:['coffee','nature'],group:[],mood:'balanced',weather:'fair',setting:'any',locale,returnToStart:true};
+   const next=startWalk(demoInput,pois,{mode:'rehearsal'});
+   beforeCompanion={result,generation,lastInput,origin};companionHistory=[];companionSession=next;showCompanion();
+  }catch{notify(companionText(locale,'error'),true);return;}
+ }
+ $('#companion-panel').scrollIntoView({behavior:'smooth',block:'start'});$('#companion-title')?.focus({preventScroll:true});
+});
 $('#companion-panel').addEventListener('click',e=>{
  const button=e.target.closest('[data-companion]');if(!button)return;
  const action=button.dataset.companion;

@@ -1,8 +1,40 @@
 {
   "url": "http://127.0.0.1:8787",
   "generationMocked": true,
-  "checkedAt": "2026-10-19T11:10:58.571362+00:00",
+  "checkedAt": "2026-10-19T11:26:00.895117+00:00",
   "checks": [
+    {
+      "name": "Desktop first screen exposes companion and recorded demo",
+      "pass": true
+    },
+    {
+      "name": "Public preview links directly to the recorded Gemini evidence",
+      "pass": true
+    },
+    {
+      "name": "Keyboard entry starts the named 15:00 rehearsal from a one-way plan",
+      "pass": true
+    },
+    {
+      "name": "Hero resumes an active session without resetting time",
+      "pass": true
+    },
+    {
+      "name": "Hero rehearsal restores the visitor form and previous one-way plan",
+      "pass": true
+    },
+    {
+      "name": "Hero rehearsal restores an unresolved request without inventing a route",
+      "pass": true
+    },
+    {
+      "name": "Mobile first screen fits the translated companion and video controls",
+      "pass": true
+    },
+    {
+      "name": "Mobile hero opens the companion and focuses its heading",
+      "pass": true
+    },
     {
       "name": "Companion is available on a feasible return plan",
       "pass": true
@@ -104,6 +136,6 @@
       "pass": true
     }
   ],
-  "total": 25,
-  "passed": 25
+  "total": 33,
+  "passed": 33
 }

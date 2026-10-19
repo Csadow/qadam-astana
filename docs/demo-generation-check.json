@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-10-19T11:10:16.994659+00:00",
+  "checkedAt": "2026-10-19T11:33:41.337878+00:00",
   "generationResponses": [
     {
       "mode": "gemini-grounded",
@@ -8,6 +8,22 @@
     {
       "mode": "gemini-grounded",
       "validSuggestionCount": 2
+    },
+    {
+      "mode": "gemini-grounded",
+      "validSuggestionCount": 2
+    },
+    {
+      "mode": "gemini-grounded",
+      "validSuggestionCount": 2
+    },
+    {
+      "mode": "gemini-grounded",
+      "validSuggestionCount": 1
+    },
+    {
+      "mode": "gemini-grounded",
+      "validSuggestionCount": 1
     },
     {
       "mode": "gemini-grounded",
@@ -30,7 +46,7 @@
       "validSuggestionCount": 2
     },
     {
-      "mode": "gemini-grounded",
+      "mode": "retrieval-template",
       "validSuggestionCount": 1
     },
     {
@@ -46,7 +62,7 @@
       "validSuggestionCount": 1
     },
     {
-      "mode": "gemini-grounded",
+      "mode": "retrieval-template",
       "validSuggestionCount": 1
     },
     {
@@ -72,21 +88,11 @@
     {
       "mode": "gemini-grounded",
       "validSuggestionCount": 2
-    },
-    {
-      "mode": "gemini-grounded",
-      "validSuggestionCount": 2
-    },
-    {
-      "mode": "gemini-grounded",
-      "validSuggestionCount": 1
-    },
-    {
-      "mode": "gemini-grounded",
-      "validSuggestionCount": 1
     }
   ],
   "pageErrors": [],
-  "durationSeconds": 265.04,
-  "recordingWallSeconds": 261.88
+  "durationSeconds": 352.78,
+  "recordingWallSeconds": 370.1,
+  "rawDurationSeconds": 373.08,
+  "leadingSetupTrimSeconds": 20.3
 }

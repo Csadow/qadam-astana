@@ -1,6 +1,6 @@
 """Record a real, live-Gemini Russian walkthrough and capture matching pitch assets."""
 from pathlib import Path
-import time,json,subprocess
+import time,json,subprocess,re
 from datetime import datetime,timezone
 from playwright.sync_api import sync_playwright,expect
 ROOT=Path(__file__).resolve().parents[1];OUT=ROOT/'presentation';TEMP=ROOT/'artifacts/video';TEMP.mkdir(parents=True,exist_ok=True)
@@ -20,13 +20,25 @@ with sync_playwright() as p:
  page.goto('http://127.0.0.1:8787',wait_until='networkidle');ready();page.select_option('#language','ru');ready();scenario('expo')
  page.evaluate('''() => {const e=document.createElement('div');e.id='demo-caption';Object.assign(e.style,{position:'fixed',bottom:'18px',left:'5%',width:'90%',padding:'17px 24px',background:'#203e36f5',color:'#fffefa',borderRadius:'12px',zIndex:'9999',font:'18px/1.6 Arial,sans-serif',boxShadow:'0 4px 30px #203e3640',pointerEvents:'none'});document.body.append(e);}''')
  def caption(title,body,seconds=8):
+  if re.match(r'^\d+[АБ]? / ',title):title=f'{sum(bool(re.match(r"^\d+ / ",c["title"])) for c in chapters)+1:02d} / '+title.split(' / ',1)[1]
   chapters.append({'start':round(time.monotonic()-start,2),'title':title,'text':body})
   page.evaluate('''([title,body])=>{const e=document.getElementById('demo-caption');e.replaceChildren();const b=document.createElement('strong');b.textContent=title;b.style.color='#d6ed92';e.append(b,document.createElement('br'),document.createTextNode(body));}''',[title,body]);page.wait_for_timeout(seconds*1000)
  def capture(selector,name):
   page.locator('#demo-caption').evaluate('(e)=>e.style.visibility="hidden"')
   page.locator(selector).first.screenshot(path=str(OUT/'assets'/name))
   page.locator('#demo-caption').evaluate('(e)=>e.style.visibility="visible"')
- caption('QADAM / ARCSOLO · Build with AI, Track 1','Городской план, который учитывает время, компанию и проверяемые источники.',6)
+ caption('QADAM / ARCSOLO · Build with AI, Track 1','Кафе недоступно. Потеряли 15 минут. Вернуться нужно к 15:00. Начнём с «Идём вместе».',4)
+ page.locator('#hero-companion').click();ready();page.locator('#companion-panel').scroll_into_view_if_needed()
+ caption('19 / ИДЁМ ВМЕСТЕ: РЕПЕТИЦИЯ ДЛЯ ЖЮРИ','Проверим прогулку без выхода на улицу. Исходная точка, срок 15:00 и пять минут запаса зафиксированы.',7)
+ page.locator('[data-companion=unavailable]').click();ready();page.locator('#companion-panel').scroll_into_view_if_needed()
+ caption('20 / ПРИШЛИ — КАФЕ НЕДОСТУПНО','Подтверждаем точку вручную. В репетиции прошло время перехода; место исключено только из нашей прогулки, а не из базы.',8)
+ page.locator('[data-companion=delay]').click();ready();page.locator('#companion-panel').scroll_into_view_if_needed();capture('#companion-panel','companion.png')
+ caption('21 / ПОТЕРЯЛИ ЕЩЁ 15 МИНУТ','План пересчитан от подтверждённого места. Исходный срок не сдвинулся. Видны оставшееся время, резерв и изменения.',8)
+ page.locator('[data-companion=rain]').click();ready();page.locator('#companion-panel').scroll_into_view_if_needed()
+ caption('22 / ТЕПЕРЬ ДОЖДЬ','Погоду указываем сами. Уличные посещения исключены, но переходы могут остаться на улице. Завершённые места повторно не добавляются.',7)
+ page.locator('[data-companion=return]').click();ready();page.locator('#companion-panel').scroll_into_view_if_needed()
+ caption('23 / ПОРА ВОЗВРАЩАТЬСЯ','Остаётся маршрут к первоначальному старту. Если срок или запас уже не выдерживаются, это показано прямо. Фонового GPS и слежения нет.',8)
+ page.locator('[data-companion=exit]').click();ready()
  page.locator('#map-details').evaluate('(e)=>e.open=true')
  capture('.map-card','map.png');capture('.planner-panel','planner.png')
  page.locator('#result-cards').scroll_into_view_if_needed()
@@ -74,30 +86,21 @@ with sync_playwright() as p:
  caption('17 / ВЫБРАТЬ ВАРИАНТ ИЛИ ВЕРНУТЬСЯ','Применили предложенное время — обе главы вписались. Можно восстановить прежние условия одной кнопкой.',6)
  page.locator('#leave-story').click();ready();scenario('expo');page.locator('.deadline-options').evaluate('(e)=>e.open=true');page.select_option('#buffer','5');page.locator('#deadline-enabled').check();page.locator('#return-by').fill('2026-10-20T15:00');page.locator('#find-button').click();ready();page.locator('.timing-details').evaluate('(e)=>e.open=true');page.locator('#timing-panel').scroll_into_view_if_needed();capture('#timing-panel','timing.png')
  caption('18 / ВЕРНУТЬСЯ К 15:00 С ЗАПАСОМ','Возвращение включено. Пять минут оставлены на задержки. Расписание показывает оценку окончания и остаток времени; точное прибытие не гарантируется.',8)
- page.locator('[data-companion=rehearsal]').click();ready();page.locator('#companion-panel').scroll_into_view_if_needed()
- caption('19 / ИДЁМ ВМЕСТЕ: РЕПЕТИЦИЯ ДЛЯ ЖЮРИ','Проверим прогулку без выхода на улицу. Исходная точка, срок 15:00 и пять минут запаса зафиксированы.',7)
- page.locator('[data-companion=unavailable]').click();ready();page.locator('#companion-panel').scroll_into_view_if_needed()
- caption('20 / ПРИШЛИ — КАФЕ НЕДОСТУПНО','Подтверждаем точку вручную. В репетиции прошло время перехода; место исключено только из нашей прогулки, а не из базы.',8)
- page.locator('[data-companion=delay]').click();ready();page.locator('#companion-panel').scroll_into_view_if_needed();capture('#companion-panel','companion.png')
- caption('21 / ПОТЕРЯЛИ ЕЩЁ 15 МИНУТ','План пересчитан от подтверждённого места. Исходный срок не сдвинулся. Видны оставшееся время, резерв и изменения.',8)
- page.locator('[data-companion=rain]').click();ready();page.locator('#companion-panel').scroll_into_view_if_needed()
- caption('22 / ТЕПЕРЬ ДОЖДЬ','Погоду указываем сами. Уличные посещения исключены, но переходы могут остаться на улице. Завершённые места повторно не добавляются.',7)
- page.locator('[data-companion=return]').click();ready();page.locator('#companion-panel').scroll_into_view_if_needed()
- caption('23 / ПОРА ВОЗВРАЩАТЬСЯ','Остаётся маршрут к первоначальному старту. Если срок или запас уже не выдерживаются, это показано прямо. Фонового GPS и слежения нет.',8)
- page.locator('[data-companion=exit]').click();ready()
  page.locator('#map-details').evaluate('(e)=>e.open=true');page.locator('.map-card').scroll_into_view_if_needed()
  caption('24 / КАРТА ПОКАЗЫВАЕТ ТОЧНОСТЬ','В пяти районах собраны пути OSM с пробелами. Сплошная линия идёт по карте, пунктир обозначает примерные соединения. Входы и текущие перекрытия требуют проверки.',8)
  page.evaluate('window.scrollTo(0,0)')
- caption('QADAM / ARCSOLO','300 POI · 32 дополнительных факта · 103 теста · 25 сценариев · 98 проверок браузера. При ошибке модели — явно обозначенный шаблон.',7)
+ caption('QADAM / ARCSOLO','300 POI · 32 дополнительных факта · 103 теста · 25 сценариев · 106 проверок браузера. При ошибке модели — явно обозначенный шаблон.',7)
  assert any(c['mode']=='gemini-grounded' for c in checks);assert not errors
  video=page.video;context.close();video.save_as(str(TEMP/'qadam-demo-raw.webm'));browser.close()
 wall_end=time.monotonic()-start
 end=float(subprocess.check_output(['ffprobe','-v','error','-show_entries','format=duration','-of','default=noprint_wrappers=1:nokey=1',str(TEMP/'qadam-demo-raw.webm')]).decode())
+raw_end=end;trim=max(0,chapters[0]['start']-.5);end-=trim
+for chapter in chapters:chapter['start']=round(chapter['start']-trim,2)
 def stamp(s):
  ms=int(s*1000);return f'{ms//3600000:02}:{ms//60000%60:02}:{ms//1000%60:02},{ms%1000:03}'
 srt=[]
 for i,c in enumerate(chapters):
  finish=chapters[i+1]['start'] if i+1<len(chapters) else end;srt.extend([str(i+1),f'{stamp(c["start"])} --> {stamp(finish)}',c['title'],c['text'],''])
 (OUT/'Qadam_demo_RU.srt').write_text('\n'.join(srt),encoding='utf-8');(TEMP/'chapters.json').write_text(json.dumps(chapters,ensure_ascii=False,indent=2))
-(ROOT/'docs/demo-generation-check.json').write_text(json.dumps({'checkedAt':datetime.now(timezone.utc).isoformat(),'generationResponses':checks,'pageErrors':errors,'durationSeconds':round(end,2),'recordingWallSeconds':round(wall_end,2)},indent=2)+'\n')
-print(f'Recorded {end:.1f} seconds with {len(checks)} real generation responses.')
+(ROOT/'docs/demo-generation-check.json').write_text(json.dumps({'checkedAt':datetime.now(timezone.utc).isoformat(),'generationResponses':checks,'pageErrors':errors,'durationSeconds':round(end,2),'rawDurationSeconds':round(raw_end,2),'leadingSetupTrimSeconds':round(trim,2),'recordingWallSeconds':round(wall_end,2)},indent=2)+'\n')
+print(f'Recorded {end:.1f} seconds after setup trim, with {len(checks)} real generation responses. Run scripts/encode_demo.py to export.')

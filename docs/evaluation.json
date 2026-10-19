@@ -1,9 +1,9 @@
 {
-  "evaluatedAt": "2026-10-19T11:04:54.391Z",
+  "evaluatedAt": "2026-10-19T11:25:57.699Z",
   "datasetSize": 300,
   "passed": 25,
   "total": 25,
-  "appVersion": "6.0.0",
+  "appVersion": "6.1.0",
   "method": "Deterministic scenario acceptance checks on the collected snapshot using the same pedestrian router as the browser. Not a user study or LLM quality benchmark.",
   "scenarios": [
     {
