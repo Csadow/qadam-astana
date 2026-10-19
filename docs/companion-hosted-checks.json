@@ -1,0 +1,109 @@
+{
+  "url": "https://qadam-arcsolo-astana.candy-ball-8297.chatgpt.site",
+  "generationMocked": false,
+  "checkedAt": "2026-10-19T11:13:40.828698+00:00",
+  "checks": [
+    {
+      "name": "Companion is available on a feasible return plan",
+      "pass": true
+    },
+    {
+      "name": "Actual walk requires Now mode",
+      "pass": true
+    },
+    {
+      "name": "Rehearsal is visibly labelled",
+      "pass": true
+    },
+    {
+      "name": "Ordinary planning cannot reset an active walk",
+      "pass": true
+    },
+    {
+      "name": "Reported unavailable stop is retained as a local report",
+      "pass": true
+    },
+    {
+      "name": "Moved route retains a separate return marker",
+      "pass": true
+    },
+    {
+      "name": "Delay keeps the initial deadline",
+      "pass": true
+    },
+    {
+      "name": "Reserve stays visible",
+      "pass": true
+    },
+    {
+      "name": "Elapsed delay is visible",
+      "pass": true
+    },
+    {
+      "name": "Rain report explains remaining outdoor walking",
+      "pass": true
+    },
+    {
+      "name": "Language switch preserves the active walk",
+      "pass": true
+    },
+    {
+      "name": "Kazakh companion is localized",
+      "pass": true
+    },
+    {
+      "name": "Return-only state removes obsolete place cards",
+      "pass": true
+    },
+    {
+      "name": "Deadline overrun is explicit",
+      "pass": true
+    },
+    {
+      "name": "Rehearsal supports undo",
+      "pass": true
+    },
+    {
+      "name": "Ending the walk restores planner and prior itinerary",
+      "pass": true
+    },
+    {
+      "name": "Ordinary alternatives return after exit",
+      "pass": true
+    },
+    {
+      "name": "Actual mode uses clock with no simulated delay",
+      "pass": true
+    },
+    {
+      "name": "Actual mode has no time-rewinding undo",
+      "pass": true
+    },
+    {
+      "name": "Reload clears session state",
+      "pass": true
+    },
+    {
+      "name": "No session or coordinates sent for generation",
+      "pass": true
+    },
+    {
+      "name": "No persistent walk storage",
+      "pass": true
+    },
+    {
+      "name": "Mobile layout does not overflow",
+      "pass": true
+    },
+    {
+      "name": "Keyboard can operate a delay",
+      "pass": true
+    },
+    {
+      "name": "No browser errors",
+      "pass": true
+    }
+  ],
+  "total": 25,
+  "passed": 25
+}
